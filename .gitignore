@@ -4,3 +4,7 @@ node_modules/
 # configuration files
 config/
 *.env
+
+
+# keep files
+!config/.gitkeep
