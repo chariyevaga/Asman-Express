@@ -1,10 +1,10 @@
 node_modules/
 
+# keep files
 
 # configuration files
-config/
+config/*
 *.env
 
-
-# keep files
 !config/.gitkeep
+
