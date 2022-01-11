@@ -1,7 +1,9 @@
+'use strict';
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const xss = require('xss-clean');
 const helmet = require('helmet');
+const sequelize = require('./config/db');
 
 const errorHandler = require('./utils/errorHandler');
 
@@ -17,7 +19,19 @@ const limiter = rateLimit({
     message: 'Too many requests from this IP, please try in an 5 min!',
 });
 
-app.use(errorHandler);
 app.use(limiter);
+app.use(require('./middlewares/checkerFirmNr'));
+app.use('/api/v1/units', require('./routes/unitRoutes'));
+app.use('/api/v1/items', require('./routes/itemRoutes'));
+app.use(errorHandler);
+
+// DATABASE CONNECTION TESTING
+try {
+    sequelize.authenticate(() => {
+        console.log('Database is OK');
+    });
+} catch (error) {
+    console.error('Unable to connect to the database:', error);
+}
 
 module.exports = app;

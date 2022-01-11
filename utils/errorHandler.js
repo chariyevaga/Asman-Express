@@ -1,3 +1,4 @@
+'use strict';
 // Send error info for production
 const sendErrorProduction = (err, res) => {
     if (err.isOperational) {
