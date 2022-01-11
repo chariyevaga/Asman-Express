@@ -1,5 +1,7 @@
 'use strict';
+const AppError = require('../utils/AppError');
 const getDBname = require('../utils/getDBName');
+
 module.exports = async (req, res, next) => {
     const { firmNr } = req.query;
     if (!firmNr) {
