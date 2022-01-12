@@ -23,6 +23,10 @@ app.use(limiter);
 app.use(require('./middlewares/checkerFirmNr'));
 app.use('/api/v1/units', require('./routes/unitRoutes'));
 app.use('/api/v1/items', require('./routes/itemRoutes'));
+app.use('/api/v1/divisions', require('./routes/divisionRoutes'));
+app.use('/api/v1/warehouses', require('./routes/warehouseRoutes'));
+app.use('/api/v1/currencies', require('./routes/currencyRoutes'));
+app.use('/api/v1/barcodes', require('./routes/barcodeRoutes'));
 app.use(errorHandler);
 
 // DATABASE CONNECTION TESTING
