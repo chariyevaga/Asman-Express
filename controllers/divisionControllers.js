@@ -5,6 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 
 const divisionsQuery = require('../queries/divisionsQuery');
+const warehousesQuery = require('../queries/warehousesQuery');
 
 const getDivisions = catchAsync(async (req, res, next) => {
     const { nr, id } = req.query;
@@ -51,4 +52,22 @@ const getDivisionByNr = catchAsync(async (req, res, next) => {
         });
 });
 
-module.exports = { getDivisions, getDivisionByNr };
+const getWarehousesByDivisionNr = catchAsync(async (req, res, next) => {
+    const { nr } = req.params;
+    if (!nr) {
+        next(new AppError('Nr is required', 400));
+    }
+
+    sequelize
+        .query(warehousesQuery(req.firmNr) + ' AND DIVISNR = :nr ', {
+            type: QueryTypes.SELECT,
+            replacements: { nr },
+        })
+        .then((warehouses) => {
+            res.json(warehouses);
+        })
+        .catch((err) => {
+            next(new AppError(err, 500));
+        });
+});
+module.exports = { getDivisions, getDivisionByNr, getWarehousesByDivisionNr };
