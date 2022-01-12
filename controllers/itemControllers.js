@@ -6,6 +6,7 @@ const AppError = require('../utils/AppError');
 
 const itemsQuery = require('../queries/itemsQuery');
 const itemUnitsQuery = require('../queries/itemUnitsQuery');
+const barcodesQuery = require('../queries/barcodesQuery');
 
 const getItems = catchAsync(async (req, res, next) => {
     sequelize
@@ -33,6 +34,7 @@ const getItemById = catchAsync(async (req, res, next) => {
             itemsQuery(req.firmDBname, req.firmTigerFormat) +
                 ' AND ITM.LOGICALREF = :id',
             {
+                plain: true,
                 type: QueryTypes.SELECT,
                 replacements: { id },
             }
@@ -45,7 +47,7 @@ const getItemById = catchAsync(async (req, res, next) => {
         });
 });
 
-const getItemUnitsById = catchAsync(async (req, res, next) => {
+const getItemUnitsByItemId = catchAsync(async (req, res, next) => {
     const { id } = req.params;
 
     if (!id) {
@@ -62,12 +64,41 @@ const getItemUnitsById = catchAsync(async (req, res, next) => {
                 type: QueryTypes.SELECT,
             }
         )
-        .then((units) => {
-            res.json(units);
+        .then((itemUnits) => {
+            res.json(itemUnits);
         })
         .catch((err) => {
             next(new AppError(err, 500));
         });
 });
 
-module.exports = { getItems, getItemById, getItemUnitsById };
+const getBarcodesByItemId = catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+
+    if (!id) {
+        next(new AppError('Id is required', 400));
+    }
+    // GET DATABASE NAME
+
+    sequelize
+        .query(
+            barcodesQuery(req.firmDBname, req.firmTigerFormat) +
+                ' WHERE ITEMREF = :id',
+            {
+                replacements: { id },
+                type: QueryTypes.SELECT,
+            }
+        )
+        .then((barcodes) => {
+            res.json(barcodes);
+        })
+        .catch((err) => {
+            next(new AppError(err, 500));
+        });
+});
+module.exports = {
+    getItems,
+    getItemById,
+    getItemUnitsByItemId,
+    getBarcodesByItemId,
+};

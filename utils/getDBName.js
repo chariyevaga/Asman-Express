@@ -13,7 +13,7 @@ module.exports = async (firmNr) => {
             }
         )
         .then((data) => {
-            return data.DBNAME ? data.DBNAME : DB_NAME;
+            return data?.DBNAME ? data.DBNAME : DB_NAME;
         })
         .catch((err) => {
             return Promise.reject(err);

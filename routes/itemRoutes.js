@@ -8,6 +8,7 @@ const itemControllers = require('../controllers/itemControllers.js');
 router
     .get('/', itemControllers.getItems)
     .get('/:id', itemControllers.getItemById)
-    .get('/:id/units', itemControllers.getItemUnitsById);
+    .get('/:id/itemUnits', itemControllers.getItemUnitsByItemId)
+    .get('/:id/barcodes', itemControllers.getBarcodesByItemId);
 
 module.exports = router;

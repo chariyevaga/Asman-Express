@@ -46,7 +46,7 @@ const getUnitById = catchAsync(async (req, res, next) => {
 });
 
 const getItemUnits = catchAsync(async (req, res, next) => {
-    const { firmNr, itemId, unitId } = req.query;
+    const { itemId, unitId, id } = req.query;
 
     let whereQuery = '';
     if (itemId) {
@@ -56,12 +56,18 @@ const getItemUnits = catchAsync(async (req, res, next) => {
     if (unitId) {
         whereQuery += ` AND L.LOGICALREF =  :unitId`;
     }
+
+    if (id) {
+        whereQuery += ` AND I.LOGICALREF =  :id`;
+    }
+
     sequelize
         .query(
             itemUnitsQuery(req.firmDBname, req.firmTigerFormat) + whereQuery,
             {
                 type: QueryTypes.SELECT,
-                replacements: { unitId, itemId },
+                replacements: { unitId, itemId, id },
+                plain: Boolean(id),
             }
         )
         .then((itemUnits) => {

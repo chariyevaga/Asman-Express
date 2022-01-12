@@ -9,5 +9,6 @@ module.exports = async (req, res, next) => {
     }
     req.firmDBname = await getDBname(firmNr).then((e) => e);
     req.firmTigerFormat = `00${firmNr}`.slice(-3);
+    req.firmNr = firmNr;
     next();
 };
