@@ -11,25 +11,25 @@ const { getUnitById, getItemUnits } = require('./unitControllers');
 
 const getBarcodes = catchAsync(async (req, res, next) => {
     const { barcode, itemId, itemUnitId, unitId, id } = req.query;
-    let whereQuery = ' WHERE 1 = 1 ';
+    let whereQuery = '';
 
     if (id) {
-        whereQuery += ' AND LOGICALREF = :id ';
+        whereQuery += ' AND UNITBARCODE.LOGICALREF = :id ';
     } else {
         if (barcode) {
-            whereQuery += ' AND BARCODE = :barcode ';
+            whereQuery += ' AND UNITBARCODE.BARCODE = :barcode ';
         }
 
         if (itemId) {
-            whereQuery += ' AND ITEMREF = :itemId ';
+            whereQuery += ' AND UNITBARCODE.ITEMREF = :itemId ';
         }
 
         if (unitId) {
-            whereQuery += ' AND UNITLINEREF = :unitId ';
+            whereQuery += ' AND UNITBARCODE.UNITLINEREF = :unitId ';
         }
 
         if (itemUnitId) {
-            whereQuery += ' AND ITMUNITAREF = :itemUnitId ';
+            whereQuery += ' AND UNITBARCODE.ITMUNITAREF = :itemUnitId ';
         }
     }
 
@@ -59,7 +59,7 @@ const getBarcodeById = catchAsync(async (req, res, next) => {
     sequelize
         .query(
             barcodesQuery(req.firmDBname, req.firmTigerFormat) +
-                ` WHERE LOGICALREF = :id `,
+                ` AND UNITBARCODE.LOGICALREF = :id `,
             {
                 plain: true,
                 type: QueryTypes.SELECT,
@@ -83,7 +83,7 @@ const getItemByBarcode = catchAsync(async (req, res, next) => {
     sequelize
         .query(
             barcodesQuery(req.firmDBname, req.firmTigerFormat) +
-                ` WHERE BARCODE = :barcode `,
+                ` AND UNITBARCODE.BARCODE = :barcode `,
             {
                 plain: true,
                 type: QueryTypes.SELECT,
@@ -111,7 +111,7 @@ const getUnitByBarcode = catchAsync(async (req, res, next) => {
     sequelize
         .query(
             barcodesQuery(req.firmDBname, req.firmTigerFormat) +
-                ` WHERE BARCODE = :barcode `,
+                ` AND UNITBARCODE.BARCODE = :barcode `,
             {
                 plain: true,
                 type: QueryTypes.SELECT,
@@ -139,7 +139,7 @@ const getItemUnitByBarcode = catchAsync(async (req, res, next) => {
     sequelize
         .query(
             barcodesQuery(req.firmDBname, req.firmTigerFormat) +
-                ` WHERE BARCODE = :barcode `,
+                ` AND UNITBARCODE.BARCODE = :barcode `,
             {
                 plain: true,
                 type: QueryTypes.SELECT,
@@ -147,10 +147,10 @@ const getItemUnitByBarcode = catchAsync(async (req, res, next) => {
             }
         )
         .then((barcode) => {
-            if (!barcode?.unitId) {
+            if (!barcode?.itemUnitId) {
                 next(new AppError(`Barcode ${barcode} not found`, 400));
             }
-            req.query.id = barcode?.itemUnit;
+            req.query.id = barcode?.itemUnitId;
             getItemUnits(req, res, next);
         })
         .catch((err) => {

@@ -26,11 +26,14 @@ const getCurrencyById = catchAsync(async (req, res, next) => {
     }
 
     sequelize
-        .query(currenciesQuery(req.firmNr) + ' AND CURTYPE = :id ', {
-            type: QueryTypes.SELECT,
-            plain: true,
-            replacements: { id },
-        })
+        .query(
+            currenciesQuery(req.firmNr) + ' AND CURRENCYLIST.CURTYPE = :id ',
+            {
+                type: QueryTypes.SELECT,
+                plain: true,
+                replacements: { id },
+            }
+        )
         .then((warehouse) => {
             res.json(warehouse);
         })

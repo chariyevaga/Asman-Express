@@ -6,13 +6,12 @@
  * @param {string} firmTigerFormat
  * @returns Units Query
  *
- * WHERE NOT EXISTS
  */
 module.exports = (firmDBname, firmTigerFormat) => {
     return `SELECT
-                LOGICALREF id,
-                CODE code,
-                NAME name,
-                GLOBALCODE globalCode
-            FROM  ${firmDBname}.dbo.LG_${firmTigerFormat}_UNITSETL `;
+                UNITSETL.LOGICALREF id,
+                UNITSETL.CODE code,
+                UNITSETL.NAME name,
+                UNITSETL.GLOBALCODE globalCode
+            FROM  ${firmDBname}.dbo.LG_${firmTigerFormat}_UNITSETL UNITSETL WHERE 1 = 1 `;
 };

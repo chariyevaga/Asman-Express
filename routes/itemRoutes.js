@@ -9,6 +9,7 @@ router
     .get('/', itemControllers.getItems)
     .get('/:id', itemControllers.getItemById)
     .get('/:id/itemUnits', itemControllers.getItemUnitsByItemId)
-    .get('/:id/barcodes', itemControllers.getBarcodesByItemId);
+    .get('/:id/barcodes', itemControllers.getBarcodesByItemId)
+    .get('/:id/stocks', itemControllers.getStockByItemId);
 
 module.exports = router;

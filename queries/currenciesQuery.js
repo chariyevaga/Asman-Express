@@ -5,14 +5,13 @@
  * @param {int} firmNr
  * @returns currencies query
  *
- * WHERE EXISTS (use and)
  */
 module.exports = (firmNr) => {
     return `SELECT 
-                CURTYPE id,
-                CURCODE code,
-                CURNAME name,
-                CURSYMBOL symbol,
-                CURINUSE activelyUsed
-            FROM ${process.env.DB_NAME}.dbo.L_CURRENCYLIST WHERE FIRMNR = ${firmNr} `;
+                CURRENCYLIST.CURTYPE id,
+                CURRENCYLIST.CURCODE code,
+                CURRENCYLIST.CURNAME name,
+                CURRENCYLIST.CURSYMBOL symbol,
+                CURRENCYLIST.CURINUSE activelyUsed
+            FROM ${process.env.DB_NAME}.dbo.L_CURRENCYLIST AS CURRENCYLIST WHERE CURRENCYLIST.FIRMNR = ${firmNr} `;
 };

@@ -11,11 +11,11 @@ const getDivisions = catchAsync(async (req, res, next) => {
     const { nr, id } = req.query;
     let whereQuery = '';
     if (nr) {
-        whereQuery += ' AND DIV.NR = :nr ';
+        whereQuery += ' AND CAPIDIV.NR = :nr ';
     }
 
     if (id) {
-        whereQuery += ' AND DIV.LOGICALREF = :id';
+        whereQuery += ' AND CAPIDIV.LOGICALREF = :id';
     }
 
     sequelize
@@ -39,7 +39,7 @@ const getDivisionByNr = catchAsync(async (req, res, next) => {
     }
 
     sequelize
-        .query(divisionsQuery(req.firmNr) + ' AND DIV.NR = :nr ', {
+        .query(divisionsQuery(req.firmNr) + ' AND CAPIDIV.NR = :nr ', {
             type: QueryTypes.SELECT,
             plain: true,
             replacements: { nr },
@@ -59,7 +59,7 @@ const getWarehousesByDivisionNr = catchAsync(async (req, res, next) => {
     }
 
     sequelize
-        .query(warehousesQuery(req.firmNr) + ' AND DIVISNR = :nr ', {
+        .query(warehousesQuery(req.firmNr) + ' AND CAPIWHOUSE.DIVISNR = :nr ', {
             type: QueryTypes.SELECT,
             replacements: { nr },
         })

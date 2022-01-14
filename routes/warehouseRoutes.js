@@ -7,6 +7,7 @@ const router = express.Router({
 const warehouseControllers = require('../controllers/warehouseControllers.js');
 router
     .get('/', warehouseControllers.getWarehouses)
-    .get('/:nr', warehouseControllers.getWarehouseByNr);
+    .get('/:nr', warehouseControllers.getWarehouseByNr)
+    .get('/:nr/stocks', warehouseControllers.getStockByWarehouseNr);
 
 module.exports = router;
