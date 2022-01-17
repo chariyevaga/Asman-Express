@@ -7,6 +7,8 @@ const router = express.Router({
 const currencyControllers = require('../controllers/currencyControllers.js');
 router
     .get('/', currencyControllers.getCurrencies)
+    .get('/exchanges', currencyControllers.getExchanges)
+    .get('/exchanges/upToday', currencyControllers.getExchangesUpToDay)
     .get('/:id', currencyControllers.getCurrencyById);
 
 module.exports = router;
