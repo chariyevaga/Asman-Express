@@ -21,7 +21,6 @@ const limiter = rateLimit({
 
 app.use(limiter);
 app.use(require('./middlewares/checkerFirmNr'));
-
 app.use('/api/v1/units', require('./routes/unitRoutes'));
 app.use('/api/v1/items', require('./routes/itemRoutes'));
 app.use('/api/v1/divisions', require('./routes/divisionRoutes'));

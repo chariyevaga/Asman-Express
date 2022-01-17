@@ -7,7 +7,7 @@
  * @returns Barcodes Query
  *
  */
-module.exports = (firmDBname, firmTigerFormat, filtre) => {
+module.exports = (firmDBname, firmTigerFormat) => {
     return `SELECT 
                 UNITBARCODE.LOGICALREF id, 
                 UNITBARCODE.BARCODE barcode,
