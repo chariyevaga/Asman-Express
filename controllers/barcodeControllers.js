@@ -6,6 +6,8 @@ const AppError = require('../utils/AppError');
 
 // querys
 const barcodesQuery = require('../queries/barcodesQuery');
+const stockQuery = require('../queries/stockQuery');
+
 const { getItemById, getItemUnitsById } = require('./itemControllers');
 const { getUnitById, getItemUnits } = require('./unitControllers');
 
@@ -158,10 +160,55 @@ const getItemUnitByBarcode = catchAsync(async (req, res, next) => {
         });
 });
 
+const getStocksByBarcode = catchAsync(async (req, res, next) => {
+    const { barcode } = req.params;
+    if (!barcode) {
+        next(new AppError('barcode is required', 400));
+    }
+
+    const itemId = await sequelize
+        .query(
+            barcodesQuery(req.firmDBname, req.firmTigerFormat) +
+                ` AND UNITBARCODE.BARCODE = :barcode `,
+            {
+                plain: true,
+                type: QueryTypes.SELECT,
+                replacements: { barcode },
+            }
+        )
+        .then((barcode) => barcode?.itemId)
+        .catch((err) => {
+            next(new AppError(err, 500));
+        });
+
+    if (!itemId) {
+        next(new AppError('Barcode not found', 404));
+    }
+    sequelize
+        .query(
+            stockQuery(
+                req.firmDBname,
+                req.firmTigerFormat,
+                req.donemTigerFormat
+            ) + ' AND GNTOTST.STOCKREF = :itemId ',
+            {
+                type: QueryTypes.SELECT,
+                replacements: { itemId },
+            }
+        )
+        .then((stocks) => {
+            res.json(stocks);
+        })
+        .catch((err) => {
+            next(new AppError(err, 500));
+        });
+});
+
 module.exports = {
     getBarcodes,
     getBarcodeById,
     getItemByBarcode,
     getUnitByBarcode,
     getItemUnitByBarcode,
+    getStocksByBarcode,
 };
