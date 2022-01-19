@@ -19,7 +19,6 @@ module.exports = new Sequelize(DB_NAME, DB_USER_NAME, DB_PASSWORD, {
             dateFirst: 1,
         },
     },
-
     define: {
         charset: 'utf8',
         collate: 'utf8_general_ci',
