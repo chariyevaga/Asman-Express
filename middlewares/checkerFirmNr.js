@@ -6,6 +6,7 @@ module.exports = async (req, res, next) => {
     const { firmNr, donem } = req.query;
     if (!firmNr) {
         next(new AppError('FirmNr is required', 400));
+        return;
     }
     req.firmDBname = await getDBname(firmNr).then((e) => e);
     req.firmTigerFormat = `00${firmNr}`.slice(-3);

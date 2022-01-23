@@ -5,6 +5,7 @@ node_modules/
 # configuration files
 config/*
 *.env
+queries/SQL
 
 !config/db.js
 !config/.gitkeep

@@ -14,7 +14,7 @@ const limiter = rateLimit({
 });
 
 // middleware routes
-const firmInformationChecker = require('./middlewares/checkerFirmNr');
+// const firmInformationChecker = require('./middlewares/checkerFirmNr'); // old verion
 const authChecker = require('./middlewares/authChecker');
 
 // middelwares
@@ -22,7 +22,7 @@ app.use(helmet());
 app.use(xss());
 app.use(limiter);
 // app.use(authChecker);
-app.use(firmInformationChecker);
+app.use(authChecker);
 
 // API routes
 const unitRoutes = require('./routes/unitRoutes');
@@ -31,6 +31,7 @@ const divisionRoutes = require('./routes/divisionRoutes');
 const warehouseRoutes = require('./routes/warehouseRoutes');
 const currencyRoutes = require('./routes/currencyRoutes');
 const barcodeRoutes = require('./routes/barcodeRoutes');
+const pricesRoutes = require('./routes/pricesRoutes');
 
 const errorHandler = require('./utils/errorHandler');
 
@@ -41,6 +42,7 @@ app.use('/api/v1/divisions', divisionRoutes);
 app.use('/api/v1/warehouses', warehouseRoutes);
 app.use('/api/v1/currencies', currencyRoutes);
 app.use('/api/v1/barcodes', barcodeRoutes);
+app.use('/api/v1/prices', pricesRoutes);
 
 app.use(errorHandler);
 

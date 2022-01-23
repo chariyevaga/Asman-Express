@@ -1,7 +1,9 @@
 'use strict';
 const AppError = require('../utils/AppError');
+const authFirm = require('../config/authFirm');
+const catchAsync = require('../utils/catchAsync');
 
-module.exports = async (req, res, next) => {
+module.exports = catchAsync(async (req, res, next) => {
     if (
         !req.headers.authorization ||
         req.headers.authorization.indexOf('Basic ') === -1
@@ -9,11 +11,25 @@ module.exports = async (req, res, next) => {
         next(new AppError('Missing Authorization Header', 401));
     }
 
-    const base64Credentials = req.headers.authorization.split(' ')[1];
+    const base64Credentials = req.headers.authorization?.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString(
         'ascii'
     );
 
     const [username, password] = credentials.split(':');
-    res.json({ username, password });
-};
+    const access = authFirm.filter(
+        (auth) => auth.userName === username && auth.password === password
+    );
+
+    if (access.length > 0) {
+        req.firmNr = access[0]?.firmNr;
+        req.firmDBname = access[0]?.firmDBname;
+        req.donem = access[0]?.donem;
+        req.donemTigerFormat = access[0]?.donemTigerFormat;
+        req.firmTigerFormat = access[0]?.firmTigerFormat;
+        req.localCurrency = access[0]?.localCurrency;
+        next();
+    } else {
+        next(new AppError('Wrong authorization', 401));
+    }
+});

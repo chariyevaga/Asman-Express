@@ -7,6 +7,7 @@
  * @returns Exchanges Query
  *
  */
+
 module.exports = (firmDBname, firmTigerFormat) => {
     return `SELECT 
                 EXCHANGE.LREF id,
