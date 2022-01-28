@@ -2,7 +2,7 @@
 const sequelize = require('../config/db');
 const { QueryTypes } = require('sequelize');
 const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/AppError');
+const AppError = require('../utils/appError');
 
 // querys
 const barcodesQuery = require('../queries/barcodesQuery');
@@ -89,7 +89,7 @@ const getItemByBarcode = catchAsync(async (req, res, next) => {
             {
                 plain: true,
                 type: QueryTypes.SELECT,
-                replacements: { barcode }, 
+                replacements: { barcode },
             }
         )
         .then((barcode) => {

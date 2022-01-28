@@ -1,5 +1,5 @@
 'use strict';
-const AppError = require('../utils/AppError');
+const AppError = require('../utils/appError');
 const getDBname = require('../utils/getDBName');
 
 module.exports = async (req, res, next) => {

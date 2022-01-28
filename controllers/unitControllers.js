@@ -2,7 +2,7 @@
 const sequelize = require('../config/db');
 const { QueryTypes } = require('sequelize');
 const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/AppError');
+const AppError = require('../utils/appError');
 
 // querys
 const unitsQuery = require('../queries/unitsQuery');
