@@ -89,7 +89,7 @@ const getItemByBarcode = catchAsync(async (req, res, next) => {
             {
                 plain: true,
                 type: QueryTypes.SELECT,
-                replacements: { barcode },
+                replacements: { barcode }, 
             }
         )
         .then((barcode) => {

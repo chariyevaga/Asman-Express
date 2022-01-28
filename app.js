@@ -6,6 +6,8 @@ const helmet = require('helmet');
 const sequelize = require('./config/db');
 
 const app = express();
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 const limiter = rateLimit({
     max: process.env.NODE_ENV !== 'production' ? 1000 : 100,
@@ -20,6 +22,7 @@ const authChecker = require('./middlewares/authChecker');
 // middelwares
 app.use(helmet());
 app.use(xss());
+
 app.use(limiter);
 // app.use(authChecker);
 app.use(authChecker);
