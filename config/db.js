@@ -26,4 +26,8 @@ module.exports = new Sequelize(DB_NAME, DB_USER_NAME, DB_PASSWORD, {
         underscored: true,
         timestamps: false,
     },
+    databases: {
+        db1: { database: 'GIYIMDB' },
+        db2: { database: 'test2' },
+    },
 });

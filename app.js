@@ -28,13 +28,13 @@ app.use(limiter);
 app.use(authChecker);
 
 // API routes
-const unitRoutes = require('./routes/unitRoutes');
-const itemsRoutes = require('./routes/itemRoutes');
-const divisionRoutes = require('./routes/divisionRoutes');
-const warehouseRoutes = require('./routes/warehouseRoutes');
-const currencyRoutes = require('./routes/currencyRoutes');
-const barcodeRoutes = require('./routes/barcodeRoutes');
-const pricesRoutes = require('./routes/pricesRoutes');
+const unitRoutes = require('./v1/routes/unitRoutes');
+const itemsRoutes = require('./v1/routes/itemRoutes');
+const divisionRoutes = require('./v1/routes/divisionRoutes');
+const warehouseRoutes = require('./v1/routes/warehouseRoutes');
+const currencyRoutes = require('./v1/routes/currencyRoutes');
+const barcodeRoutes = require('./v1/routes/barcodeRoutes');
+const pricesRoutes = require('./v1/routes/pricesRoutes');
 
 const errorHandler = require('./utils/errorHandler');
 
