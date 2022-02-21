@@ -2,11 +2,7 @@
 const dotenv = require('dotenv');
 const path = require('path');
 
-if (process.env.NODE_ENV === 'development') {
-    dotenv.config({ path: path.join(__dirname, 'config', 'development.env') });
-} else {
-    dotenv.config({ path: path.join(__dirname, 'config', 'production.env') });
-}
+dotenv.config({ path: path.join(__dirname, 'config', '.env') });
 
 const app = require('./app');
 const PORT = process.env.PORT;

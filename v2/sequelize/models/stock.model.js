@@ -1,13 +1,8 @@
-const { Sequelize, Model, DataTypes, Op } = require('sequelize');
+const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
-    sequelize.define(
+    const stocks = sequelize.define(
         'stocks',
         {
-            id: {
-                type: DataTypes.INTEGER,
-                primaryKey: true,
-                autoIncrement: true,
-            },
             itemId: DataTypes.INTEGER,
             warehouseNr: DataTypes.INTEGER,
             onhand: DataTypes.FLOAT,
@@ -15,6 +10,10 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
+            tableName: 'AGO_MM_STOCKS',
+            freezeTableName: true,
         }
     );
+    stocks.removeAttribute('id');
+    return stocks;
 };

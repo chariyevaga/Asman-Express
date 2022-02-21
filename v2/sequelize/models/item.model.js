@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes, Op } = require('sequelize');
+const { DataTypes, Op } = require('sequelize');
 module.exports = (sequelize) => {
     sequelize.define(
         'items',
@@ -8,95 +8,29 @@ module.exports = (sequelize) => {
                 primaryKey: true,
                 // autoIncrement: true,
             },
-            code: {
-                type: DataTypes.STRING,
-            },
-            eCode: {
-                type: DataTypes.STRING,
-            },
-            eActive: {
-                type: DataTypes.BOOLEAN,
-            },
-            active: {
-                type: DataTypes.BOOLEAN,
-            },
-            cardType: {
-                type: DataTypes.SMALLINT,
-            },
-            name: {
-                type: DataTypes.STRING,
-            },
-            name2: {
-                type: DataTypes.STRING,
-            },
-            name3: {
-                type: DataTypes.STRING,
-            },
-            stgrpCode: {
-                type: DataTypes.STRING,
-            },
-            specode: {
-                type: DataTypes.STRING,
-            },
-            specode2: {
-                type: DataTypes.STRING,
-            },
-            specode3: {
-                type: DataTypes.STRING,
-            },
-            specode4: {
-                type: DataTypes.STRING,
-            },
-            specode5: {
-                type: DataTypes.STRING,
-            },
-            paretto: {
-                type: DataTypes.STRING,
-            },
-            mainUnit: {
-                type: DataTypes.STRING,
-            },
-            mainUnitId: {
-                type: DataTypes.INTEGER,
-            },
-
+            code: DataTypes.STRING,
+            eCode: DataTypes.STRING,
+            active: DataTypes.BOOLEAN,
+            eActive: DataTypes.BOOLEAN,
+            cardType: DataTypes.SMALLINT,
+            name: DataTypes.STRING,
+            name2: DataTypes.STRING,
+            name3: DataTypes.STRING,
+            stgrpCode: DataTypes.STRING,
+            specode: DataTypes.STRING,
+            specode2: DataTypes.STRING,
+            specode3: DataTypes.STRING,
+            specode4: DataTypes.STRING,
+            specode5: DataTypes.STRING,
+            mainUnit: DataTypes.STRING,
+            mainUnitId: DataTypes.INTEGER,
             brandId: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
             },
-            subsGoodCode: {
-                type: DataTypes.STRING,
-            },
+            subsGoodCode: DataTypes.STRING,
             reyonCode: DataTypes.STRING,
             salesLimitQuantity: DataTypes.FLOAT,
-            nameTm: {
-                type: DataTypes.STRING,
-            },
-            nameEng: {
-                type: DataTypes.STRING,
-            },
-            nameTr: {
-                type: DataTypes.STRING,
-            },
-            nameRu: {
-                type: DataTypes.STRING,
-            },
-            infoTm: {
-                type: DataTypes.TEXT,
-            },
-            infoEng: {
-                type: DataTypes.TEXT,
-            },
-            infoTr: {
-                type: DataTypes.TEXT,
-            },
-            infoRu: {
-                type: DataTypes.TEXT,
-            },
-            keywords: {
-                type: DataTypes.TEXT,
-            },
-            video: DataTypes.TEXT,
             status: {
                 type: DataTypes.VIRTUAL,
                 get() {
@@ -110,6 +44,7 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
+            tableName: 'AGO_MM_ITEMS',
             scopes: {
                 active: {
                     where: {

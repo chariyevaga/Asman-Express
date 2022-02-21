@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes, Op } = require('sequelize');
+const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
     sequelize.define(
         'brands',
@@ -18,13 +18,11 @@ module.exports = (sequelize) => {
             },
             updatedAt: {
                 type: DataTypes.DATE,
-                key: 'updatedAt',
             },
         },
         {
             sequelize,
             tableName: 'AGO_MM_BRANDS',
-            underscored: false,
         }
     );
 };

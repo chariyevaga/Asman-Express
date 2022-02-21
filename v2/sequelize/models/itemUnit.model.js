@@ -1,91 +1,38 @@
-const { Sequelize, Model, DataTypes, Op } = require('sequelize');
+const { DataTypes, Op } = require('sequelize');
 module.exports = (sequelize) => {
     sequelize.define(
-        'itemUnit',
+        'itemUnits',
         {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
             },
-            unitId: {
-                type: DataTypes.INTEGER,
-            },
-            itemId: {
-                type: DataTypes.INTEGER,
-            },
-            mainUnit: {
-                type: DataTypes.BOOLEAN,
-            },
-            lineNr: {
-                type: DataTypes.SMALLINT,
-            },
-            coefficient: {
-                type: DataTypes.FLOAT,
-            },
-            eActive: {
-                type: DataTypes.BOOLEAN,
-            },
-            barcode: {
-                type: DataTypes.STRING,
-            },
-            barcode2: {
-                type: DataTypes.STRING,
-            },
-            barcode3: {
-                type: DataTypes.STRING,
-            },
-            width_: {
-                type: DataTypes.FLOAT,
-            },
-            widthId: {
-                type: DataTypes.INTEGER,
-            },
-            length_: {
-                type: DataTypes.FLOAT,
-            },
-            lengthId: {
-                type: DataTypes.INTEGER,
-            },
-            height_: {
-                type: DataTypes.FLOAT,
-            },
-            heightId: {
-                type: DataTypes.INTEGER,
-            },
-            area_: {
-                type: DataTypes.FLOAT,
-            },
-            areaId: {
-                type: DataTypes.INTEGER,
-            },
-            volume_: {
-                type: DataTypes.FLOAT,
-            },
-            volumeId: {
-                type: DataTypes.INTEGER,
-            },
-            weight_: {
-                type: DataTypes.FLOAT,
-            },
-            weightId: {
-                type: DataTypes.INTEGER,
-            },
-            grossvolume_: {
-                type: DataTypes.FLOAT,
-            },
-            grossvolumeId: {
-                type: DataTypes.INTEGER,
-            },
-            grossweight_: {
-                type: DataTypes.FLOAT,
-            },
-            grossweightId: {
-                type: DataTypes.INTEGER,
-            },
+            unitId: DataTypes.INTEGER,
+            itemId: DataTypes.INTEGER,
+            mainUnit: DataTypes.BOOLEAN,
+            lineNr: DataTypes.SMALLINT,
+            coefficient: DataTypes.FLOAT,
+            eActive: DataTypes.BOOLEAN,
+            width: DataTypes.FLOAT,
+            widthId: DataTypes.INTEGER,
+            length: DataTypes.FLOAT,
+            lengthId: DataTypes.INTEGER,
+            height: DataTypes.FLOAT,
+            heightId: DataTypes.INTEGER,
+            area: DataTypes.FLOAT,
+            areaId: DataTypes.INTEGER,
+            volume: DataTypes.FLOAT,
+            volumeId: DataTypes.INTEGER,
+            weight: DataTypes.FLOAT,
+            weightId: DataTypes.INTEGER,
+            grossvolume: DataTypes.FLOAT,
+            grossvolumeId: DataTypes.INTEGER,
+            grossweight: DataTypes.FLOAT,
+            grossweightId: DataTypes.INTEGER,
         },
         {
             sequelize,
-            tableName: 'itemUnit',
+            tableName: 'AGO_MM_ITEM_UNITS',
             scopes: {
                 active: {
                     where: {

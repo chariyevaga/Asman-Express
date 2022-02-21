@@ -4,10 +4,9 @@ const rateLimit = require('express-rate-limit');
 const xss = require('xss-clean');
 const helmet = require('helmet');
 const sequelize = require('./config/db');
+const cookieParser = require('cookie-parser');
 
 const app = express();
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
 
 const limiter = rateLimit({
     max: process.env.NODE_ENV !== 'production' ? 1000 : 100,
@@ -16,36 +15,20 @@ const limiter = rateLimit({
 });
 
 // middleware routes
-// const firmInformationChecker = require('./middlewares/checkerFirmNr'); // old verion
 const authChecker = require('./middlewares/authChecker');
+const errorHandler = require('./utils/errorHandler');
+const v1Route = require('./v1-route');
+const v2Route = require('./v2-route');
 
 // middelwares
+app.use(cookieParser());
 app.use(helmet());
 app.use(xss());
 
 app.use(limiter);
-// app.use(authChecker);
 app.use(authChecker);
-
-// API routes
-const unitRoutes = require('./v1/routes/unitRoutes');
-const itemsRoutes = require('./v1/routes/itemRoutes');
-const divisionRoutes = require('./v1/routes/divisionRoutes');
-const warehouseRoutes = require('./v1/routes/warehouseRoutes');
-const currencyRoutes = require('./v1/routes/currencyRoutes');
-const barcodeRoutes = require('./v1/routes/barcodeRoutes');
-const pricesRoutes = require('./v1/routes/pricesRoutes');
-
-const errorHandler = require('./utils/errorHandler');
-
-// API's
-app.use('/api/v1/units', unitRoutes);
-app.use('/api/v1/items', itemsRoutes);
-app.use('/api/v1/divisions', divisionRoutes);
-app.use('/api/v1/warehouses', warehouseRoutes);
-app.use('/api/v1/currencies', currencyRoutes);
-app.use('/api/v1/barcodes', barcodeRoutes);
-app.use('/api/v1/prices', pricesRoutes);
+app.use('/api/v1', v1Route);
+app.use('/api/v2', v2Route);
 
 app.use(errorHandler);
 

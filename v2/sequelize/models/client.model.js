@@ -1,5 +1,4 @@
-const md5 = require('md5');
-const { Sequelize, Model, DataTypes, Op } = require('sequelize');
+const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
     sequelize.define(
         'clients',
@@ -10,7 +9,7 @@ module.exports = (sequelize) => {
                 // autoIncrement: true,
             },
             active: DataTypes.BOOLEAN,
-            cardType: DataTypes.STRING,
+            cardType: DataTypes.INTEGER,
             code: DataTypes.STRING,
             name: DataTypes.STRING,
             name2: DataTypes.STRING,
@@ -33,7 +32,6 @@ module.exports = (sequelize) => {
             incharge3: DataTypes.STRING,
             webAddress: DataTypes.STRING,
             birthDate: DataTypes.DATEONLY,
-            status: DataTypes.STRING,
             exchangeRateType: DataTypes.SMALLINT,
             discount: DataTypes.SMALLINT,
             specode: DataTypes.STRING,
@@ -43,6 +41,7 @@ module.exports = (sequelize) => {
             specode5: DataTypes.STRING,
             cyphcode: DataTypes.STRING,
             cardNo: DataTypes.STRING,
+            guid: DataTypes.STRING,
         },
         {
             sequelize,

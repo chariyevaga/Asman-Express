@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes, Op } = require('sequelize');
+const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
     sequelize.define(
         'exchanges',
@@ -16,6 +16,8 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
+            tableName: 'AGO_MM_EXCHANGES',
+            underscored: false,
         }
     );
 };

@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes, Op } = require('sequelize');
+const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
     sequelize.define(
         'units',
@@ -7,39 +7,12 @@ module.exports = (sequelize) => {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
             },
-            code: {
-                type: DataTypes.STRING,
-            },
-            name: {
-                type: DataTypes.STRING,
-            },
-            codeTm: {
-                type: DataTypes.STRING,
-            },
-            codeTr: {
-                type: DataTypes.STRING,
-            },
-            codeRu: {
-                type: DataTypes.STRING,
-            },
-            codeEng: {
-                type: DataTypes.STRING,
-            },
-            nameTm: {
-                type: DataTypes.STRING,
-            },
-            nameTr: {
-                type: DataTypes.STRING,
-            },
-            nameRu: {
-                type: DataTypes.STRING,
-            },
-            nameEng: {
-                type: DataTypes.STRING,
-            },
+            code: DataTypes.STRING,
+            name: DataTypes.STRING,
         },
         {
             sequelize,
+            tableName: 'AGO_MM_UNITS',
         }
     );
 };
