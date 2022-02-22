@@ -34,11 +34,10 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
             });
 
         // get prices
-        await models.prices
-            .findAll({
-                where: { id: priceIds },
-                include,
-            })
+        await models.prices[where?.itemId ? 'findOne' : 'findAll']({
+            where: { id: priceIds },
+            include,
+        })
             .then((lastPurchasePrices) => {
                 res.json(lastPurchasePrices);
             })
@@ -49,7 +48,7 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
     } else if (type === 'correntSale') {
         await models.prices
             .scope('currentSalePrices')
-            .findAll({
+            [where?.itemId ? 'findOne' : 'findAll']({
                 where: { ...where },
                 include,
             })
@@ -57,14 +56,16 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
                 const itemIds = [];
                 // get last priority lest and last added
                 res.json(
-                    prices.filter((price) => {
-                        if (itemIds.includes(price.itemId)) {
-                            return false;
-                        } else {
-                            itemIds.push(price.itemId);
-                            return true;
-                        }
-                    })
+                    where?.itemId
+                        ? prices
+                        : prices.filter((price) => {
+                              if (itemIds.includes(price.itemId)) {
+                                  return false;
+                              } else {
+                                  itemIds.push(price.itemId);
+                                  return true;
+                              }
+                          })
                 );
             })
             .catch((error) => {
