@@ -14,7 +14,7 @@ const modelDefiners = [
     require('./models/exchange.model'),
     require('./models/stock.model'),
     require('./models/barcode.model'),
-    // require('./models/price.model'),
+    require('./models/price.model'),
     // require('./models/itemAlternative.model'),
 ];
 

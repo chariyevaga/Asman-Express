@@ -1,8 +1,9 @@
 'use strict';
 const AppError = require('../utils/appError');
+const catchAsync = require('../../utils/catchAsync');
 const getDBname = require('../utils/getDBName');
 
-module.exports = async (req, res, next) => {
+module.exports = catchAsync(async (req, res, next) => {
     const { firmNr, donem } = req.query;
     if (!firmNr) {
         next(new AppError('FirmNr is required', 400));
@@ -15,4 +16,4 @@ module.exports = async (req, res, next) => {
         req.donemTigerFormat = `0${donem}`.slice(-2);
     }
     next();
-};
+});
