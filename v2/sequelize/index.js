@@ -13,6 +13,7 @@ const modelDefiners = [
     require('./models/currency.model'),
     require('./models/exchange.model'),
     require('./models/stock.model'),
+    require('./models/barcode.model'),
     // require('./models/price.model'),
     // require('./models/itemAlternative.model'),
 ];

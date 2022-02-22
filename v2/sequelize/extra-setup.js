@@ -6,6 +6,7 @@ function applyExtraSetup(sequelize) {
         itemUnits,
         items,
         stocks,
+        barcodes,
         currencies,
         exchanges,
         clients,
@@ -17,12 +18,18 @@ function applyExtraSetup(sequelize) {
     items.belongsTo(brands);
 
     items.belongsToMany(units, { through: itemUnits });
-
+    itemUnits.belongsTo(units);
+    itemUnits.hasMany(barcodes);
     items.hasMany(stocks);
     stocks.belongsTo(warehouses, {
         foreignKey: 'warehouseNr',
         targetKey: 'nr',
     });
+
+    items.hasMany(barcodes);
+
+    barcodes.belongsTo(units);
+    barcodes.belongsTo(itemUnits);
 }
 
 module.exports = { applyExtraSetup };
