@@ -32,7 +32,6 @@ const checkIncludes = (req) => {
             });
         }
     });
-    console.log(includes);
     return includes;
 };
 
