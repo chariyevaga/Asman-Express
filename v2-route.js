@@ -7,18 +7,18 @@ const router = express.Router({
 // API routes
 const itemsRoutes = require('./v2/routes/itemRoutes');
 const pricesRoutes = require('./v2/routes/priceRoutes');
-// const unitRoutes = require('./v2/routes/unitRoutes');
+const barcodeRoutes = require('./v2/routes/barcodeRoutes');
+const unitRoutes = require('./v2/routes/unitRoutes');
 // const divisionRoutes = require('./v2/routes/divisionRoutes');
 // const warehouseRoutes = require('./v2/routes/warehouseRoutes');
 // const currencyRoutes = require('./v2/routes/currencyRoutes');
-const barcodeRoutes = require('./v2/routes/barcodeRoutes');
 // const errorHandler = require('./utils/errorHandler');
 
 // API's
 router.use('/items', itemsRoutes);
 router.use('/prices', pricesRoutes);
 router.use('/barcodes', barcodeRoutes);
-// router.use('/units', unitRoutes);
+router.use('/units', unitRoutes);
 // router.use('/divisions', divisionRoutes);
 // router.use('/warehouses', warehouseRoutes);
 // router.use('/currencies', currencyRoutes);
