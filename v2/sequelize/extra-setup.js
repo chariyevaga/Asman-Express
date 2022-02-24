@@ -41,6 +41,15 @@ function applyExtraSetup(sequelize) {
 
     units.hasMany(barcodes);
 
+    divisions.hasMany(warehouses, {
+        foreignKey: 'divisionNr',
+        sourceKey: 'nr',
+    });
+    warehouses.belongsTo(divisions, {
+        foreignKey: 'divisionNr',
+        targetKey: 'nr',
+    });
+
     // methods
     // prices.lastPurchase = (where) => {
     //     return prices
