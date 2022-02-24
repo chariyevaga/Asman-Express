@@ -32,6 +32,7 @@ function applyExtraSetup(sequelize) {
 
     barcodes.belongsTo(units);
     barcodes.belongsTo(itemUnits);
+    barcodes.belongsTo(items);
 
     items.hasMany(prices);
     prices.belongsTo(items);
