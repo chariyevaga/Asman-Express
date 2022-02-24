@@ -9,6 +9,7 @@ module.exports = catchAsync(async (req, res, next) => {
         req?.headers?.authorization?.indexOf('Basic ') === -1
     ) {
         next(new AppError('Missing Authorization Header', 401));
+        return;
     }
 
     const base64Credentials = req.headers?.authorization?.split(' ')[1];
