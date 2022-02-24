@@ -12,6 +12,10 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
     const include = [{ model: models.currencies }];
     const where = req?.where;
 
+    let { limit, offset } = req.query;
+    limit = isNaN(limit) ? null : +limit;
+    offset = isNaN(offset) ? null : +offset;
+
     let model = models.prices;
     if (type === 'sale') {
         model = models.prices.scope('allSalePrices');
@@ -24,6 +28,8 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
                 where: { ...where },
                 attributes: [[Sequelize.fn('max', Sequelize.col('id')), 'id']],
                 group: ['itemId'],
+                limit,
+                offset,
             })
             .then((priceIds) => {
                 return priceIds.map((p) => p.id);
@@ -37,6 +43,8 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
         await models.prices[where?.itemId ? 'findOne' : 'findAll']({
             where: { id: priceIds },
             include,
+            limit,
+            offset,
         })
             .then((lastPurchasePrices) => {
                 res.json(lastPurchasePrices);
@@ -51,6 +59,8 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
             [where?.itemId ? 'findOne' : 'findAll']({
                 where: { ...where },
                 include,
+                limit,
+                offset,
             })
             .then((prices) => {
                 const itemIds = [];
@@ -77,6 +87,8 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
         .findAll({
             where: { ...where },
             include,
+            limit,
+            offset,
         })
         .then((prices) => {
             res.json(prices);
