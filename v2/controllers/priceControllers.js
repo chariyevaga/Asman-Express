@@ -53,7 +53,7 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
                 next(new AppError(error, 500));
             });
         return;
-    } else if (type === 'correntSale') {
+    } else if (type === 'currentSale') {
         await models.prices
             .scope('currentSalePrices')
             [where?.itemId ? 'findOne' : 'findAll']({
