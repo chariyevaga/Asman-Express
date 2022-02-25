@@ -11,6 +11,7 @@ const barcodeRoutes = require('./v2/routes/barcodeRoutes');
 const unitRoutes = require('./v2/routes/unitRoutes');
 const divisionRoutes = require('./v2/routes/divisionRoutes');
 const warehouseRoutes = require('./v2/routes/warehouseRoutes');
+const brandRoutes = require('./v2/routes/brandRoutes');
 // const currencyRoutes = require('./v2/routes/currencyRoutes');
 
 // API's
@@ -20,6 +21,8 @@ router.use('/barcodes', barcodeRoutes);
 router.use('/units', unitRoutes);
 router.use('/divisions', divisionRoutes);
 router.use('/warehouses', warehouseRoutes);
+router.use('/brands', brandRoutes);
+
 // router.use('/currencies', currencyRoutes);
 
 module.exports = router;
