@@ -1,5 +1,5 @@
 // TODO: Chek onDelete and onUpdate property
-const { Sequelize } = require('Sequelize');
+
 function applyExtraSetup(sequelize) {
     const {
         brands,
