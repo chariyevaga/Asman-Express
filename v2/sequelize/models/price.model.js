@@ -57,6 +57,7 @@ module.exports = (sequelize) => {
                         type: 2,
                     },
                 },
+
                 purchasePrices: {
                     where: {
                         active: true,

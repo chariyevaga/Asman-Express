@@ -53,35 +53,8 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
                 next(new AppError(error, 500));
             });
         return;
-    } else if (type === 'currentSale') {
-        await models.prices
-            .scope('currentSalePrices')
-            [where?.itemId ? 'findOne' : 'findAll']({
-                where: { ...where },
-                include,
-                limit,
-                offset,
-            })
-            .then((prices) => {
-                const itemIds = [];
-                // get last priority lest and last added
-                res.json(
-                    where?.itemId
-                        ? prices
-                        : prices.filter((price) => {
-                              if (itemIds.includes(price.itemId)) {
-                                  return false;
-                              } else {
-                                  itemIds.push(price.itemId);
-                                  return true;
-                              }
-                          })
-                );
-            })
-            .catch((error) => {
-                next(error, 500);
-            });
-        return;
+    } else if (type === 'actualtSale') {
+        model = models.prices.scope('currentSalePrices');
     }
     model
         .findAll({
