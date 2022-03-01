@@ -4,8 +4,14 @@ const { models } = require('../sequelize');
 const { Sequelize } = require('sequelize');
 const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
-
 const exportObj = {};
+function tryToJSONParse(data) {
+    try {
+        return JSON.parse(data);
+    } catch (err) {
+        return data;
+    }
+}
 
 exportObj.getPrices = catchAsync(async (req, res, next) => {
     const { type } = req.query;
@@ -47,7 +53,12 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
             offset,
         })
             .then((lastPurchasePrices) => {
-                res.json(lastPurchasePrices);
+                res.json(
+                    lastPurchasePrices.map((price) => {
+                        price.divisions = tryToJSONParse(price.divisions);
+                        return price;
+                    })
+                );
             })
             .catch((error) => {
                 next(new AppError(error, 500));
@@ -64,7 +75,12 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
             offset,
         })
         .then((prices) => {
-            res.json(prices);
+            res.json(
+                prices.map((price) => {
+                    price.divisions = tryToJSONParse(price.divisions);
+                    return price;
+                })
+            );
         })
         .catch((error) => {
             next(error, 500);
