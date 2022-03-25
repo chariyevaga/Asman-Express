@@ -1,7 +1,4 @@
 'use strict';
-
-const { models } = require('../sequelize');
-const { Sequelize } = require('sequelize');
 const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
 
@@ -23,12 +20,12 @@ const checkIncludes = (req) => {
     includeArray.forEach((inc) => {
         if (inc === 'units') {
             includes.push({
-                model: models.itemUnits,
-                include: { model: models.units },
+                model: req.models.itemUnits,
+                include: { model: req.models.units },
             });
         } else if (['item', 'items'].includes(inc)) {
             includes.push({
-                model: models.items,
+                model: req.models.items,
             });
         }
     });
@@ -40,7 +37,7 @@ exportObj.getBarcodes = catchAsync(async (req, res, next) => {
     limit = isNaN(limit) ? null : +limit;
     offset = isNaN(offset) ? null : +offset;
 
-    models.barcodes
+    req.models.barcodes
         .findAll({
             limit,
             offset,
@@ -71,7 +68,7 @@ exportObj.getBarcodeByData = catchAsync(async (req, res, next) => {
         };
     }
 
-    models.barcodes
+    req.models.barcodes
         .findOne({
             where,
             include: checkIncludes(req),
@@ -92,14 +89,15 @@ exportObj.getItemByBarcodeData = catchAsync(async (req, res, next) => {
 
     let itemId = null;
     if (type === 'id') {
-        itemId = (await models.barcodes.findOne({ where: { id: data } }))
+        itemId = (await req.models.barcodes.findOne({ where: { id: data } }))
             ?.itemId;
     } else if (type === 'barcode') {
-        itemId = (await models.barcodes.findOne({ where: { barcode: data } }))
-            ?.itemId;
+        itemId = (
+            await req.models.barcodes.findOne({ where: { barcode: data } })
+        )?.itemId;
     }
 
-    models.items
+    req.models.items
         .findOne({
             where: { id: itemId },
         })
@@ -118,18 +116,19 @@ exportObj.getUnitByBarcodeData = catchAsync(async (req, res, next) => {
 
     let itemUnitId = null;
     if (type === 'id') {
-        itemUnitId = (await models.barcodes.findOne({ where: { id: data } }))
-            ?.itemUnitId;
+        itemUnitId = (
+            await req.models.barcodes.findOne({ where: { id: data } })
+        )?.itemUnitId;
     } else if (type === 'barcode') {
         itemUnitId = (
-            await models.barcodes.findOne({ where: { barcode: data } })
+            await req.models.barcodes.findOne({ where: { barcode: data } })
         )?.itemUnitId;
     }
 
-    models.itemUnits
+    req.models.itemUnits
         .findOne({
             where: { id: itemUnitId },
-            include: { model: models.units },
+            include: { model: req.models.units },
         })
         .then((itemUnit) => {
             res.json(itemUnit);
@@ -146,17 +145,18 @@ exportObj.getStocksByBarcodeData = catchAsync(async (req, res, next) => {
 
     let itemId = null;
     if (type === 'id') {
-        itemId = (await models.barcodes.findOne({ where: { id: data } }))
+        itemId = (await req.models.barcodes.findOne({ where: { id: data } }))
             ?.itemId;
     } else if (type === 'barcode') {
-        itemId = (await models.barcodes.findOne({ where: { barcode: data } }))
-            ?.itemId;
+        itemId = (
+            await req.models.barcodes.findOne({ where: { barcode: data } })
+        )?.itemId;
     }
 
-    models.stocks
+    req.models.stocks
         .findAll({
             where: { itemId },
-            include: { model: models.warehouses },
+            include: { model: req.models.warehouses },
         })
         .then((stocks) => {
             res.json(stocks);

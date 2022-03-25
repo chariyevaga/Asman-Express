@@ -26,6 +26,8 @@ app.use(helmet());
 app.use(xss());
 
 app.use(limiter);
+
+// get authorization
 app.use(authChecker);
 app.use('/api/v1', v1Route);
 app.use('/api/v2', v2Route);

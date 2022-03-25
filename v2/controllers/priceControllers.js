@@ -1,6 +1,4 @@
 'use strict';
-
-const { models } = require('../sequelize');
 const { Sequelize } = require('sequelize');
 const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
@@ -15,20 +13,20 @@ function tryToJSONParse(data) {
 
 exportObj.getPrices = catchAsync(async (req, res, next) => {
     const { type } = req.query;
-    const include = [{ model: models.currencies }];
+    const include = [{ model: req.models.currencies }];
     const where = req?.where;
 
     let { limit, offset } = req.query;
     limit = isNaN(limit) ? null : +limit;
     offset = isNaN(offset) ? null : +offset;
 
-    let model = models.prices;
+    let model = req.models.prices;
     if (type === 'sale') {
-        model = models.prices.scope('allSalePrices');
+        model = req.models.prices.scope('allSalePrices');
     } else if (type === 'purchase') {
-        model = models.prices.scope('purchasePrices');
+        model = req.models.prices.scope('purchasePrices');
     } else if (type === 'lastPurchase') {
-        const priceIds = await models.prices
+        const priceIds = await req.models.prices
             .scope('purchasePrices')
             .findAll({
                 where: { ...where },
@@ -46,7 +44,7 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
             });
 
         // get prices
-        await models.prices[where?.itemId ? 'findOne' : 'findAll']({
+        await req.models.prices[where?.itemId ? 'findOne' : 'findAll']({
             where: { id: priceIds },
             include,
             limit,
@@ -65,7 +63,7 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
             });
         return;
     } else if (type === 'actualtSale') {
-        model = models.prices.scope('currentSalePrices');
+        model = req.models.prices.scope('currentSalePrices');
     }
     model
         .findAll({
@@ -104,7 +102,7 @@ exportObj.getPricesByBarcode = catchAsync(async (req, res, next) => {
         return;
     }
     const itemId = (
-        await models.barcodes.findOne({
+        await req.models.barcodes.findOne({
             where: {
                 barcode: barcode,
             },
