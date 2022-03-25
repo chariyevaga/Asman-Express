@@ -2,14 +2,13 @@ module.exports = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'TIGER API',
+            title: 'ASMAN TIGER API',
             version: '1.0.0',
-            description: '**Asman** system API documentation.',
+            description: '**Asman** Tiger system API documentation.',
         },
         servers: [
             {
                 url: '{protocol}://{host}:{port}/api/v{version}',
-                description: 'Development - localhost',
                 title: 'asdf',
                 variables: {
                     protocol: {
