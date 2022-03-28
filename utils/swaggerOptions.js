@@ -29,15 +29,40 @@ module.exports = {
                 },
             },
         ],
-        // components: {
-        //     securitySchemes: {
-        //         bearerAuth: {
-        //             type: 'http',
-        //             scheme: 'basic',
-        //             bearerFormat: 'JWT',
-        //         },
-        //     },
-        // },
+        components: {
+            parameters: {
+                offsetParam: {
+                    in: 'query',
+                    name: 'offset',
+                    description:
+                        'The number of items to skip before starting to collect the result set',
+                    required: false,
+                    schema: {
+                        type: 'integer',
+                        minimum: 0,
+                    },
+                },
+                limitParam: {
+                    in: 'query',
+                    name: 'limit',
+                    required: false,
+                    description:
+                        'The numbers of items to return. If request empty or null by default hardLimit is used',
+                    schema: {
+                        type: 'integer',
+                        minimum: 1,
+                        default: 20,
+                    },
+                },
+            },
+            // securitySchemes: {
+            //     bearerAuth: {
+            //         type: 'http',
+            //         scheme: 'basic',
+            //         bearerFormat: 'JWT',
+            //     },
+            // },
+        },
         // security: [
         //     {
         //         bearerAuth: [],
