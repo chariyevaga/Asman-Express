@@ -3,7 +3,8 @@ node_modules/
 # keep files
 
 # configuration files
-config/*
+/config
+/cert
 *.env
 queries/SQL
 

@@ -26,6 +26,9 @@ const v2Route = require('./v2-route');
 const specs = swaggerJsDoc(swaggerOptions);
 // middelwares
 app.use(cookieParser());
+const cspDefaults = helmet.contentSecurityPolicy.getDefaultDirectives();
+delete cspDefaults['upgrade-insecure-requests'];
+
 app.use(helmet());
 app.use(xss());
 
