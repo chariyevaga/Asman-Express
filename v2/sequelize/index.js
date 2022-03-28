@@ -1,3 +1,4 @@
+'use strict';
 const { applyExtraSetup } = require('./extra-setup');
 
 // const sequelize = require('../../config/db2');

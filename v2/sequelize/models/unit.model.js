@@ -1,3 +1,6 @@
+'use strict';
+
+const { DataTypes } = require('sequelize');
 /**
  * @swagger
  * components:
@@ -20,8 +23,6 @@
  *              code: MM
  *              name: Millimeter
  */
-
-const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
     sequelize.define(
         'units',

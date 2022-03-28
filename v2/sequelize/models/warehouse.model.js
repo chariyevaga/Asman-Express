@@ -1,3 +1,5 @@
+'use strict';
+const { DataTypes } = require('sequelize');
 /**
  * @swagger
  * components:
@@ -12,17 +14,21 @@
  *              - divisionNr
  *          properties:
  *              id:
- *                  type: int
+ *                  type: integer
  *              nr:
  *                  type: int
- *                  description: Division Number. Other models relation via divisions - ***nr***
- *              division:
- *                  type: object
- *                  description: Warehouse belongs to divison. API give *include=division* (in query). **ForeignKey:divisionNr**
- *                  $ref: '#/components/schemas/divisions'
+ *                  description: Warehouse Number. Other models relation via divisions - ***nr***
+ *              name:
+ *                  type: string
+ *              divisionNr:
+ *                  type: integer
+ *                  description: Division Number.Warehouse belongsTo division. ForeignKey:*divisionNr* ***(warehouses.divisionNr = division.nr)***
+ *              factoryNr:
+ *                  type: integer
+ *              costGrp:
+ *                  type: integer
  */
 
-const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
     sequelize.define(
         'warehouses',

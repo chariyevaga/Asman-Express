@@ -1,3 +1,4 @@
+'use strict';
 const { DataTypes, Op, Sequelize } = require('sequelize');
 module.exports = (sequelize) => {
     sequelize.define(

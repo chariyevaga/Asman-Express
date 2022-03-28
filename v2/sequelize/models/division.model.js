@@ -1,3 +1,4 @@
+'use strict';
 /**
  * @swagger
  * components:
@@ -10,9 +11,9 @@
  *              - name
  *          properties:
  *              id:
- *                  type: int
+ *                  type: integer
  *              nr:
- *                  type: int
+ *                  type: integer
  *                  description: Division Number. Other models relation via divisions - ***nr***
  *              street:
  *                  type: string
@@ -28,13 +29,6 @@
  *                  type: string
  *              phone:
  *                  type: string
- *              warehouses:
- *                  type: array
- *                  description: Warehouses list belongs to division. In some API give *include=warehouses* (in query).
- *                  items:
- *                      type: object
- *                      $ref: '#components/schemas/warehouses'
- *
  */
 
 const { DataTypes } = require('sequelize');

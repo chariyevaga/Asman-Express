@@ -1,3 +1,4 @@
+'use strict';
 // TODO: Chek onDelete and onUpdate property
 
 function applyExtraSetup(sequelize) {
