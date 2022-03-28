@@ -14,6 +14,7 @@
   "author": "Agamyrat Chariyev <agamyrat.chariyev@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "all": "^0.0.0",
     "axios": "^0.24.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^10.0.0",
