@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
-            tableName: 'AGO_MM_STOCKS',
+            tableName: 'AGO_STOCKS',
             freezeTableName: true,
         }
     );

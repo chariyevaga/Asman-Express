@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
-            tableName: 'AGO_MM_EXCHANGES',
+            tableName: 'AGO_EXCHANGES',
             underscored: false,
         }
     );

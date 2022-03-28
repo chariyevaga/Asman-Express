@@ -35,7 +35,7 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
-            tableName: 'AGO_MM_UNITS',
+            tableName: 'AGO_UNITS',
         }
     );
 };
