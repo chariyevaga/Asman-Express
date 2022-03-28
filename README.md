@@ -12,3 +12,13 @@
     -   DB_NAME
     -   DB_USER_NAME
     -   DB_PASSWORD
+    -   DB_PORT
+
+## Documentation
+
+You can read API documentation [main_path/api-docs](http://localhost:3001/api-docs)
+
+Get documentation code:
+
+-   [JSON](http://localhost:3001/api-docs/toJSON) format
+-   [YAML](http://localhost:3001/api-docs/toYAML) format

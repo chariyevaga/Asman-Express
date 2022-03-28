@@ -7,6 +7,7 @@ const sequelize = require('./config/db');
 const cookieParser = require('cookie-parser');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+const yaml = require('js-yaml');
 
 const app = express();
 
@@ -30,11 +31,24 @@ app.use(xss());
 
 app.use(limiter);
 
-// get authorization
+// For documentation
+app.get('/api-docs/toJSON', (req, res, next) => {
+    res.json(specs);
+});
+app.get('/api-docs/toYAML', (req, res, next) => {
+    res.setHeader('Content-Type', 'text/plain');
+    res.send(yaml.dump(specs));
+});
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
+
+// get authorization
 app.use(authChecker);
+
+// route by version
 app.use('/api/v1', v1Route);
 app.use('/api/v2', v2Route);
+
+// errorHandeler (next(new AppError('message',code)))
 app.use(errorHandler);
 
 // DATABASE CONNECTION TESTING
