@@ -5,6 +5,8 @@ const xss = require('xss-clean');
 const helmet = require('helmet');
 const sequelize = require('./config/db');
 const cookieParser = require('cookie-parser');
+const swaggerUI = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
 
 const app = express();
 
@@ -17,19 +19,22 @@ const limiter = rateLimit({
 // middleware routes
 const authChecker = require('./middlewares/authChecker');
 const errorHandler = require('./utils/errorHandler');
+const swaggerOptions = require('./utils/swaggerOptions');
 const v1Route = require('./v1-route');
 const v2Route = require('./v2-route');
-
+const specs = swaggerJsDoc(swaggerOptions);
 // middelwares
 app.use(cookieParser());
 app.use(helmet());
 app.use(xss());
 
 app.use(limiter);
+
+// get authorization
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 app.use(authChecker);
 app.use('/api/v1', v1Route);
 app.use('/api/v2', v2Route);
-
 app.use(errorHandler);
 
 // DATABASE CONNECTION TESTING

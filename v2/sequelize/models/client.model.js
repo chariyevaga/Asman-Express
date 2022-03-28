@@ -45,7 +45,7 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
-            tableName: 'AGO_MM_CLIENTS',
+            tableName: 'AGO_CLIENTS',
             underscored: false,
             scopes: {
                 active: {

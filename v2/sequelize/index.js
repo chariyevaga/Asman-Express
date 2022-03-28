@@ -1,6 +1,7 @@
 const { applyExtraSetup } = require('./extra-setup');
 
-const sequelize = require('../../config/db2');
+// const sequelize = require('../../config/db2');
+const { Sequelize } = require('sequelize');
 
 const modelDefiners = [
     require('./models/brand.model'),
@@ -17,11 +18,36 @@ const modelDefiners = [
     require('./models/price.model'),
     // require('./models/itemAlternative.model'),
 ];
+const modelByDBName = (DATABASE_NAME) => {
+    const sequelize = new Sequelize(
+        DATABASE_NAME,
+        process.env.DB_USER_NAME,
+        process.env.DB_PASSWORD,
+        {
+            host: process.env.DB_SERVER,
+            dialect: 'mssql',
+            port: process.env.DB_PORT,
+            dialectOptions: {
+                options: {
+                    requestTimeout: 3000000,
+                    useUTC: true,
+                    dateFirst: 1,
+                },
+            },
+            define: {
+                charset: 'utf8',
+                collate: 'utf8_general_ci',
+                freezeTableName: true,
+                underscored: false,
+                timestamps: false,
+            },
+        }
+    );
+    for (const modelDefiner of modelDefiners) {
+        modelDefiner(sequelize);
+    }
+    applyExtraSetup(sequelize);
+    return sequelize;
+};
 
-for (const modelDefiner of modelDefiners) {
-    modelDefiner(sequelize);
-}
-
-applyExtraSetup(sequelize);
-
-module.exports = sequelize;
+module.exports = modelByDBName;

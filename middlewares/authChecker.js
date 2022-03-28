@@ -21,7 +21,6 @@ module.exports = catchAsync(async (req, res, next) => {
     const access = authFirm.filter(
         (auth) => auth.userName === username && auth.password === password
     );
-
     if (access.length > 0) {
         req.firmNr = access[0]?.firmNr;
         req.firmDBname = access[0]?.firmDBname;
@@ -29,6 +28,8 @@ module.exports = catchAsync(async (req, res, next) => {
         req.donemTigerFormat = access[0]?.donemTigerFormat;
         req.firmTigerFormat = access[0]?.firmTigerFormat;
         req.localCurrency = access[0]?.localCurrency;
+        const { models } = require('../v2/sequelize')(req.firmDBname);
+        req.models = models;
         next();
     } else {
         next(new AppError('Wrong authorization', 401));

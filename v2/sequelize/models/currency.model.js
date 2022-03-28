@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
-            tableName: 'AGO_MM_CURRENCIES',
+            tableName: 'AGO_CURRENCIES',
             underscored: false,
             scopes: {
                 activelyUsedCurrencies: {

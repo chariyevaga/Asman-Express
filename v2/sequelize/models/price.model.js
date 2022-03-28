@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
-            tableName: 'AGO_MM_PRICES',
+            tableName: 'AGO_PRICES',
             scopes: {
                 currentSalePrices: {
                     where: {

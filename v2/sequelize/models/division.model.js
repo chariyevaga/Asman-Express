@@ -1,5 +1,43 @@
-const { DataTypes } = require('sequelize');
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      divisions:
+ *          type: object
+ *          required:
+ *              - id
+ *              - nr
+ *              - name
+ *          properties:
+ *              id:
+ *                  type: int
+ *              nr:
+ *                  type: int
+ *                  description: Division Number. Other models relation via divisions - ***nr***
+ *              street:
+ *                  type: string
+ *              doorNr:
+ *                  type: string
+ *              district:
+ *                  type: string
+ *              city:
+ *                  type: string
+ *              country:
+ *                  type: string
+ *              zipCode:
+ *                  type: string
+ *              phone:
+ *                  type: string
+ *              warehouses:
+ *                  type: array
+ *                  description: Warehouses list belongs to division. In some API give *include=warehouses* (in query).
+ *                  items:
+ *                      type: object
+ *                      $ref: '#components/schemas/warehouses'
+ *
+ */
 
+const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
     sequelize.define(
         'divisions',
@@ -20,7 +58,7 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
-            tableName: 'AGO_MM_DIVISIONS',
+            tableName: 'AGO_DIVISIONS',
             underscored: false,
         }
     );

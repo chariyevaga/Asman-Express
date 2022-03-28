@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
-            tableName: 'AGO_MM_BRANDS',
+            tableName: 'AGO_BRANDS',
         }
     );
 };

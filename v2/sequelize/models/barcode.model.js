@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
-            tableName: 'AGO_MM_BARCODES',
+            tableName: 'AGO_BARCODES',
         }
     );
 };

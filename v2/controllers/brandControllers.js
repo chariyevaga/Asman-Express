@@ -1,6 +1,4 @@
 'use strict';
-const { models } = require('../sequelize');
-const { Sequelize } = require('sequelize');
 const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
 
@@ -22,7 +20,7 @@ const checkIncludes = (req) => {
     includeArray.forEach((inc) => {
         if (inc === 'items') {
             includes.push({
-                model: models.items,
+                model: req.models.items,
             });
         }
     });
@@ -33,7 +31,7 @@ exportObj.getBrands = catchAsync(async (req, res, next) => {
     let { limit, offset } = req.query;
     limit = isNaN(limit) ? null : +limit;
     offset = isNaN(offset) ? null : +offset;
-    models.brands
+    req.models.brands
         .findAll({ include: checkIncludes(req), limit, offset })
         .then((brands) => {
             res.json(brands);
@@ -44,7 +42,7 @@ exportObj.getBrands = catchAsync(async (req, res, next) => {
 });
 
 exportObj.getBrandById = catchAsync(async (req, res, next) => {
-    models.brands
+    req.models.brands
         .findOne({ where: { id: req.params.id }, include: checkIncludes(req) })
         .then((brands) => {
             res.json(brands);

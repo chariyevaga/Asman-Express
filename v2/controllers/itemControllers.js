@@ -1,7 +1,4 @@
 'use strict';
-
-const { models } = require('../sequelize');
-const { Sequelize } = require('sequelize');
 const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
 
@@ -12,6 +9,7 @@ const AppError = require('../../utils/appError');
  * @returns {array} Array includes sequelize models
  */
 const checkIncludes = (req) => {
+    const { models } = require('../sequelize')(req.firmDBname);
     let includeArray = Array.isArray(req.query?.include)
         ? req.query.include
         : req.query?.include
@@ -21,24 +19,24 @@ const checkIncludes = (req) => {
     let includes = [];
     includeArray.forEach((inc) => {
         if (['brands', 'brand'].includes(inc)) {
-            includes.push({ model: models.brands });
+            includes.push({ model: req.models.brands });
         } else if (inc === 'units') {
             includes.push({
-                model: models.units,
+                model: req.models.units,
             });
         } else if (inc === 'stocks') {
             includes.push({
-                model: models.stocks,
+                model: req.models.stocks,
                 attributes: ['onhand', 'reserved'],
-                include: { model: models.warehouses },
+                include: { model: req.models.warehouses },
             });
         } else if (inc === 'barcodes') {
             includes.push({
-                model: models.barcodes,
+                model: req.models.barcodes,
             });
         } else if (['warehouse', 'warehouses'].includes(inc)) {
             includes.push({
-                model: models.warehouses,
+                model: req.models.warehouses,
             });
         }
     });
@@ -50,6 +48,7 @@ const checkIncludes = (req) => {
  * response items or empty array [];
  */
 const getItems = catchAsync(async (req, res, next) => {
+    const { models } = require('../sequelize')(req.firmDBname);
     // limit & offset
     let { limit, offset, orderName, orderType } = req.query;
     limit = isNaN(limit) ? null : +limit;
@@ -64,7 +63,7 @@ const getItems = catchAsync(async (req, res, next) => {
             ],
         ];
     }
-    models.items
+    req.models.items
         .findAll({
             limit,
             offset,
@@ -90,7 +89,8 @@ const getItemById = catchAsync(async (req, res, next) => {
         next(new AppError('Id is required', 400));
         return;
     }
-    models.items
+    const { models } = require('../sequelize')(req.firmDBname);
+    req.models.items
         .findOne({
             where: { id },
             include: checkIncludes(req),
@@ -108,7 +108,8 @@ const getItemById = catchAsync(async (req, res, next) => {
  * response barcodes or empty [];
  */
 const getBarcodesByItemId = catchAsync(async (req, res, next) => {
-    models.barcodes
+    const { models } = require('../sequelize')(req.firmDBname);
+    req.models.barcodes
         .findAll({
             where: {
                 itemId: req.params?.id,
@@ -127,7 +128,8 @@ const getBarcodesByItemId = catchAsync(async (req, res, next) => {
  * response stocks or empty [];
  */
 const getStocksByItemId = catchAsync(async (req, res, next) => {
-    models.stocks
+    const { models } = require('../sequelize')(req.firmDBname);
+    req.models.stocks
         .findAll({
             where: {
                 itemId: req.params?.id,
@@ -146,18 +148,18 @@ const getStocksByItemId = catchAsync(async (req, res, next) => {
  * response units or empty [];
  */
 const getUnitsByItemId = catchAsync(async (req, res, next) => {
-    let include = [{ model: models.units }];
+    let include = [{ model: req.models.units }];
     if (
         req.query?.include === 'barcodes' ||
         req.query?.include?.includes('barcodes')
     ) {
         include.push({
-            model: models.barcodes,
+            model: req.models.barcodes,
             where: { itemId: req.params?.id },
         });
     }
 
-    models.itemUnits
+    req.models.itemUnits
         .findAll({
             where: {
                 itemId: req.params?.id,

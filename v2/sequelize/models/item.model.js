@@ -48,7 +48,7 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
-            tableName: 'AGO_MM_ITEMS',
+            tableName: 'AGO_ITEMS',
             scopes: {
                 active: {
                     where: {
