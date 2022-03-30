@@ -4,8 +4,8 @@ const { DataTypes } = require('sequelize');
  * @swagger
  * components:
  *  schemas:
- *      crossSales:
- *          discription: AGO_CROSS_SALE view
+ *      itemCrossSales:
+ *          discription: AGO_CROSS_SALES view
  *          type: object
  *          required:
  *              - id

@@ -1,6 +1,31 @@
 'use strict';
 const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
+    /**
+     * @swagger
+     * components:
+     *  schemas:
+     *      stocks:
+     *          discription: Item stocks by warehouses
+     *          type: object
+     *          required:
+     *              - itemId
+     *              - warehouseNr
+     *              - onhand
+     *          properties:
+     *              itemId:
+     *                  type: integer
+     *              warehouseNr:
+     *                  type: integer
+     *                  description: Warehouses nr
+     *              onhand:
+     *                  type: number
+     *                  format: float
+     *                  description: Item amount by warehouse
+     *              reserved:
+     *                  type: number
+     *                  format: float
+     */
     const stocks = sequelize.define(
         'stocks',
         {

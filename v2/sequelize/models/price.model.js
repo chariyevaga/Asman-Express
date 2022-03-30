@@ -1,6 +1,68 @@
 'use strict';
 const { DataTypes, Op, Sequelize } = require('sequelize');
 module.exports = (sequelize) => {
+    /**
+     * @swagger
+     * components:
+     *  schemas:
+     *      prices:
+     *          discription: Item Prices
+     *          type: object
+     *          required:
+     *              - id
+     *              - code
+     *              - itemId
+     *              - price
+     *          properties:
+     *              id:
+     *                  type: integer
+     *              code:
+     *                  type: integer
+     *              itemId:
+     *                  type: integer
+     *              priority:
+     *                  type: integer
+     *              clentcode:
+     *                  type: string
+     *              clcyphcode:
+     *                  type: string
+     *              clspecode:
+     *                  type: string
+     *              clspecode2:
+     *                  type: string
+     *              clspecode3:
+     *                  type: string
+     *              clspecode4:
+     *                  type: string
+     *              clspecode5:
+     *                  type: string
+     *              active:
+     *                  type: boolean
+     *              divisions:
+     *                  type: array
+     *                  items:
+     *                      type: integer
+     *                      description: division nr
+     *              price:
+     *                  type: string
+     *              type:
+     *                  type: integer
+     *                  description: >
+     *                      Price Type:
+     *                      - 1. purchase price
+     *                      - 2. sale price
+     *              currencyId:
+     *                  type: integer
+     *                  description: Price currency id
+     *              beginTime:
+     *                  type: string
+     *                  format: date
+     *                  description: Price start date
+     *              endTime:
+     *                  type: string
+     *                  format: date
+     *                  description: Price end date
+     */
     sequelize.define(
         'prices',
         {

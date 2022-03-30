@@ -1,5 +1,74 @@
 'use strict';
 const { DataTypes, Op } = require('sequelize');
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      itemUnits:
+ *          discription:
+ *          type: object
+ *          required:
+ *              - id
+ *              - unitId
+ *              - itemId
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              unitId:
+ *                  type: integer
+ *              itemId:
+ *                  type: integer
+ *              mainUnit:
+ *                  type: boolean
+ *              lineNr:
+ *                  type: integer
+ *              coefficient:
+ *                  type: number
+ *                  format: float
+ *              eActive:
+ *                  type: boolean
+ *              width:
+ *                  type: number
+ *                  format: float
+ *              widthUnit:
+ *                  type: string
+ *              length:
+ *                  type: number
+ *                  format: float
+ *              lengthUnit:
+ *                  type: string
+ *              height:
+ *                  type: number
+ *                  format: float
+ *              heightUnit:
+ *                  type: string
+ *              area:
+ *                  type: number
+ *                  format: float
+ *              areaUnit:
+ *                  type: string
+ *              volume:
+ *                  type: number
+ *                  format: float
+ *              volumeUnit:
+ *                  type: string
+ *              weight:
+ *                  type: number
+ *                  format: float
+ *              weightUnit:
+ *                  type: string
+ *              grossvolume:
+ *                  type: number
+ *                  format: float
+ *              grossvolumeUnit:
+ *                  type: string
+ *              grossweight:
+ *                  type: number
+ *                  format: float
+ *              grossweightUnit:
+ *                  type: string
+ *
+ */
 module.exports = (sequelize) => {
     sequelize.define(
         'itemUnits',
