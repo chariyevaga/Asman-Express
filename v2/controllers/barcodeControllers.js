@@ -42,7 +42,6 @@ exportObj.getBarcodes = catchAsync(async (req, res, next) => {
             limit,
             offset,
             include: checkIncludes(req),
-            subQuery: false,
         })
         .then((barcodes) => {
             res.json(barcodes);
@@ -72,7 +71,6 @@ exportObj.getBarcodeByData = catchAsync(async (req, res, next) => {
         .findOne({
             where,
             include: checkIncludes(req),
-            subQuery: false,
         })
         .then((barcode) => {
             res.json(barcode);

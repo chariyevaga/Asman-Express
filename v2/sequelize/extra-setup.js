@@ -1,6 +1,6 @@
 'use strict';
 // TODO: Chek onDelete and onUpdate property
-
+const { Op } = require('sequelize');
 function applyExtraSetup(sequelize) {
     const {
         brands,
@@ -49,6 +49,12 @@ function applyExtraSetup(sequelize) {
     warehouses.belongsTo(divisions, {
         foreignKey: 'divisionNr',
         targetKey: 'nr',
+    });
+
+    items.hasMany(items, {
+        as: 'variations',
+        foreignKey: 'variationCode',
+        sourceKey: 'variationCode',
     });
 
     // methods

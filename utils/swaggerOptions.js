@@ -13,7 +13,7 @@ module.exports = {
                 variables: {
                     protocol: {
                         enum: ['http', 'https'],
-                        default: 'http',
+                        default: 'https',
                     },
                     host: {
                         enum: ['10.10.8.27', 'localhost'],
@@ -23,8 +23,8 @@ module.exports = {
                         default: '3001',
                     },
                     version: {
-                        default: '2',
                         enum: [1, 2],
+                        default: 2,
                     },
                 },
             },

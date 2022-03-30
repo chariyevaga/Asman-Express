@@ -1,6 +1,7 @@
 'use strict';
 const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
+const { Op, Sequelize } = require('sequelize');
 
 /**
  * Checking query has include return array for include models
@@ -38,6 +39,17 @@ const checkIncludes = (req) => {
             includes.push({
                 model: req.models.warehouses,
             });
+        } else if ('variations' === inc) {
+            includes.push({
+                model: req.models.items,
+                as: 'variations',
+
+                where: {
+                    id: {
+                        [Op.ne]: Sequelize.col('items.id'),
+                    },
+                },
+            });
         }
     });
 
@@ -69,7 +81,6 @@ const getItems = catchAsync(async (req, res, next) => {
             offset,
             order,
             include: checkIncludes(req),
-            subQuery: false,
         })
         .then((items) => {
             res.json(items);
@@ -94,7 +105,6 @@ const getItemById = catchAsync(async (req, res, next) => {
         .findOne({
             where: { id },
             include: checkIncludes(req),
-            subQuery: false,
         })
         .then((items) => {
             res.json(items);
