@@ -50,6 +50,11 @@ const checkIncludes = (req) => {
                     },
                 },
             });
+        } else if (inc === 'crossSales') {
+            includes.push({
+                model: models.items,
+                as: 'crossSales',
+            });
         }
     });
 

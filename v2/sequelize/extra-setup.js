@@ -15,6 +15,7 @@ function applyExtraSetup(sequelize) {
         clients,
         divisions,
         warehouses,
+        itemCrossSales,
     } = sequelize.models;
 
     items.belongsTo(brands);
@@ -57,22 +58,18 @@ function applyExtraSetup(sequelize) {
         sourceKey: 'variationCode',
     });
 
-    // methods
-    // prices.lastPurchase = (where) => {
-    //     return prices
-    //         .findAll({
-    //             attributes: [[sequelize.fn('max', sequelize.col('id')), 'id']],
-    //             group: ['itemId'],
-    //             where,
-    //         })
-    //         .then((priceIds) => {
-    //             return prices
-    //                 .findAll({
-    //                     where: { id: priceIds.map((p) => p.id) },
-    //                 })
-    //                 .then((lastPurchasePrices) => lastPurchasePrices);
-    //         });
-    // };
+    items.belongsToMany(items, {
+        as: 'crossSales',
+        through: 'itemCrossSales',
+        foreignKey: 'crossSaleItemId',
+        otherKey: 'itemId',
+    });
+
+    // items.belongsToMany(items, {
+    //     as: 'crossSale',
+    //     through: 'crossSales',
+    //     foreignKey: 'itemId',
+    // });
 }
 
 module.exports = { applyExtraSetup };
