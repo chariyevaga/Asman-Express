@@ -3,6 +3,7 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const xss = require('xss-clean');
 const helmet = require('helmet');
+const cors = require('cors');
 const sequelize = require('./config/db');
 const cookieParser = require('cookie-parser');
 const swaggerUI = require('swagger-ui-express');
@@ -24,14 +25,13 @@ const swaggerOptions = require('./utils/swaggerOptions');
 const v1Route = require('./v1-route');
 const v2Route = require('./v2-route');
 const specs = swaggerJsDoc(swaggerOptions);
+
 // middelwares
 app.use(cookieParser());
-const cspDefaults = helmet.contentSecurityPolicy.getDefaultDirectives();
-delete cspDefaults['upgrade-insecure-requests'];
 
+app.use(cors());
 app.use(helmet());
 app.use(xss());
-
 app.use(limiter);
 
 // For documentation
@@ -41,6 +41,15 @@ app.get('/api-docs/toJSON', (req, res, next) => {
 app.get('/api-docs/toYAML', (req, res, next) => {
     res.setHeader('Content-Type', 'text/plain');
     res.send(yaml.dump(specs));
+});
+app.get('/api-docs.json', function (req, res) {
+    res.header('Content-Type', 'application/json');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
+    );
+    res.send(specs);
 });
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 
