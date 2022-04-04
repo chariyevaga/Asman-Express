@@ -5,31 +5,34 @@ module.exports = {
             title: 'ASMAN TIGER API',
             version: '1.0.0',
             description: '**Asman** Tiger system API documentation.',
+            contact: {
+                name: 'Agamyrat Chariyev',
+                email: 'agamyrat.chariyev@gmail.com',
+            },
         },
         servers: [
             {
-                url: '{protocol}://{host}:{port}/api/v{version}',
+                url: 'http://{host}:{port}/api',
                 title: 'asdf',
                 variables: {
-                    protocol: {
-                        enum: ['http', 'https'],
-                        default: 'https',
-                    },
                     host: {
                         enum: ['10.10.8.27', 'localhost'],
-                        default: '10.10.8.27',
+                        default: 'localhost',
                     },
                     port: {
                         default: '3001',
                     },
-                    version: {
-                        enum: [1, 2],
-                        default: 2,
-                    },
                 },
             },
         ],
+
         components: {
+            securitySchemes: {
+                basicAuth: {
+                    type: 'http',
+                    scheme: 'basic',
+                },
+            },
             parameters: {
                 offsetParam: {
                     in: 'query',
@@ -46,8 +49,7 @@ module.exports = {
                     in: 'query',
                     name: 'limit',
                     required: false,
-                    description:
-                        'The numbers of items to return. If request empty or null by default hardLimit is used',
+                    description: 'The numbers of items to return.',
                     schema: {
                         type: 'integer',
                         minimum: 1,
@@ -55,19 +57,75 @@ module.exports = {
                     },
                 },
             },
-            // securitySchemes: {
-            //     bearerAuth: {
-            //         type: 'http',
-            //         scheme: 'basic',
-            //         bearerFormat: 'JWT',
-            //     },
-            // },
+            responses: {
+                UnauthorizedError: {
+                    description:
+                        'Authentication information is missing or invalid',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    status: {
+                                        type: 'string',
+                                        example: 'fail',
+                                    },
+                                    message: {
+                                        type: 'string',
+                                        example: 'Missing Authorization Header',
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                PathIdRequiredError: {
+                    description: 'ID is required',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    status: {
+                                        type: 'string',
+                                        example: 'fail',
+                                    },
+                                    message: {
+                                        type: 'string',
+                                        example: 'Id is required',
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                NotFoundError: {
+                    description: '[Model] is not found',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    status: {
+                                        type: 'string',
+                                        example: 'fail',
+                                    },
+                                    message: {
+                                        type: 'string',
+                                        example: '[Model] is not found',
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
         },
-        // security: [
-        //     {
-        //         bearerAuth: [],
-        //     },
-        // ],
+        security: [
+            {
+                basicAuth: [],
+            },
+        ],
     },
-    apis: ['./v2/routes/*js', './v2/sequelize/models/*js'],
+    apis: ['./v1-route.js', './v2/routes/*js', './v2/sequelize/models/*js'],
 };
