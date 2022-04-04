@@ -34,7 +34,7 @@ const brandControllers = require('../controllers/brandControllers');
  *                      application/json:
  *                          schema:
  *                              type: array
- *                              'items':
+ *                              items:
  *                                  allOf:
  *                                      - $ref: '#/components/schemas/brands'
  *                                      - type: object
