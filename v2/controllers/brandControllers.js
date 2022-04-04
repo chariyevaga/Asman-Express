@@ -44,8 +44,15 @@ exportObj.getBrands = catchAsync(async (req, res, next) => {
 exportObj.getBrandById = catchAsync(async (req, res, next) => {
     req.models.brands
         .findOne({ where: { id: req.params.id }, include: checkIncludes(req) })
-        .then((brands) => {
-            res.json(brands);
+        .then((brand) => {
+            if (!brand) {
+                res.status(404).json({
+                    status: 'fail',
+                    message: 'Brand not found',
+                });
+                return;
+            }
+            res.json(brand);
         })
         .catch((error) => {
             next(new AppError(error, 500));
