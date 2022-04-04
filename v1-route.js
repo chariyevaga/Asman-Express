@@ -13,6 +13,14 @@ const barcodeRoutes = require('./v1/routes/barcodeRoutes');
 const pricesRoutes = require('./v1/routes/pricesRoutes');
 const errorHandler = require('./utils/errorHandler');
 
+/**
+ *@swagger
+ *paths:
+ *  /v1:
+ *    get:
+ *      deprecated: true
+ *      summary: All api/v1/endPoints deprecated. Use v2 end Points
+ */
 // API's
 router.use('/items', itemsRoutes);
 router.use('/units', unitRoutes);
