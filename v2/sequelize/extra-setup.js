@@ -26,8 +26,9 @@ function applyExtraSetup(sequelize) {
 
     brands.hasMany(items);
 
-    itemUnits.belongsTo(units);
     itemUnits.hasMany(barcodes);
+    itemUnits.belongsTo(items);
+    itemUnits.belongsTo(units);
 
     stocks.belongsTo(warehouses, {
         foreignKey: 'warehouseNr',
@@ -47,6 +48,7 @@ function applyExtraSetup(sequelize) {
         foreignKey: 'divisionNr',
         sourceKey: 'nr',
     });
+
     warehouses.belongsTo(divisions, {
         foreignKey: 'divisionNr',
         targetKey: 'nr',
