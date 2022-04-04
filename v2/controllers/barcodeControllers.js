@@ -73,6 +73,13 @@ exportObj.getBarcodeByData = catchAsync(async (req, res, next) => {
             include: checkIncludes(req),
         })
         .then((barcode) => {
+            if (!barcode) {
+                res.status(404).json({
+                    status: 'fail',
+                    message: 'Barcode not found',
+                });
+                return;
+            }
             res.json(barcode);
         })
         .catch((err) => {
@@ -94,7 +101,13 @@ exportObj.getItemByBarcodeData = catchAsync(async (req, res, next) => {
             await req.models.barcodes.findOne({ where: { barcode: data } })
         )?.itemId;
     }
-
+    if (!itemId) {
+        res.status(404).json({
+            status: 'fail',
+            message: 'Item not found',
+        });
+        return;
+    }
     req.models.items
         .findOne({
             where: { id: itemId },
@@ -122,7 +135,13 @@ exportObj.getUnitByBarcodeData = catchAsync(async (req, res, next) => {
             await req.models.barcodes.findOne({ where: { barcode: data } })
         )?.itemUnitId;
     }
-
+    if (!itemUnitId) {
+        res.status(404).json({
+            status: 'fail',
+            message: 'ItemUnite not found',
+        });
+        return;
+    }
     req.models.itemUnits
         .findOne({
             where: { id: itemUnitId },
@@ -150,7 +169,13 @@ exportObj.getStocksByBarcodeData = catchAsync(async (req, res, next) => {
             await req.models.barcodes.findOne({ where: { barcode: data } })
         )?.itemId;
     }
-
+    if (!itemId) {
+        res.status(404).json({
+            status: 'fail',
+            message: 'Item not found',
+        });
+        return;
+    }
     req.models.stocks
         .findAll({
             where: { itemId },
