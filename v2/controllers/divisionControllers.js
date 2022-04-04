@@ -45,6 +45,13 @@ exportObj.getDivisionById = catchAsync(async (req, res, next) => {
     req.models.divisions
         .findOne({ where: { id: req.params.id }, include: checkIncludes(req) })
         .then((divisions) => {
+            if (!divisions) {
+                res.status(404).json({
+                    status: 'fail',
+                    message: 'Division not found',
+                });
+                return;
+            }
             res.json(divisions);
         })
         .catch((error) => {

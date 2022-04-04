@@ -15,5 +15,5 @@ module.exports = async (req, res, next) => {
         next();
         return;
     }
-    next(new AppError('Item id is required'));
+    next(new AppError('Id is required', 400));
 };
