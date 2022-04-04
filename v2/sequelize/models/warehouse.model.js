@@ -16,7 +16,7 @@ const { DataTypes } = require('sequelize');
  *              id:
  *                  type: integer
  *              nr:
- *                  type: int
+ *                  type: integer
  *                  description: Warehouse Number. Other models relation via divisions - ***nr***
  *              name:
  *                  type: string
