@@ -18,6 +18,9 @@ const modelDefiners = [
     require('./models/barcode.model'),
     require('./models/price.model'),
     require('./models/itemCrossSale.model'),
+    require('./models/attribute.model'),
+    require('./models/attributeKey.model'),
+    require('./models/attributeValue.model'),
 ];
 const modelByDBName = (DATABASE_NAME) => {
     const sequelize = new Sequelize(
