@@ -45,6 +45,8 @@ function applyExtraSetup(sequelize) {
         targetKey: 'nr',
     });
 
+    stocks.belongsTo(items);
+
     barcodes.belongsTo(units);
     barcodes.belongsTo(itemUnits);
     barcodes.belongsTo(items);
