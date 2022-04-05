@@ -5,7 +5,7 @@ const unitControllers = require('../controllers/unitControllers');
 /**
  * @swagger
  * tags:
- *  name: Unites
+ *  name: Units
  *  description: All API's about units
  */
 
@@ -14,7 +14,7 @@ const unitControllers = require('../controllers/unitControllers');
  * paths:
  *  /v2/units:
  *      get:
- *          tags: [Unites]
+ *          tags: [Units]
  *          summary: List of units
  *          description: Getting units
  *          parameters:

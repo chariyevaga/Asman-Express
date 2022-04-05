@@ -13,7 +13,7 @@ function tryToJSONParse(data) {
 
 exportObj.getPrices = catchAsync(async (req, res, next) => {
     const { type } = req.query;
-    const include = [{ model: req.models.currencies }];
+
     const where = req?.where;
 
     let { limit, offset } = req.query;
@@ -68,7 +68,6 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
     model
         .findAll({
             where: { ...where },
-            include,
             limit,
             offset,
         })

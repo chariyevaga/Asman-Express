@@ -8,7 +8,7 @@ const unitControllers = require('../controllers/unitControllers');
  * paths:
  *  /v2/itemUnits:
  *      get:
- *          tags: [Units, Items, Barcodes]
+ *          tags: [Units]
  *          summary: List of units
  *          description: Getting units
  *          parameters:
@@ -53,7 +53,7 @@ router.get('/', unitControllers.getItemUnits);
  * paths:
  *  /v2/itemUnits/{id}:
  *      get:
- *          tags: [Units, Items, Barcodes]
+ *          tags: [Units]
  *          summary: List of units
  *          description: Getting units
  *          parameters:

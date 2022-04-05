@@ -7,7 +7,7 @@ const attributeControllers = require('../controllers/attributeControllers');
  * paths:
  *  /v2/attributes:
  *      get:
- *          tags: [Attributes, Items]
+ *          tags: [Attributes]
  *          summary: List of attributes
  *          description: Getting attributes
  *          parameters:

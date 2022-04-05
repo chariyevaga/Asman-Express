@@ -7,7 +7,7 @@ const otherContollers = require('../controllers/otherControllers');
  * paths:
  *  /v2/stocks:
  *      get:
- *          tags: [Stocks, Items]
+ *          tags: [Stocks]
  *          summary: List of stock
  *          description: Getting Stocks
  *          parameters:
@@ -50,7 +50,7 @@ route.get('/', otherContollers.getStocks);
  * paths:
  *  /v2/stocks/{data}:
  *      get:
- *          tags: [Stocks, Items]
+ *          tags: [Stocks]
  *          summary: List of stock
  *          description: Getting Stocks
  *          parameters:

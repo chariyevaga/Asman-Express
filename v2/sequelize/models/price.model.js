@@ -51,6 +51,9 @@ module.exports = (sequelize) => {
      *                      Price Type:
      *                      - 1. purchase price
      *                      - 2. sale price
+     *              unitId:
+     *                  type: integer
+     *                  description: Unit id
      *              currencyId:
      *                  type: integer
      *                  description: Price currency id
@@ -86,6 +89,7 @@ module.exports = (sequelize) => {
             divisions: DataTypes.STRING,
             price: DataTypes.FLOAT,
             type: DataTypes.SMALLINT, // 2 - sale price, 1 - purchase price
+            unitId: DataTypes.INTEGER,
             currencyId: DataTypes.INTEGER,
             beginTime: DataTypes.DATE,
             endTime: DataTypes.DATE,

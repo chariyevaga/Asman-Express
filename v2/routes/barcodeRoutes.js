@@ -190,8 +190,8 @@ route.get('/:data/unit', barcodeControllers.getUnitByBarcodeData);
  *  paths:
  *  /v2/barcodes/{data}/stocks:
  *      get:
- *          tags: [Barcodes, Warehouses, Stocks]
- *          summary: Unit by barcode
+ *          tags: [Barcodes, Stocks]
+ *          summary: Stocks by barcode
  *          description: Getting unit by barcode data (id or barcode).
  *          parameters:
  *              -   name: type

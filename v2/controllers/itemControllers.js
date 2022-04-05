@@ -21,7 +21,7 @@ const checkIncludes = (req) => {
     includeArray.forEach((inc) => {
         if (['brands', 'brand'].includes(inc)) {
             includes.push({ model: req.models.brands });
-        } else if (inc === 'units') {
+        } else if (inc === 'units' || inc === 'unit') {
             includes.push({
                 model: req.models.units,
             });
@@ -39,16 +39,13 @@ const checkIncludes = (req) => {
             includes.push({
                 model: req.models.warehouses,
             });
-        } else if ('variations' === inc) {
+        } else if ('attributes' === inc) {
             includes.push({
-                model: req.models.items,
-                as: 'variations',
-
-                where: {
-                    id: {
-                        [Op.ne]: Sequelize.col('items.id'),
-                    },
-                },
+                model: req.models.attributes,
+                include: [
+                    { model: req.models.attributeKeys },
+                    { model: req.models.attributeValues },
+                ],
             });
         } else if (inc === 'crossSales') {
             includes.push({
@@ -111,8 +108,15 @@ const getItemById = catchAsync(async (req, res, next) => {
             where: { id },
             include: checkIncludes(req),
         })
-        .then((items) => {
-            res.json(items);
+        .then((item) => {
+            if (!item) {
+                res.status(404).json({
+                    status: 'fail',
+                    message: 'Item not found',
+                });
+                return;
+            }
+            res.json(item);
         })
         .catch((err) => {
             next(new AppError(err, 500));
@@ -166,6 +170,7 @@ const getUnitsByItemId = catchAsync(async (req, res, next) => {
     let include = [{ model: req.models.units }];
     if (
         req.query?.include === 'barcodes' ||
+        req.query?.include === 'barcode' ||
         req.query?.include?.includes('barcodes')
     ) {
         include.push({
