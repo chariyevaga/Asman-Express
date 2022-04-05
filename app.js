@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const sequelize = require('./config/db');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const yaml = require('js-yaml');
@@ -33,7 +34,7 @@ app.use(cors());
 app.use(helmet());
 app.use(xss());
 app.use(limiter);
-
+app.use(bodyParser.json());
 // For documentation
 app.get('/api-docs/toJSON', (req, res, next) => {
     res.json(specs);
