@@ -13,6 +13,9 @@ const divisionRoutes = require('./v2/routes/divisionRoutes');
 const warehouseRoutes = require('./v2/routes/warehouseRoutes');
 const brandRoutes = require('./v2/routes/brandRoutes');
 const itemUnitRoutes = require('./v2/routes/itemUnitRoutes');
+const attributeKeyRoutes = require('./v2/routes/attributeKeyRoutes');
+const attributeValueRoutes = require('./v2/routes/attributeValueRoutes');
+const attributeRoutes = require('./v2/routes/attributeRoutes');
 // const currencyRoutes = require('./v2/routes/currencyRoutes');
 
 // API's
@@ -24,6 +27,9 @@ router.use('/divisions', divisionRoutes);
 router.use('/warehouses', warehouseRoutes);
 router.use('/brands', brandRoutes);
 router.use('/itemUnits', itemUnitRoutes);
+router.use('/attributeKeys', attributeKeyRoutes);
+router.use('/attributeValues', attributeValueRoutes);
+router.use('/attributes', attributeRoutes);
 
 // router.use('/currencies', currencyRoutes);
 

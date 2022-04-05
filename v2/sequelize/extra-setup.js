@@ -16,7 +16,17 @@ function applyExtraSetup(sequelize) {
         divisions,
         warehouses,
         itemCrossSales,
+        attributeKeys,
+        attributeValues,
+        attributes,
     } = sequelize.models;
+
+    attributeKeys.hasMany(attributeValues);
+    attributeValues.belongsTo(attributeKeys);
+
+    attributes.belongsTo(attributeKeys);
+    attributes.belongsTo(attributeValues);
+    attributes.belongsTo(items);
 
     items.belongsTo(brands);
     items.hasMany(barcodes);
