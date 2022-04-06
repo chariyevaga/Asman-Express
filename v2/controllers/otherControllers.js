@@ -1,8 +1,8 @@
 'use strict';
 const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
-const Sequelize = require('sequelize');
-
+const { Op, Sequelize } = require('sequelize');
+const moment = require('moment');
 const exportObj = {};
 /**
  * Checking query has include return array for include models
@@ -78,6 +78,90 @@ exportObj.getStockByData = catchAsync(async (req, res, next) => {
         })
         .then((stocks) => {
             res.json(stocks);
+        })
+        .catch((error) => {
+            next(new AppError(error, 500));
+        });
+});
+
+exportObj.getCurrencies = catchAsync(async (req, res, next) => {
+    let { limit, offset } = req.query;
+    limit = isNaN(limit) ? null : +limit;
+    offset = isNaN(offset) ? null : +offset;
+    req.models.currencies
+        .findAll({
+            limit,
+            offset,
+            order: ['id'],
+        })
+        .then((currencies) => {
+            res.json(currencies);
+        })
+        .catch((error) => {
+            next(new AppError(error, 500));
+        });
+});
+
+exportObj.getCurrencyById = catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+    req.models.currencies
+        .findOne({
+            where: { id },
+        })
+        .then((currency) => {
+            res.json(currency);
+        })
+        .catch((error) => {
+            next(new AppError(error, 500));
+        });
+});
+
+exportObj.getExchanges = catchAsync(async (req, res, next) => {
+    let { limit, offset, startDate, endDate, currencyId } = req.query;
+
+    limit = isNaN(limit) ? null : +limit;
+    offset = isNaN(offset) ? null : +offset;
+    const include = req.query?.include
+        ? { model: req.models.currencies }
+        : null;
+    const conditions = [];
+    if (startDate && isNaN(Date.parse(startDate)) === false) {
+        conditions.push({
+            date: {
+                [Op.gte]: Sequelize.literal(
+                    `'${moment(startDate).format('YYYY-MM-DD')}'`
+                ),
+            },
+        });
+    }
+
+    if (endDate && isNaN(Date.parse(endDate)) === false) {
+        conditions.push({
+            date: {
+                [Op.lte]: Sequelize.literal(
+                    `'${moment(endDate).format('YYYY-MM-DD')}'`
+                ),
+            },
+        });
+    }
+
+    if (currencyId) {
+        conditions.push({
+            currencyId,
+        });
+    }
+    console.log(conditions);
+    req.models.exchanges
+        .findAll({
+            limit,
+            offset,
+            include,
+            where: {
+                [Op.and]: conditions,
+            },
+        })
+        .then((exchanges) => {
+            res.json(exchanges);
         })
         .catch((error) => {
             next(new AppError(error, 500));

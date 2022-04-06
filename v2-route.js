@@ -17,7 +17,7 @@ const attributeKeyRoutes = require('./v2/routes/attributeKeyRoutes');
 const attributeValueRoutes = require('./v2/routes/attributeValueRoutes');
 const attributeRoutes = require('./v2/routes/attributeRoutes');
 const stockRoutes = require('./v2/routes/stockRoutes');
-// const currencyRoutes = require('./v2/routes/currencyRoutes');
+const currencyRoutes = require('./v2/routes/currencyRoutes');
 
 // API's
 router.use('/items', itemsRoutes);
@@ -32,6 +32,7 @@ router.use('/attributeKeys', attributeKeyRoutes);
 router.use('/attributeValues', attributeValueRoutes);
 router.use('/attributes', attributeRoutes);
 router.use('/stocks', stockRoutes);
+router.use('/currencies', currencyRoutes);
 
 // router.use('/currencies', currencyRoutes);
 

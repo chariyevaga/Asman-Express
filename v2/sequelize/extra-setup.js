@@ -29,6 +29,9 @@ function applyExtraSetup(sequelize) {
     attributes.belongsTo(items);
     items.hasMany(attributes);
 
+    exchanges.belongsTo(currencies);
+    currencies.hasMany(exchanges);
+
     items.belongsTo(brands);
     items.hasMany(barcodes);
     items.hasMany(prices);
