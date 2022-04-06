@@ -110,8 +110,8 @@ route.get('/', itemControllers.getItems);
  *                  required: true
  *                  name: id
  *                  description: item id
- *                      schemas:
- *                          type: integer
+ *                  schema:
+ *                      type: integer
  *
  *          responses:
  *              200:

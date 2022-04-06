@@ -521,6 +521,44 @@ components:
           type: string
           format: date
           description: Price end date
+    serviceCards:
+      type: object
+      required:
+        - id
+        - code
+        - name
+        - unitId
+      properties:
+        id:
+          type: integer
+          description: Primary key
+        code:
+          type: string
+        unitId:
+          type: integer
+        cyphcode:
+          type: string
+        specode:
+          type: string
+        specode2:
+          type: string
+        specode3:
+          type: string
+        specode4:
+          type: string
+        specode5:
+          type: string
+        name:
+          type: string
+        type:
+          type: integer
+          description: 1.service received, 2.service provided
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     stocks:
       type: object
       required:
@@ -1336,6 +1374,88 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         '500':
           description: Unexpected error in server side
+  /v2/items/{id}:
+    get:
+      tags:
+        - Items
+      summary: List of items
+      description: Getting items.
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: query
+          required: false
+          name: include
+          description: include brand, units, stocks, barcodes **Not Required**
+          schema:
+            type: array
+            items:
+              enum:
+                - brand
+                - units
+                - stocks
+                - barcodes
+                - attributes
+        - in: path
+          required: true
+          name: id
+          description: item id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Items
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/items'
+                  - type: object
+                    properties:
+                      brand:
+                        $ref: '#/components/schemas/brands'
+                      units:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/components/schemas/units'
+                            - type: object
+                              properties:
+                                itemUnits:
+                                  $ref: '#/components/schemas/itemUnits'
+                      stocks:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/components/schemas/stocks'
+                            - type: object
+                              properties:
+                                warehouse:
+                                  $ref: '#/components/schemas/warehouses'
+                      barcodes:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/barcodes'
+                      attributes:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/components/schemas/attributes'
+                            - type: object
+                              properties:
+                                attributeKey:
+                                  $ref: '#/components/schemas/attributeKeys'
+                                attributeValue:
+                                  $ref: '#/components/schemas/attributeValues'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          description: Unexpected error in server side
   /v2/items/{id}/barcodes:
     get:
       tags:
@@ -1746,6 +1866,65 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         '500':
           description: Unexpected error in server side
+  /v2/serviceCards:
+    get:
+      tags:
+        - ServiceCards
+      summary: List of serviceCards
+      description: Getting serviceCards.
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum:
+              - receivedServices
+              - providedServices
+      responses:
+        '200':
+          description: ServiceCards
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/serviceCards'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/serviceCards/{id}:
+    get:
+      tags:
+        - ServiceCards
+      summary: ServiceCard object
+      description: Getting brand Object by brand Id
+      parameters:
+        - in: path
+          name: id
+          description: ServiceCard ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ServiceCards
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/serviceCards'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          description: Unexpected error in server side
   /v2/stocks:
     get:
       tags:
@@ -1965,6 +2144,8 @@ tags:
     description: All API's about currencies
   - name: Divisions
     description: All API's about divisions
+  - name: ServiceCards
+    description: All API's about serviceCards
   - name: Units
     description: All API's about units
   - name: Warehouses
