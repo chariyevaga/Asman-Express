@@ -1,6 +1,92 @@
 'use strict';
 const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
+    /**
+     * @swagger
+     * components:
+     *  schemas:
+     *      clients:
+     *          type: object
+     *          required:
+     *              - id
+     *              - code
+     *              - name
+     *          properties:
+     *              id:
+     *                  type: integer
+     *                  description: Primary key
+     *              code:
+     *                  type: string
+     *              name:
+     *                  type: string
+     *              name2:
+     *                  type: string
+     *              active:
+     *                  type: boolean
+     *              cardType:
+     *                  type: integer
+     *                  description: 1 - buyer, 2 - seller, 3 - buyer and seller
+     *              eCode:
+     *                  type: string
+     *              address:
+     *                  type: string
+     *              address2:
+     *                  type: string
+     *              district:
+     *                  type: string
+     *              town:
+     *                  type: string
+     *              city:
+     *                  type: string
+     *              cityCode:
+     *                  type: string
+     *              country:
+     *                  type: string
+     *              countryCode:
+     *                  type: string
+     *              phoneNumber:
+     *                  type: string
+     *              phoneNumber2:
+     *                  type: string
+     *              email:
+     *                  type: string
+     *              email2:
+     *                  type: string
+     *              email3:
+     *                  type: string
+     *              incharge:
+     *                  type: string
+     *              incharge2:
+     *                  type: string
+     *              incharge3:
+     *                  type: string
+     *              webAddress:
+     *                  type: string
+     *              birthDate:
+     *                  type: string
+     *                  format: date
+     *              exchangeRateType:
+     *                  type: integer
+     *                  description: Exchange Rate type (rate1, rate2 ...)
+     *              discount:
+     *                  type: integer
+     *              specode:
+     *                  type: string
+     *              specode2:
+     *                  type: string
+     *              specode3:
+     *                  type: string
+     *              specode4:
+     *                  type: string
+     *              specode5:
+     *                  type: string
+     *              cyphcode:
+     *                  type: string
+     *              cardNo:
+     *                  type: string
+     *              guid:
+     *                  type: string
+     */
     sequelize.define(
         'clients',
         {
@@ -9,11 +95,11 @@ module.exports = (sequelize) => {
                 primaryKey: true,
                 // autoIncrement: true,
             },
-            active: DataTypes.BOOLEAN,
-            cardType: DataTypes.INTEGER,
             code: DataTypes.STRING,
             name: DataTypes.STRING,
             name2: DataTypes.STRING,
+            active: DataTypes.BOOLEAN,
+            cardType: DataTypes.INTEGER,
             eCode: DataTypes.STRING,
             address: DataTypes.TEXT,
             address2: DataTypes.TEXT,
@@ -21,8 +107,8 @@ module.exports = (sequelize) => {
             town: DataTypes.STRING,
             city: DataTypes.STRING,
             cityCode: DataTypes.STRING,
-            contry: DataTypes.STRING,
-            contryCode: DataTypes.STRING,
+            country: DataTypes.STRING,
+            countryCode: DataTypes.STRING,
             phoneNumber: DataTypes.STRING,
             phoneNumber2: DataTypes.STRING,
             email: DataTypes.STRING,
