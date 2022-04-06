@@ -5,7 +5,6 @@ const { DataTypes } = require('sequelize');
  * components:
  *  schemas:
  *      warehouses:
- *          discription: AGO_WAREHOUSES view
  *          type: object
  *          required:
  *              - id

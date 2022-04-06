@@ -13,7 +13,6 @@ module.exports = {
         servers: [
             {
                 url: 'http://{host}:{port}/api',
-                title: 'asdf',
                 variables: {
                     host: {
                         enum: ['10.10.8.27', 'localhost'],

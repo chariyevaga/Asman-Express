@@ -13,7 +13,7 @@ const { DataTypes } = require('sequelize');
  *              - name
  *          properties:
  *              id:
- *                  type: int
+ *                  type: integer
  *              code:
  *                  type: string
  *              name:

@@ -6,7 +6,6 @@ module.exports = (sequelize) => {
      * components:
      *  schemas:
      *      stocks:
-     *          discription: Item stocks by warehouses
      *          type: object
      *          required:
      *              - itemId

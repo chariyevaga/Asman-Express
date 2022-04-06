@@ -16,6 +16,7 @@ const { DataTypes, Op } = require('sequelize');
  *              id:
  *                  type: integer
  *              code:
+ *                  type: string
  *              eCode:
  *                  type: string
  *              active:

@@ -5,7 +5,6 @@ const { DataTypes } = require('sequelize');
  * components:
  *  schemas:
  *      itemCrossSales:
- *          discription: AGO_CROSS_SALES view
  *          type: object
  *          required:
  *              - id
