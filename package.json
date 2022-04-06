@@ -25,6 +25,7 @@
     "helmet": "^5.0.1",
     "js-yaml": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.2",
     "sequelize": "^6.12.5",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0",
