@@ -44,8 +44,15 @@ exportObj.getWarehouses = catchAsync(async (req, res, next) => {
 exportObj.getWarehouseById = catchAsync(async (req, res, next) => {
     req.models.warehouses
         .findOne({ where: { id: req.params.id }, include: checkIncludes(req) })
-        .then((warehouses) => {
-            res.json(warehouses);
+        .then((warehouse) => {
+            if (!warehouse) {
+                res.status(404).json({
+                    status: 'fail',
+                    message: 'Warehouse not found',
+                });
+                return;
+            }
+            res.json(warehouse);
         })
         .catch((error) => {
             next(new AppError(error, 500));

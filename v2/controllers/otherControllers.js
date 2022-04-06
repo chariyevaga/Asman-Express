@@ -109,6 +109,13 @@ exportObj.getCurrencyById = catchAsync(async (req, res, next) => {
             where: { id },
         })
         .then((currency) => {
+            if (!currency) {
+                res.status(404).json({
+                    status: 'fail',
+                    message: 'Currency not found',
+                });
+                return;
+            }
             res.json(currency);
         })
         .catch((error) => {
