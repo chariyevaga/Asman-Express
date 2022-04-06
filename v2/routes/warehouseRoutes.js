@@ -21,8 +21,8 @@ const warehouseControllers = require('../controllers/warehouseControllers');
  *          parameters:
  *              -   $ref: '#/components/parameters/limitParam'
  *              -   $ref: '#/components/parameters/offsetParam'
- *              -   name: include
- *                  in: query
+ *              -   in: query
+ *                  name: include
  *                  required: false
  *                  description: get division information. **Not required**
  *                  schema:
@@ -58,14 +58,16 @@ router.get('/', warehouseControllers.getWarehouses);
  *      get:
  *          tags: [Warehouses]
  *          summary: Warehouse object
- *          discription: Getting warehouse Object by warehouse Id
+ *          description: Getting warehouse Object by warehouse Id
  *          parameters:
- *              -   name: id
- *                  in: path
- *                  discription: Warehouse ID
+ *              -   in: path
+ *                  name: id
+ *                  description: Warehouse ID
  *                  required: true
- *              -   name: include
- *                  in: query
+ *                  schema:
+ *                      type: integer
+ *              -   in: query
+ *                  name: include
  *                  required: false
  *                  description: get division information. **Not required**
  *                  schema:

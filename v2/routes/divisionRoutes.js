@@ -20,8 +20,8 @@ const divisionControllers = require('../controllers/divisionControllers');
  *          parameters:
  *              -   $ref: '#/components/parameters/limitParam'
  *              -   $ref: '#/components/parameters/offsetParam'
- *              -   name: include
- *                  in: query
+ *              -   in: query
+ *                  name: include
  *                  required: false
  *                  description: get warehouses from divisions. **Not required**
  *                  schema:
@@ -59,14 +59,16 @@ router.get('/', divisionControllers.getDivisions);
  *      get:
  *          tags: [Divisions]
  *          summary: Division object
- *          discription: Getting division Object by division Id
+ *          description: Getting division Object by division Id
  *          parameters:
- *              -   name: id
- *                  in: path
- *                  discription: Division ID
+ *              -   in: path
+ *                  name: id
+ *                  description: Division ID
  *                  required: true
- *              -   name: include
- *                  in: query
+ *                  schema:
+ *                      type: integer
+ *              -   in: query
+ *                  name: include
  *                  required: false
  *                  description: get warehouses from divisions. **Not required**
  *                  schema:

@@ -14,9 +14,9 @@ const unitControllers = require('../controllers/unitControllers');
  *          parameters:
  *              - $ref: '#/components/parameters/limitParam'
  *              - $ref: '#/components/parameters/offsetParam'
- *              - name: include
+ *              - in: query
  *                required: false
- *                in: query
+ *                name: include
  *                description: include items, barcode **Not Required**
  *                schema:
  *                    type: array
@@ -59,13 +59,14 @@ router.get('/', unitControllers.getItemUnits);
  *          parameters:
  *              - $ref: '#/components/parameters/limitParam'
  *              - $ref: '#/components/parameters/offsetParam'
- *              - name: id
+ *              - in: path
  *                required: true
- *                in: path
- *                type: integer
- *              - name: include
+ *                name: id
+ *                schema:
+ *                  type: integer
+ *              - in: query
  *                required: false
- *                in: query
+ *                name: include
  *                description: include items, barcode **Not Required**
  *                schema:
  *                    type: array

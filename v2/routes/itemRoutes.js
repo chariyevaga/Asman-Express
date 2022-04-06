@@ -14,19 +14,19 @@ const checkHasId = require('../../middlewares/idChecker');
  *          parameters:
  *              -   $ref: '#/components/parameters/limitParam'
  *              -   $ref: '#/components/parameters/offsetParam'
- *              -   name: orderName
- *                  in: query
+ *              -   in: query
+ *                  name: orderName
  *                  schema:
  *                      type: string
  *                      enum: [id, eCode, active, eActive, cardType, name, name2, name3, name4, specode1, specode2, specode3, specode4, specode5, keyword1, keyword2, keyword3, keyword4, keyword5, origin, category, mainUnit, mainUnitId, brandId, subsGoodCode, reyonCode, salesLimitQuantity, status]
- *              -   name: orderType
- *                  in: query
+ *              -   in: query
+ *                  name: orderType
  *                  schema:
  *                      type: string
  *                      enum: [asc,desc]
- *              -   name: include
+ *              -   in: query
  *                  required: false
- *                  in: query
+ *                  name: include
  *                  description: include brand, units, stocks, barcodes **Not Required**
  *                  schema:
  *                      type: array
@@ -98,19 +98,20 @@ route.get('/', itemControllers.getItems);
  *          parameters:
  *              -   $ref: '#/components/parameters/limitParam'
  *              -   $ref: '#/components/parameters/offsetParam'
- *              -   name: include
+ *              -   in: query
  *                  required: false
- *                  in: query
+ *                  name: include
  *                  description: include brand, units, stocks, barcodes **Not Required**
  *                  schema:
  *                      type: array
  *                      items:
  *                        enum: [brand, units, stocks, barcodes, attributes]
- *              -   name: id
+ *              -   in: path
  *                  required: true
- *                  in: path
+ *                  name: id
  *                  description: item id
- *                  type: integer
+ *                      schemas:
+ *                          type: integer
  *
  *          responses:
  *              200:
@@ -178,18 +179,19 @@ route.get('/:id', checkHasId, itemControllers.getItemById);
  *          summary: List of barcodes
  *          description: Getting barcodes by item id.
  *          parameters:
- *              -   name: include
+ *              -   in: query
  *                  required: false
- *                  in: query
+ *                  name: include
  *                  description: include units **Not Required**
  *                  schema:
  *                      type: string
  *                      example: unit
- *              -   name: id
+ *              -   in: path
  *                  required: true
- *                  in: path
+ *                  name: id
  *                  description: item id
- *                  type: integer
+ *                  schema:
+ *                      type: integer
  *
  *          responses:
  *              200:
@@ -223,18 +225,19 @@ route.get('/:id/barcodes', checkHasId, itemControllers.getBarcodesByItemId);
  *          summary: List of stocks
  *          description: Getting stocks by item id.
  *          parameters:
- *              -   name: include
+ *              -   in: query
  *                  required: false
- *                  in: query
+ *                  name: include
  *                  description: include units **Not Required**
  *                  schema:
  *                      type: string
  *                      example: warehouse
- *              -   name: id
+ *              -   in: path
  *                  required: true
- *                  in: path
+ *                  name: id
  *                  description: item id
- *                  type: integer
+ *                  schema:
+ *                      type: integer
  *
  *          responses:
  *              200:
@@ -268,18 +271,19 @@ route.get('/:id/stocks', checkHasId, itemControllers.getStocksByItemId);
  *          summary: List of units
  *          description: Getting units by item id.
  *          parameters:
- *              -   name: include
+ *              -   in: query
  *                  required: false
- *                  in: query
+ *                  name: include
  *                  description: include units **Not Required**
  *                  schema:
  *                      type: string
  *                      example: barcodes
- *              -   name: id
+ *              -   in: path
  *                  required: true
- *                  in: path
+ *                  name: id
  *                  description: item id
- *                  type: integer
+ *                  schema:
+ *                      type: integer
  *
  *          responses:
  *              200:
@@ -317,18 +321,19 @@ route.get('/:id/units', checkHasId, itemControllers.getUnitsByItemId);
  *          summary: List of prices
  *          description: Getting prices by item id.
  *          parameters:
- *              -   name: type
+ *              -   in: query
  *                  required: true
- *                  in: query
+ *                  name: type
  *                  description: all, sale - only sale prices, actualtSale - only actual sale price, purchase - all purchase price, lastPurchase - last purchase prices
  *                  schema:
  *                      type: string
  *                      enum: [all, sale, actualtSale, purchase, lastPurchase]
- *              -   name: id
+ *              -   in: path
  *                  required: true
- *                  in: path
+ *                  name: id
  *                  description: item id
- *                  type: integer
+ *                  schema:
+ *                      type: integer
  *          responses:
  *              200:
  *                  description: Prices

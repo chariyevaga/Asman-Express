@@ -15,7 +15,7 @@ const checkHasId = require('../../middlewares/idChecker');
  *  /v2/clients:
  *      get:
  *          tags: [Clients]
- *          summery: List of clients
+ *          summary: List of clients
  *          description: Getting clients
  *          parameters:
  *              -   $ref: '#/components/parameters/limitParam'
@@ -43,12 +43,14 @@ routes.get('/', clientControllers.getClients);
  *  /v2/clients/{id}:
  *      get:
  *          tags: [Clients]
- *          summery: Client Object by id
+ *          summary: Client Object by id
  *          description: Getting client by id
  *          parameters:
- *              -   name: id
- *                  in: path
- *                  type: integer
+ *              -   in: path
+ *                  name: id
+ *                  schema:
+ *                      type: integer
+ *                  required: true
  *                  description: Client Id
  *          responses:
  *              200:

@@ -14,9 +14,9 @@ const checkHasId = require('../../middlewares/idChecker');
  *          parameters:
  *              -   $ref: '#/components/parameters/limitParam'
  *              -   $ref: '#/components/parameters/offsetParam'
- *              -   name: type
+ *              -   in: query
  *                  required: true
- *                  in: query
+ *                  name: type
  *                  description: all, sale - only sale prices, actualtSale - only actual sale price, purchase - all purchase price, lastPurchase - last purchase prices
  *                  schema:
  *                      type: string
@@ -46,10 +46,11 @@ route.get('/', priceControllers.getPrices);
  *          summary: List of prices
  *          description: Getting prices by item id.
  *          parameters:
- *              -   name: id
+ *              -   in: path
  *                  required: true
- *                  in: path
- *                  type: integer
+ *                  name: id
+ *                  schema:
+ *                      type: integer
 
  *          responses:
  *              200:
@@ -78,14 +79,15 @@ route.get('/:id', checkHasId, priceControllers.getPriceById);
  *          summary: List of prices
  *          description: Getting prices by item id.
  *          parameters:
- *              -   name: id
+ *              -   in: path
  *                  description: item id
  *                  required: true
- *                  in: path
- *                  type: integer
- *              -   name: type
+ *                  name: id
+ *                  schema:
+ *                      type: integer
+ *              -   in: query
  *                  required: true
- *                  in: query
+ *                  name: type
  *                  description: all, sale - only sale prices, actualtSale - only actual sale price, purchase - all purchase price, lastPurchase - last purchase prices
  *                  schema:
  *                      type: string
@@ -118,15 +120,16 @@ route.get('/items/:id', checkHasId, priceControllers.getPricesByItemId);
  *          summary: List of prices
  *          description: Getting prices by item id.
  *          parameters:
- *              -   name: barcode
+ *              -   in: path
  *                  description: Barcode
  *                  required: true
- *                  in: path
- *                  type: string
+ *                  name: barcode
+ *                  schema:
+ *                      type: string
  *                  example: 8699106167070
- *              -   name: type
+ *              -   in: query
  *                  required: true
- *                  in: query
+ *                  name: type
  *                  description: all, sale - only sale prices, actualtSale - only actual sale price, purchase - all purchase price, lastPurchase - last purchase prices
  *                  schema:
  *                      type: string

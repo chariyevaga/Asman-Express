@@ -20,8 +20,8 @@ const brandControllers = require('../controllers/brandControllers');
  *          parameters:
  *              -   $ref: '#/components/parameters/limitParam'
  *              -   $ref: '#/components/parameters/offsetParam'
- *              -   name: include
- *                  in: query
+ *              -   in: query
+ *                  name: include
  *                  required: false
  *                  description: get items from brands. **Not required**
  *                  schema:
@@ -59,14 +59,16 @@ router.get('/', brandControllers.getBrands);
  *      get:
  *          tags: [Brands]
  *          summary: Brand object
- *          discription: Getting brand Object by brand Id
+ *          description: Getting brand Object by brand Id
  *          parameters:
- *              -   name: id
- *                  in: path
- *                  discription: Brand ID
+ *              -   in: path
+ *                  name: id
+ *                  description: Brand ID
  *                  required: true
- *              -   name: include
- *                  in: query
+ *                  schema:
+ *                      type: integer
+ *              -   in: query
+ *                  name: include
  *                  required: false
  *                  description: get items from brands. **Not required**
  *                  schema:

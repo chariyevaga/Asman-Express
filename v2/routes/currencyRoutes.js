@@ -14,7 +14,7 @@ const checkHasId = require('../../middlewares/idChecker');
  *  /v2/currencies:
  *      get:
  *          tags: [Currencies]
- *          summery: List of currencies
+ *          summary: List of currencies
  *          description: Getting currencies
  *          parameters:
  *              -   $ref: '#/components/parameters/limitParam'
@@ -42,31 +42,34 @@ routes.get('/', otherContollers.getCurrencies);
  *  /v2/currencies/exchanges:
  *      get:
  *          tags: [Currencies]
- *          summery: List of exchanges
+ *          summary: List of exchanges
  *          description: Getting exchanges
  *          parameters:
  *              -   $ref: '#/components/parameters/limitParam'
  *              -   $ref: '#/components/parameters/offsetParam'
- *              -   name: include
- *                  in: query
- *                  type: string
+ *              -   in: query
+ *                  name: include
+ *                  schema:
+ *                      type: string
  *                  description: Include currency **Not Required**
  *                  example: currency
- *              -   name: startDate
- *                  in: query
- *                  type: string
- *                  format: date
+ *              -   in: query
+ *                  name: startDate
+ *                  schema:
+ *                      type: string
+ *                      format: date
  *                  description: Get between startDate and endDate **Not Required**
- *              -   name: endDate
- *                  in: query
- *                  type: string
- *                  format: date
+ *              -   in: query
+ *                  name: endDate
+ *                  schema:
+ *                      type: string
+ *                      format: date
  *                  description: Get between startDate and endDate **Not Required**
- *              -   name: currencyId
- *                  in: query
- *                  type: list
- *                  items:
- *                      schema:
+ *              -   in: query
+ *                  name: currencyId
+ *                  schema:
+ *                      type: array
+ *                      items:
  *                          type: integer
  *                  description: filter by currencyId or currencyIds **Not Required**
  *                  example: [1,2,3,4,158,159,25]
@@ -93,11 +96,11 @@ routes.get('/exchanges', otherContollers.getExchanges);
  *  /v2/currencies/{id}:
  *      get:
  *          tags: [Currencies]
- *          summery: Currency object by id
+ *          summary: Currency object by id
  *          description: Getting currency by id
  *          parameters:
- *              -   name: id
- *                  in: path
+ *              -   in: path
+ *                  name: id
  *                  required: true
  *                  description: Currency Id
  *                  schema:

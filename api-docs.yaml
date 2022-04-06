@@ -1,0 +1,1971 @@
+openapi: 3.0.0
+info:
+  title: ASMAN TIGER API
+  version: 1.0.0
+  description: '**Asman** Tiger system API documentation.'
+  contact:
+    name: Agamyrat Chariyev
+    email: agamyrat.chariyev@gmail.com
+servers:
+  - url: http://{host}:{port}/api
+    variables:
+      host:
+        enum:
+          - 10.10.8.27
+          - localhost
+        default: localhost
+      port:
+        default: '3001'
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  parameters:
+    offsetParam:
+      in: query
+      name: offset
+      description: The number of items to skip before starting to collect the result set
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+    limitParam:
+      in: query
+      name: limit
+      required: false
+      description: The numbers of items to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 20
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Missing Authorization Header
+    PathIdRequiredError:
+      description: ID is required
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Id is required
+    NotFoundError:
+      description: '[Model] is not found'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: '[Model] is not found'
+  schemas:
+    attributes:
+      type: object
+      properties:
+        id:
+          type: integer
+        attributeKeyId:
+          type: integer
+        code:
+          type: string
+        name:
+          type: string
+    attributeKeys:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        name:
+          type: string
+        specode:
+          type: string
+    attributeValues:
+      type: object
+      properties:
+        id:
+          type: integer
+        attributeKeyId:
+          type: integer
+        code:
+          type: string
+        name:
+          type: string
+    barcodes:
+      type: object
+      required:
+        - id
+        - itemId
+        - itemUnitId
+        - unitId
+        - barcode
+      properties:
+        id:
+          type: integer
+          description: Primary key
+        itemId:
+          type: integer
+          description: Item Id. ForeigneKey itemId ***(barcodes.itemId = items.id)***
+        itemUnitId:
+          type: integer
+          description: >-
+            ItemUnits Id. ForeigneKey itemUnitId ***(barcodes.itemUnitId =
+            itemUnits.id)***
+        unitId:
+          type: integer
+          description: Unit Id. ForeigneKey unitId ***(barcodes.unitId = units.id)***
+        lineNr:
+          type: integer
+          description: barcode order line
+        barcode:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    brands:
+      type: object
+      required:
+        - id
+        - code
+        - name
+      properties:
+        id:
+          type: integer
+          description: Primary key
+        code:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    clients:
+      type: object
+      required:
+        - id
+        - code
+        - name
+      properties:
+        id:
+          type: integer
+          description: Primary key
+        code:
+          type: string
+        name:
+          type: string
+        name2:
+          type: string
+        active:
+          type: boolean
+        cardType:
+          type: integer
+          description: 1 - buyer, 2 - seller, 3 - buyer and seller
+        eCode:
+          type: string
+        address:
+          type: string
+        address2:
+          type: string
+        district:
+          type: string
+        town:
+          type: string
+        city:
+          type: string
+        cityCode:
+          type: string
+        country:
+          type: string
+        countryCode:
+          type: string
+        phoneNumber:
+          type: string
+        phoneNumber2:
+          type: string
+        email:
+          type: string
+        email2:
+          type: string
+        email3:
+          type: string
+        incharge:
+          type: string
+        incharge2:
+          type: string
+        incharge3:
+          type: string
+        webAddress:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        exchangeRateType:
+          type: integer
+          description: Exchange Rate type (rate1, rate2 ...)
+        discount:
+          type: integer
+        specode:
+          type: string
+        specode2:
+          type: string
+        specode3:
+          type: string
+        specode4:
+          type: string
+        specode5:
+          type: string
+        cyphcode:
+          type: string
+        cardNo:
+          type: string
+        guid:
+          type: string
+    currencies:
+      type: object
+      required:
+        - id
+        - code
+      properties:
+        id:
+          type: integer
+          description: Primary key
+        code:
+          type: string
+        name:
+          type: string
+        symbol:
+          type: string
+        activelyUsed:
+          type: boolean
+    divisions:
+      type: object
+      required:
+        - id
+        - nr
+        - name
+      properties:
+        id:
+          type: integer
+        nr:
+          type: integer
+          description: Division Number. Other models relation via divisions - ***nr***
+        street:
+          type: string
+        doorNr:
+          type: string
+        district:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        zipCode:
+          type: string
+        phone:
+          type: string
+    exchanges:
+      type: object
+      required:
+        - id
+        - date
+        - currencyId
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date
+        currencyId:
+          type: integer
+          description: >-
+            Currency Id. ForeigneKey *currencyId* **(currencies.id =
+            exhcanges.currencyId)**
+        rates1:
+          type: number
+          format: float
+        rates2:
+          type: number
+          format: float
+        rates3:
+          type: number
+          format: float
+        rates4:
+          type: number
+          format: float
+    items:
+      type: object
+      required:
+        - id
+        - code
+        - active
+        - name
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        eCode:
+          type: string
+        active:
+          type: boolean
+        eActive:
+          type: boolean
+        cardType:
+          type: integer
+        name:
+          type: string
+        name2:
+          type: string
+        name3:
+          type: string
+        name4:
+          type: string
+        specode1:
+          type: string
+        specode2:
+          type: string
+        specode3:
+          type: string
+        specode4:
+          type: string
+        specode5:
+          type: string
+        keyword1:
+          type: string
+        keyword2:
+          type: string
+        keyword3:
+          type: string
+        keyword4:
+          type: string
+        keyword5:
+          type: string
+        origin:
+          type: string
+        category:
+          type: string
+        mainUnit:
+          type: string
+        mainUnitId:
+          type: integer
+        brandId:
+          type: integer
+        subsGoodCode:
+          type: string
+        reyonCode:
+          type: string
+        salesLimitQuantity:
+          type: number
+        status:
+          type: string
+    itemCrossSales:
+      type: object
+      required:
+        - id
+        - itemId
+        - crossSaleItemId
+      properties:
+        id:
+          type: integer
+        itemId:
+          type: integer
+          description: items id
+        crossSaleItemId:
+          type: integer
+          description: crossSale Items id
+    itemUnits:
+      description: ItemUnits
+      type: object
+      required:
+        - id
+        - unitId
+        - itemId
+      properties:
+        id:
+          type: integer
+        unitId:
+          type: integer
+        itemId:
+          type: integer
+        mainUnit:
+          type: boolean
+        lineNr:
+          type: integer
+        coefficient:
+          type: number
+          format: float
+        eActive:
+          type: boolean
+        width:
+          type: number
+          format: float
+        widthUnit:
+          type: string
+        length:
+          type: number
+          format: float
+        lengthUnit:
+          type: string
+        height:
+          type: number
+          format: float
+        heightUnit:
+          type: string
+        area:
+          type: number
+          format: float
+        areaUnit:
+          type: string
+        volume:
+          type: number
+          format: float
+        volumeUnit:
+          type: string
+        weight:
+          type: number
+          format: float
+        weightUnit:
+          type: string
+        grossvolume:
+          type: number
+          format: float
+        grossvolumeUnit:
+          type: string
+        grossweight:
+          type: number
+          format: float
+        grossweightUnit:
+          type: string
+    prices:
+      type: object
+      required:
+        - id
+        - code
+        - itemId
+        - price
+      properties:
+        id:
+          type: integer
+        code:
+          type: integer
+        itemId:
+          type: integer
+        priority:
+          type: integer
+        clentcode:
+          type: string
+        clcyphcode:
+          type: string
+        clspecode:
+          type: string
+        clspecode2:
+          type: string
+        clspecode3:
+          type: string
+        clspecode4:
+          type: string
+        clspecode5:
+          type: string
+        active:
+          type: boolean
+        divisions:
+          type: array
+          items:
+            type: integer
+            description: division nr
+        price:
+          type: string
+        type:
+          type: integer
+          description: |
+            Price Type: - 1. purchase price - 2. sale price
+        unitId:
+          type: integer
+          description: Unit id
+        currencyId:
+          type: integer
+          description: Price currency id
+        beginTime:
+          type: string
+          format: date
+          description: Price start date
+        endTime:
+          type: string
+          format: date
+          description: Price end date
+    stocks:
+      type: object
+      required:
+        - itemId
+        - warehouseNr
+        - onhand
+      properties:
+        itemId:
+          type: integer
+        warehouseNr:
+          type: integer
+          description: Warehouses nr
+        onhand:
+          type: number
+          format: float
+          description: Item amount by warehouse
+        reserved:
+          type: number
+          format: float
+    units:
+      type: object
+      required:
+        - id
+        - code
+        - name
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        name:
+          type: string
+      example:
+        id: 5
+        code: MM
+        name: Millimeter
+    warehouses:
+      type: object
+      required:
+        - id
+        - nr
+        - name
+        - divisionNr
+      properties:
+        id:
+          type: integer
+        nr:
+          type: integer
+          description: Warehouse Number. Other models relation via divisions - ***nr***
+        name:
+          type: string
+        divisionNr:
+          type: integer
+          description: >-
+            Division Number.Warehouse belongsTo division.
+            ForeignKey:*divisionNr* ***(warehouses.divisionNr = division.nr)***
+        factoryNr:
+          type: integer
+        costGrp:
+          type: integer
+security:
+  - basicAuth: []
+paths:
+  /v2/attributeKeys:
+    get:
+      tags:
+        - Attributes
+      summary: List of attributeKeys
+      description: Getting attributeKeys
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: query
+          name: include
+          required: false
+          description: attributeValues **Not Required**
+          schema:
+            type: string
+            example: attributeValues
+      responses:
+        '200':
+          description: attributKeys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/attributeKeys'
+                    - type: object
+                      properties:
+                        attributeValues:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/attributeValues'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/attributes:
+    get:
+      tags:
+        - Attributes
+      summary: List of attributes
+      description: Getting attributes
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - name: include
+          required: false
+          in: query
+          description: include attributeKey, attributeValue, item **Not Required**
+          schema:
+            type: array
+            items:
+              enum:
+                - attributeKey
+                - attributeValue
+                - item
+      responses:
+        '200':
+          description: attributes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/attributes'
+                    - type: object
+                      properties:
+                        attributeKey:
+                          $ref: '#/components/schemas/attributeKeys'
+                        attributeValue:
+                          $ref: '#/components/schemas/attributeValues'
+                        item:
+                          $ref: '#/components/schemas/items'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/attributeValues:
+    get:
+      tags:
+        - Attributes
+      summary: List of attributeValues
+      description: Getting attributeValues
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: query
+          required: false
+          name: include
+          description: include attributeKey **Not Required**
+          schema:
+            type: string
+            example: attributeKey
+      responses:
+        '200':
+          description: attributValues
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/attributeValues'
+                    - type: object
+                      properties:
+                        attributeKey:
+                          $ref: '#/components/schemas/attributeKeys'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/barcodes:
+    get:
+      tags:
+        - Barcodes
+      summary: List of barcodes
+      description: Getting barcodes.
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+      responses:
+        '200':
+          description: Barcodes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/barcodes'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/barcodes/{data}:
+    get:
+      tags:
+        - Barcodes
+      summary: List of barcodes
+      description: Getting barcodes.
+      parameters:
+        - in: query
+          name: type
+          required: true
+          description: data type. (id or barcode)
+          schema:
+            type: string
+            enum:
+              - id
+              - barcode
+            default: barcode
+        - in: path
+          required: true
+          name: data
+          schema:
+            type: string
+          description: >-
+            id (barcode.id = 6 - if type is id) or barcode (barcode.barcode =
+            8699106167070 - if type is barcode)
+          example: 8699106167070
+        - in: query
+          required: false
+          name: include
+          description: include items, units **Not Required**
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - items
+                - units
+      responses:
+        '200':
+          description: Barcodes
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/barcodes'
+                  - type: object
+                    properties:
+                      item:
+                        $ref: '#/components/schemas/items'
+                      itemUnit:
+                        allOf:
+                          - $ref: '#/components/schemas/itemUnits'
+                          - type: object
+                            properties:
+                              unit:
+                                $ref: '#/components/schemas/units'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          description: Unexpected error in server side
+  /v2/barcodes/{data}/item:
+    get:
+      tags:
+        - Barcodes
+        - Items
+      summary: Item by barcode
+      description: Getting item by barcode data (id or barcode).
+      parameters:
+        - in: query
+          name: type
+          required: true
+          description: data type. (id or barcode)
+          schema:
+            type: string
+            enum:
+              - id
+              - barcode
+            default: barcode
+        - in: path
+          required: true
+          name: data
+          schema:
+            type: string
+          description: id (barcode.id = 6) or barcode (barcode.barcode = 8699106167070)
+          example: 8699106167070
+      responses:
+        '200':
+          description: Barcodes
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/items'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          description: Unexpected error in server side
+  /v2/barcodes/{data}/unit:
+    get:
+      tags:
+        - Barcodes
+        - Units
+      summary: Unit by barcode
+      description: Getting unit by barcode data (id or barcode).
+      parameters:
+        - in: query
+          name: type
+          required: true
+          description: data type. (id or barcode)
+          schema:
+            type: string
+            enum:
+              - id
+              - barcode
+            default: barcode
+        - in: path
+          required: true
+          name: data
+          schema:
+            type: string
+          description: id (barcode.id = 6) or barcode (barcode.barcode = 8699106167070)
+          example: 8699106167070
+      responses:
+        '200':
+          description: Barcodes
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/itemUnits'
+                  - type: object
+                    properties:
+                      unit:
+                        $ref: '#/components/schemas/units'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          description: Unexpected error in server side
+  /v2/barcodes/{data}/stocks:
+    get:
+      tags:
+        - Barcodes
+        - Stocks
+      summary: Stocks by barcode
+      description: Getting unit by barcode data (id or barcode).
+      parameters:
+        - in: query
+          name: type
+          required: true
+          description: data type. (id or barcode)
+          schema:
+            type: string
+            enum:
+              - id
+              - barcode
+            default: barcode
+        - in: path
+          required: true
+          name: data
+          schema:
+            type: string
+          description: id (barcode.id = 6) or barcode (barcode.barcode = 8699106167070)
+          example: 8699106167070
+      responses:
+        '200':
+          description: Barcodes
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/stocks'
+                  - type: object
+                    properties:
+                      unit:
+                        $ref: '#/components/schemas/warehouses'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          description: Unexpected error in server side
+  /v2/brands:
+    get:
+      tags:
+        - Brands
+      summary: List of brands
+      description: Getting brands.
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: query
+          name: include
+          required: false
+          description: get items from brands. **Not required**
+          schema:
+            example: items
+            type: string
+      responses:
+        '200':
+          description: Brands
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/brands'
+                    - type: object
+                      properties:
+                        items:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/items'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/brands/{id}:
+    get:
+      tags:
+        - Brands
+      summary: Brand object
+      description: Getting brand Object by brand Id
+      parameters:
+        - in: path
+          name: id
+          description: Brand ID
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: include
+          required: false
+          description: get items from brands. **Not required**
+          schema:
+            example: items
+            type: string
+      responses:
+        '200':
+          description: Brands
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/brands'
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/items'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          description: Unexpected error in server side
+  /v2/clients:
+    get:
+      tags:
+        - Clients
+      summary: List of clients
+      description: Getting clients
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+      responses:
+        '200':
+          description: Clients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/clients'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/clients/{id}:
+    get:
+      tags:
+        - Clients
+      summary: Client Object by id
+      description: Getting client by id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Client Id
+      responses:
+        '200':
+          description: Clients
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/clients'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          description: Unexpected error in server side
+  /v2/currencies:
+    get:
+      tags:
+        - Currencies
+      summary: List of currencies
+      description: Getting currencies
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+      responses:
+        '200':
+          description: Currencies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/currencies'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/currencies/exchanges:
+    get:
+      tags:
+        - Currencies
+      summary: List of exchanges
+      description: Getting exchanges
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: query
+          name: include
+          schema:
+            type: string
+          description: Include currency **Not Required**
+          example: currency
+        - in: query
+          name: startDate
+          schema:
+            type: string
+            format: date
+          description: Get between startDate and endDate **Not Required**
+        - in: query
+          name: endDate
+          schema:
+            type: string
+            format: date
+          description: Get between startDate and endDate **Not Required**
+        - in: query
+          name: currencyId
+          schema:
+            type: array
+            items:
+              type: integer
+          description: filter by currencyId or currencyIds **Not Required**
+          example:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 158
+            - 159
+            - 25
+      responses:
+        '200':
+          description: Currencies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/exchanges'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/currencies/{id}:
+    get:
+      tags:
+        - Currencies
+      summary: Currency object by id
+      description: Getting currency by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Currency Id
+          schema:
+            type: integer
+            example: 158
+      responses:
+        '200':
+          description: Currencies
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/currencies'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          description: Unexpected error in server side
+  /v2/divisions:
+    get:
+      tags:
+        - Divisions
+      summary: List of divisions
+      description: Getting divisions.
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: query
+          name: include
+          required: false
+          description: get warehouses from divisions. **Not required**
+          schema:
+            example: warehouses
+            type: string
+      responses:
+        '200':
+          description: Divisions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/divisions'
+                    - type: object
+                      properties:
+                        warehouses:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/warehouses'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/divisions/{id}:
+    get:
+      tags:
+        - Divisions
+      summary: Division object
+      description: Getting division Object by division Id
+      parameters:
+        - in: path
+          name: id
+          description: Division ID
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: include
+          required: false
+          description: get warehouses from divisions. **Not required**
+          schema:
+            example: warehouses
+            type: string
+      responses:
+        '200':
+          description: Divisions
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/divisions'
+                  - type: object
+                    properties:
+                      warehouses:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/warehouses'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          description: Unexpected error in server side
+  /v2/items:
+    get:
+      tags:
+        - Items
+      summary: List of items
+      description: Getting items.
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: query
+          name: orderName
+          schema:
+            type: string
+            enum:
+              - id
+              - eCode
+              - active
+              - eActive
+              - cardType
+              - name
+              - name2
+              - name3
+              - name4
+              - specode1
+              - specode2
+              - specode3
+              - specode4
+              - specode5
+              - keyword1
+              - keyword2
+              - keyword3
+              - keyword4
+              - keyword5
+              - origin
+              - category
+              - mainUnit
+              - mainUnitId
+              - brandId
+              - subsGoodCode
+              - reyonCode
+              - salesLimitQuantity
+              - status
+        - in: query
+          name: orderType
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        - in: query
+          required: false
+          name: include
+          description: include brand, units, stocks, barcodes **Not Required**
+          schema:
+            type: array
+            items:
+              enum:
+                - brand
+                - units
+                - stocks
+                - barcodes
+                - attributes
+      responses:
+        '200':
+          description: Items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/items'
+                    - type: object
+                      properties:
+                        brand:
+                          $ref: '#/components/schemas/brands'
+                        units:
+                          type: array
+                          items:
+                            allOf:
+                              - $ref: '#/components/schemas/units'
+                              - type: object
+                                properties:
+                                  itemUnits:
+                                    $ref: '#/components/schemas/itemUnits'
+                        stocks:
+                          type: array
+                          items:
+                            allOf:
+                              - $ref: '#/components/schemas/stocks'
+                              - type: object
+                                properties:
+                                  warehouse:
+                                    $ref: '#/components/schemas/warehouses'
+                        barcodes:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/barcodes'
+                        attributes:
+                          type: array
+                          items:
+                            allOf:
+                              - $ref: '#/components/schemas/attributes'
+                              - type: object
+                                properties:
+                                  attributeKey:
+                                    $ref: '#/components/schemas/attributeKeys'
+                                  attributeValue:
+                                    $ref: '#/components/schemas/attributeValues'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/items/{id}/barcodes:
+    get:
+      tags:
+        - Items
+        - Barcodes
+      summary: List of barcodes
+      description: Getting barcodes by item id.
+      parameters:
+        - in: query
+          required: false
+          name: include
+          description: include units **Not Required**
+          schema:
+            type: string
+            example: unit
+        - in: path
+          required: true
+          name: id
+          description: item id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Divisions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/barcodes'
+                    - type: object
+                      properties:
+                        unit:
+                          $ref: '#/components/schemas/units'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/items/{id}/stocks:
+    get:
+      tags:
+        - Items
+        - Stocks
+      summary: List of stocks
+      description: Getting stocks by item id.
+      parameters:
+        - in: query
+          required: false
+          name: include
+          description: include units **Not Required**
+          schema:
+            type: string
+            example: warehouse
+        - in: path
+          required: true
+          name: id
+          description: item id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Divisions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/stocks'
+                    - type: object
+                      properties:
+                        warehouse:
+                          $ref: '#/components/schemas/warehouses'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/items/{id}/units:
+    get:
+      tags:
+        - Items
+        - Units
+      summary: List of units
+      description: Getting units by item id.
+      parameters:
+        - in: query
+          required: false
+          name: include
+          description: include units **Not Required**
+          schema:
+            type: string
+            example: barcodes
+        - in: path
+          required: true
+          name: id
+          description: item id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Units
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/itemUnits'
+                    - type: object
+                      properties:
+                        unit:
+                          $ref: '#/components/schemas/units'
+                    - type: object
+                      properties:
+                        barcode:
+                          $ref: '#/components/schemas/barcodes'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/items/{id}/prices:
+    get:
+      tags:
+        - Prices
+      summary: List of prices
+      description: Getting prices by item id.
+      parameters:
+        - in: query
+          required: true
+          name: type
+          description: >-
+            all, sale - only sale prices, actualtSale - only actual sale price,
+            purchase - all purchase price, lastPurchase - last purchase prices
+          schema:
+            type: string
+            enum:
+              - all
+              - sale
+              - actualtSale
+              - purchase
+              - lastPurchase
+        - in: path
+          required: true
+          name: id
+          description: item id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Prices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/prices'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/itemUnits:
+    get:
+      tags:
+        - Units
+      summary: List of units
+      description: Getting units
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: query
+          required: false
+          name: include
+          description: include items, barcode **Not Required**
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - item
+                - unit
+                - barcode
+      responses:
+        '200':
+          description: Units
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/itemUnits'
+                    - type: object
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/items'
+                        barcode:
+                          $ref: '#/components/schemas/barcodes'
+                        unit:
+                          $ref: '#/components/schemas/units'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/itemUnits/{id}:
+    get:
+      tags:
+        - Units
+      summary: List of units
+      description: Getting units
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+        - in: query
+          required: false
+          name: include
+          description: include items, barcode **Not Required**
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - item
+                - unit
+                - barcode
+      responses:
+        '200':
+          description: Units
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/itemUnits'
+                  - type: object
+                    properties:
+                      item:
+                        $ref: '#/components/schemas/items'
+                      barcode:
+                        $ref: '#/components/schemas/barcodes'
+                      unit:
+                        $ref: '#/components/schemas/units'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          description: Unexpected error in server side
+  /v2/prices:
+    get:
+      tags:
+        - Prices
+      summary: List of prices
+      description: Getting prices by item id.
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: query
+          required: true
+          name: type
+          description: >-
+            all, sale - only sale prices, actualtSale - only actual sale price,
+            purchase - all purchase price, lastPurchase - last purchase prices
+          schema:
+            type: string
+            enum:
+              - all
+              - sale
+              - actualtSale
+              - purchase
+              - lastPurchase
+      responses:
+        '200':
+          description: Prices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/prices'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/prices/{id}:
+    get:
+      tags:
+        - Prices
+      summary: List of prices
+      description: Getting prices by item id.
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Prices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/prices'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/prices/items/{id}:
+    get:
+      tags:
+        - Prices
+      summary: List of prices
+      description: Getting prices by item id.
+      parameters:
+        - in: path
+          description: item id
+          required: true
+          name: id
+          schema:
+            type: integer
+        - in: query
+          required: true
+          name: type
+          description: >-
+            all, sale - only sale prices, actualtSale - only actual sale price,
+            purchase - all purchase price, lastPurchase - last purchase prices
+          schema:
+            type: string
+            enum:
+              - all
+              - sale
+              - actualtSale
+              - purchase
+              - lastPurchase
+      responses:
+        '200':
+          description: Prices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/prices'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/prices/barcodes/{barcode}:
+    get:
+      tags:
+        - Prices
+      summary: List of prices
+      description: Getting prices by item id.
+      parameters:
+        - in: path
+          description: Barcode
+          required: true
+          name: barcode
+          schema:
+            type: string
+          example: 8699106167070
+        - in: query
+          required: true
+          name: type
+          description: >-
+            all, sale - only sale prices, actualtSale - only actual sale price,
+            purchase - all purchase price, lastPurchase - last purchase prices
+          schema:
+            type: string
+            enum:
+              - all
+              - sale
+              - actualtSale
+              - purchase
+              - lastPurchase
+      responses:
+        '200':
+          description: Prices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/prices'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/stocks:
+    get:
+      tags:
+        - Stocks
+      summary: List of stock
+      description: Getting Stocks
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: query
+          required: false
+          name: include
+          description: include warehouse, item **Not Required**
+          schema:
+            type: array
+            items:
+              enum:
+                - warehouse
+                - item
+      responses:
+        '200':
+          description: Stocks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/stocks'
+                    - type: object
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/items'
+                        warehouse:
+                          $ref: '#/components/schemas/warehouses'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/stocks/{data}:
+    get:
+      tags:
+        - Stocks
+      summary: List of stock
+      description: Getting Stocks
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: path
+          required: true
+          name: data
+          schema:
+            type: integer
+          description: data - id of item or nr of warehouse (by type)
+        - in: query
+          required: true
+          name: type
+          schema:
+            type: string
+            enum:
+              - warehouseNr
+              - itemId
+        - in: query
+          required: false
+          name: include
+          description: include warehouse, item **Not Required**
+          schema:
+            type: array
+            items:
+              enum:
+                - warehouse
+                - item
+      responses:
+        '200':
+          description: Stocks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/stocks'
+                    - type: object
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/items'
+                        warehouse:
+                          $ref: '#/components/schemas/warehouses'
+        '400':
+          description: Bad requrest
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    anyOf:
+                      - example: Type most be itemId or warehousesNr
+                      - example: Data is required
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/units:
+    get:
+      tags:
+        - Units
+      summary: List of units
+      description: Getting units
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+      responses:
+        '200':
+          description: Units
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/units'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/warehouses:
+    get:
+      tags:
+        - Warehouses
+      summary: List of warehouses
+      description: Getting warehouses.
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offsetParam'
+        - in: query
+          name: include
+          required: false
+          description: get division information. **Not required**
+          schema:
+            example: division
+            type: string
+      responses:
+        '200':
+          description: warehouses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/warehouses'
+                    - type: object
+                      properties:
+                        division:
+                          $ref: '#/components/schemas/divisions'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Unexpected error in server side
+  /v2/warehouses/{id}:
+    get:
+      tags:
+        - Warehouses
+      summary: Warehouse object
+      description: Getting warehouse Object by warehouse Id
+      parameters:
+        - in: path
+          name: id
+          description: Warehouse ID
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: include
+          required: false
+          description: get division information. **Not required**
+          schema:
+            example: warehouses
+            type: string
+      responses:
+        '200':
+          description: Warehouses
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/warehouses'
+                  - type: object
+                    properties:
+                      warehouses:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/warehouses'
+        '400':
+          $ref: '#/components/responses/PathIdRequiredError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          description: Unexpected error in server side
+tags:
+  - name: Attributes
+    description: All API's about item attributes
+  - name: Barcodes
+    description: All API's about barcodes
+  - name: Brands
+    description: All API's about brands
+  - name: Clients
+    description: All API's about cleints
+  - name: Currencies
+    description: All API's about currencies
+  - name: Divisions
+    description: All API's about divisions
+  - name: Units
+    description: All API's about units
+  - name: Warehouses
+    description: All API's about warehouses

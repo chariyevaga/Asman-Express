@@ -46,23 +46,24 @@ route.get('/', barcodeControllers.getBarcodes);
  *          summary: List of barcodes
  *          description: Getting barcodes.
  *          parameters:
- *              -   name: type
- *                  in: query
+ *              -   in: query
+ *                  name: type
  *                  required: true
  *                  description: data type. (id or barcode)
  *                  schema:
  *                      type: string
  *                      enum: [id, barcode]
  *                      default: barcode
- *              -   name: data
+ *              -   in: path
  *                  required: true
- *                  in: path
- *                  type: string
+ *                  name: data
+ *                  schema:
+ *                      type: string
  *                  description: id (barcode.id = 6 - if type is id) or barcode (barcode.barcode = 8699106167070 - if type is barcode)
  *                  example:  8699106167070
- *              -   name: include
+ *              -   in: query
  *                  required: false
- *                  in: query
+ *                  name: include
  *                  description: include items, units **Not Required**
  *                  schema:
  *                      type: array
@@ -107,18 +108,19 @@ route.get('/:data', barcodeControllers.getBarcodeByData);
  *          summary: Item by barcode
  *          description: Getting item by barcode data (id or barcode).
  *          parameters:
- *              -   name: type
- *                  in: query
+ *              -   in: query
+ *                  name: type
  *                  required: true
  *                  description: data type. (id or barcode)
  *                  schema:
  *                      type: string
  *                      enum: [id, barcode]
  *                      default: barcode
- *              -   name: data
+ *              -   in: path
  *                  required: true
- *                  in: path
- *                  type: string
+ *                  name: data
+ *                  schema:
+ *                      type: string
  *                  description: id (barcode.id = 6) or barcode (barcode.barcode = 8699106167070)
  *                  example:  8699106167070
  *          responses:
@@ -148,18 +150,19 @@ route.get('/:data/item', barcodeControllers.getItemByBarcodeData);
  *          summary: Unit by barcode
  *          description: Getting unit by barcode data (id or barcode).
  *          parameters:
- *              -   name: type
- *                  in: query
+ *              -   in: query
+ *                  name: type
  *                  required: true
  *                  description: data type. (id or barcode)
  *                  schema:
  *                      type: string
  *                      enum: [id, barcode]
  *                      default: barcode
- *              -   name: data
+ *              -   in: path
  *                  required: true
- *                  in: path
- *                  type: string
+ *                  name: data
+ *                  schema:
+ *                      type: string
  *                  description: id (barcode.id = 6) or barcode (barcode.barcode = 8699106167070)
  *                  example:  8699106167070
  *          responses:
@@ -194,18 +197,19 @@ route.get('/:data/unit', barcodeControllers.getUnitByBarcodeData);
  *          summary: Stocks by barcode
  *          description: Getting unit by barcode data (id or barcode).
  *          parameters:
- *              -   name: type
- *                  in: query
+ *              -   in: query
+ *                  name: type
  *                  required: true
  *                  description: data type. (id or barcode)
  *                  schema:
  *                      type: string
  *                      enum: [id, barcode]
  *                      default: barcode
- *              -   name: data
+ *              -   in: path
  *                  required: true
- *                  in: path
- *                  type: string
+ *                  name: data
+ *                  schema:
+ *                      type: string
  *                  description: id (barcode.id = 6) or barcode (barcode.barcode = 8699106167070)
  *                  example:  8699106167070
  *          responses:

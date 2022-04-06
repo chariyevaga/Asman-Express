@@ -13,9 +13,9 @@ const otherContollers = require('../controllers/otherControllers');
  *          parameters:
  *              - $ref: '#/components/parameters/limitParam'
  *              - $ref: '#/components/parameters/offsetParam'
- *              - name: include
+ *              - in: query
  *                required: false
- *                in: query
+ *                name: include
  *                description: include warehouse, item **Not Required**
  *                schema:
  *                    type: array
@@ -56,21 +56,21 @@ route.get('/', otherContollers.getStocks);
  *          parameters:
  *              - $ref: '#/components/parameters/limitParam'
  *              - $ref: '#/components/parameters/offsetParam'
- *              - name: data
+ *              - in: path
  *                required: true
- *                in: path
+ *                name: data
  *                schema:
  *                  type: integer
  *                description: data - id of item or nr of warehouse (by type)
- *              - name: type
+ *              - in: query
  *                required: true
- *                in: query
+ *                name: type
  *                schema:
  *                  type: string
  *                  enum: [warehouseNr, itemId]
- *              - name: include
+ *              - in: query
  *                required: false
- *                in: query
+ *                name: include
  *                description: include warehouse, item **Not Required**
  *                schema:
  *                    type: array

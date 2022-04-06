@@ -5,7 +5,7 @@ const { DataTypes, Op } = require('sequelize');
  * components:
  *  schemas:
  *      itemUnits:
- *          discription:
+ *          description: ItemUnits
  *          type: object
  *          required:
  *              - id
