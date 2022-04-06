@@ -20,13 +20,13 @@ const errorHandler = require('./utils/errorHandler');
  *     description: Tiger API V1
  * paths:
  *   /v1:
- *     get:
- *       tags: [V1]
- *       deprecated: true
- *       summary: All api/v1/endPoints deprecated. Use v2 end Points
- *      responses:
- *          200:
- *              description: All api/v1/endPoints deprecated. Use v2 end Points
+ *      get:
+ *          tags: [V1]
+ *          deprecated: true
+ *          summary: All api/v1/endPoints deprecated. Use v2 end Points
+ *          responses:
+ *              200:
+ *                  description: All api/v1/endPoints deprecated. Use v2 end Points
  */
 // API's
 router.use('/items', itemsRoutes);
