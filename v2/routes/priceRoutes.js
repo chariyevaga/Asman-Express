@@ -21,6 +21,13 @@ const checkHasId = require('../../middlewares/idChecker');
  *                  schema:
  *                      type: string
  *                      enum: [all, sale, actualtSale, purchase, lastPurchase]
+ *              -   in: query
+ *                  required: false
+ *                  name: include
+ *                  schema:
+ *                      type: array
+ *                      items:
+ *                        enum: [currency, unit]
  *          responses:
  *              200:
  *                  description: Prices
@@ -29,7 +36,14 @@ const checkHasId = require('../../middlewares/idChecker');
  *                          schema:
  *                              type: array
  *                              items:
- *                                  $ref: '#/components/schemas/prices'
+ *                                  allOf:
+ *                                      -   $ref: '#/components/schemas/prices'
+ *                                      -   type: object
+ *                                          properties:
+ *                                             currency:
+ *                                                 $ref: '#/components/schemas/currencies'
+ *                                             unit:
+ *                                                 $ref: '#/components/schemas/units'
  *              401:
  *                  $ref: '#/components/responses/UnauthorizedError'
  *              500:
@@ -51,7 +65,13 @@ route.get('/', priceControllers.getPrices);
  *                  name: id
  *                  schema:
  *                      type: integer
-
+ *              -   in: query
+ *                  required: false
+ *                  name: include
+ *                  schema:
+ *                      type: array
+ *                      items:
+ *                        enum: [currency, unit]
  *          responses:
  *              200:
  *                  description: Prices
@@ -60,7 +80,14 @@ route.get('/', priceControllers.getPrices);
  *                          schema:
  *                              type: array
  *                              items:
- *                                    $ref: '#/components/schemas/prices'
+ *                                  allOf:
+ *                                      -   $ref: '#/components/schemas/prices'
+ *                                      -   type: object
+ *                                          properties:
+ *                                             currency:
+ *                                                 $ref: '#/components/schemas/currencies'
+ *                                             unit:
+ *                                                 $ref: '#/components/schemas/units'
  *              400:
  *                  $ref: '#/components/responses/PathIdRequiredError'
  *              401:
@@ -92,7 +119,13 @@ route.get('/:id', checkHasId, priceControllers.getPriceById);
  *                  schema:
  *                      type: string
  *                      enum: [all, sale, actualtSale, purchase, lastPurchase]
-
+ *              -   in: query
+ *                  required: false
+ *                  name: include
+ *                  schema:
+ *                      type: array
+ *                      items:
+ *                        enum: [currency, unit]
  *          responses:
  *              200:
  *                  description: Prices
@@ -101,7 +134,14 @@ route.get('/:id', checkHasId, priceControllers.getPriceById);
  *                          schema:
  *                              type: array
  *                              items:
- *                                    $ref: '#/components/schemas/prices'
+ *                                    allOf:
+ *                                      -   $ref: '#/components/schemas/prices'
+ *                                      -   type: object
+ *                                          properties:
+ *                                             currency:
+ *                                                 $ref: '#/components/schemas/currencies'
+ *                                             unit:
+ *                                                 $ref: '#/components/schemas/units'
  *              400:
  *                  $ref: '#/components/responses/PathIdRequiredError'
  *              401:
@@ -134,6 +174,13 @@ route.get('/items/:id', checkHasId, priceControllers.getPricesByItemId);
  *                  schema:
  *                      type: string
  *                      enum: [all, sale, actualtSale, purchase, lastPurchase]
+ *              -   in: query
+ *                  required: false
+ *                  name: include
+ *                  schema:
+ *                      type: array
+ *                      items:
+ *                        enum: [currency, unit]
  *          responses:
  *              200:
  *                  description: Prices
@@ -142,7 +189,14 @@ route.get('/items/:id', checkHasId, priceControllers.getPricesByItemId);
  *                          schema:
  *                              type: array
  *                              items:
- *                                    $ref: '#/components/schemas/prices'
+ *                                    allOf:
+ *                                      -   $ref: '#/components/schemas/prices'
+ *                                      -   type: object
+ *                                          properties:
+ *                                             currency:
+ *                                                 $ref: '#/components/schemas/currencies'
+ *                                             unit:
+ *                                                 $ref: '#/components/schemas/units'
  *              400:
  *                  $ref: '#/components/responses/PathIdRequiredError'
  *              401:

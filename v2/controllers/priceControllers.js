@@ -10,6 +10,33 @@ function tryToJSONParse(data) {
         return data;
     }
 }
+/**
+ * Checking query has include return array for include models
+ *
+ * @param {request} req
+ * @returns {array} Array includes sequelize models
+ */
+const checkIncludes = (req) => {
+    const { models } = require('../sequelize')(req.firmDBname);
+    let includeArray = Array.isArray(req.query?.include)
+        ? req.query.include
+        : req.query?.include
+        ? [req.query.include]
+        : [];
+
+    let includes = [];
+    includeArray.forEach((inc) => {
+        if (['currencies', 'currency'].includes(inc)) {
+            includes.push({ model: req.models.currencies });
+        } else if (inc === 'units' || inc === 'unit') {
+            includes.push({
+                model: req.models.units,
+            });
+        }
+    });
+
+    return includes;
+};
 
 exportObj.getPrices = catchAsync(async (req, res, next) => {
     const { type } = req.query;
@@ -30,13 +57,15 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
             .scope('purchasePrices')
             .findAll({
                 where: { ...where },
-                attributes: [[Sequelize.fn('max', Sequelize.col('id')), 'id']],
+                attributes: [
+                    [Sequelize.fn('max', Sequelize.col('id')), 'id'],
+                    'itemId',
+                ],
                 group: ['itemId'],
-                limit,
-                offset,
             })
             .then((priceIds) => {
-                return priceIds.map((p) => p.id);
+                console.log(priceIds);
+                return priceIds?.map((p) => p.id);
             })
             .catch((error) => {
                 next(new AppError(error, 500));
@@ -46,16 +75,18 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
         // get prices
         await req.models.prices[where?.itemId ? 'findOne' : 'findAll']({
             where: { id: priceIds },
-            include,
+            include: checkIncludes(req),
             limit,
             offset,
         })
             .then((lastPurchasePrices) => {
                 res.json(
-                    lastPurchasePrices.map((price) => {
-                        price.divisions = tryToJSONParse(price.divisions);
-                        return price;
-                    })
+                    lastPurchasePrices?.length
+                        ? lastPurchasePrices.map((price) => {
+                              price.divisions = tryToJSONParse(price.divisions);
+                              return price;
+                          })
+                        : lastPurchasePrices
                 );
             })
             .catch((error) => {
@@ -70,6 +101,7 @@ exportObj.getPrices = catchAsync(async (req, res, next) => {
             where: { ...where },
             limit,
             offset,
+            include: checkIncludes(req),
         })
         .then((prices) => {
             res.json(

@@ -334,6 +334,13 @@ route.get('/:id/units', checkHasId, itemControllers.getUnitsByItemId);
  *                  description: item id
  *                  schema:
  *                      type: integer
+ *              -   in: query
+ *                  required: false
+ *                  name: include
+ *                  schema:
+ *                      type: array
+ *                      items:
+ *                        enum: [currency, unit]
  *          responses:
  *              200:
  *                  description: Prices
@@ -342,7 +349,14 @@ route.get('/:id/units', checkHasId, itemControllers.getUnitsByItemId);
  *                          schema:
  *                              type: array
  *                              items:
- *                                  $ref: '#/components/schemas/prices'
+ *                                    allOf:
+ *                                      -   $ref: '#/components/schemas/prices'
+ *                                      -   type: object
+ *                                          properties:
+ *                                             currency:
+ *                                                 $ref: '#/components/schemas/currencies'
+ *                                             unit:
+ *                                                 $ref: '#/components/schemas/units'
  *
  *              400:
  *                  $ref: '#/components/responses/PathIdRequiredError'
