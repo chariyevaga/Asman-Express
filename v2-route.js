@@ -20,6 +20,7 @@ const stockRoutes = require('./v2/routes/stockRoutes');
 const currencyRoutes = require('./v2/routes/currencyRoutes');
 const clientRoutes = require('./v2/routes/clientRoutes');
 const serviceCardRoutes = require('./v2/routes/serviceCardRoutes');
+const discountCardRoutes = require('./v2/routes/discountCardRoutes');
 
 // API's
 router.use('/items', itemsRoutes);
@@ -37,6 +38,7 @@ router.use('/stocks', stockRoutes);
 router.use('/currencies', currencyRoutes);
 router.use('/clients', clientRoutes);
 router.use('/serviceCards', serviceCardRoutes);
+router.use('/discountCards', discountCardRoutes);
 
 // router.use('/currencies', currencyRoutes);
 

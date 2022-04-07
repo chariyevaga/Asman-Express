@@ -22,6 +22,7 @@ const modelDefiners = [
     require('./models/attributeKey.model'),
     require('./models/attributeValue.model'),
     require('./models/serviceCards.model'),
+    require('./models/discountCards.model'),
 ];
 const modelByDBName = (DATABASE_NAME) => {
     const sequelize = new Sequelize(
