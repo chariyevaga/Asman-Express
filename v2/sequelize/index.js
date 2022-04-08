@@ -22,7 +22,9 @@ const modelDefiners = [
     require('./models/attributeKey.model'),
     require('./models/attributeValue.model'),
     require('./models/serviceCards.model'),
-    require('./models/discountCards.model'),
+    require('./models/discountCard.model'),
+    require('./models/bank.model'),
+    require('./models/bankAccount.model'),
 ];
 const modelByDBName = (DATABASE_NAME) => {
     const sequelize = new Sequelize(

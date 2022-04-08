@@ -17,7 +17,13 @@ function applyExtraSetup(sequelize) {
         attributeKeys,
         attributeValues,
         attributes,
+        banks,
+        bankAccounts,
     } = sequelize.models;
+
+    banks.hasMany(bankAccounts);
+    bankAccounts.belongsTo(banks);
+    bankAccounts.belongsTo(currencies);
 
     attributeKeys.hasMany(attributeValues);
     attributeValues.belongsTo(attributeKeys);
