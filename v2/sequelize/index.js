@@ -25,6 +25,7 @@ const modelDefiners = [
     require('./models/discountCard.model'),
     require('./models/bank.model'),
     require('./models/bankAccount.model'),
+    require('./models/case.model'),
 ];
 const modelByDBName = (DATABASE_NAME) => {
     const sequelize = new Sequelize(

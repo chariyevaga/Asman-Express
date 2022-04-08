@@ -19,11 +19,17 @@ function applyExtraSetup(sequelize) {
         attributes,
         banks,
         bankAccounts,
+        cases,
     } = sequelize.models;
 
     banks.hasMany(bankAccounts);
     bankAccounts.belongsTo(banks);
     bankAccounts.belongsTo(currencies);
+    cases.belongsTo(currencies);
+    cases.belongsTo(divisions, {
+        foreignKey: 'divisionNr',
+        targetKey: 'nr',
+    });
 
     attributeKeys.hasMany(attributeValues);
     attributeValues.belongsTo(attributeKeys);
