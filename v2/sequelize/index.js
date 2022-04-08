@@ -26,6 +26,7 @@ const modelDefiners = [
     require('./models/bank.model'),
     require('./models/bankAccount.model'),
     require('./models/case.model'),
+    require('./models/employee.model'),
 ];
 const modelByDBName = (DATABASE_NAME) => {
     const sequelize = new Sequelize(
