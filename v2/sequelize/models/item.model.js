@@ -63,7 +63,7 @@ const { DataTypes, Op } = require('sequelize');
  *                  type: integer
  *              brandId:
  *                  type: integer
- *              subsGoodCode:
+ *              variationCode:
  *                  type: string
  *              reyonCode:
  *                  type: string
@@ -108,7 +108,7 @@ module.exports = (sequelize) => {
                 type: DataTypes.INTEGER,
                 allowNull: true,
             },
-            subsGoodCode: DataTypes.STRING,
+            variationCode: DataTypes.STRING,
             reyonCode: DataTypes.STRING,
             salesLimitQuantity: DataTypes.FLOAT,
             status: {

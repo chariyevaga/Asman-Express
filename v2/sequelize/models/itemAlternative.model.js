@@ -19,6 +19,24 @@ const { DataTypes } = require('sequelize');
  *              alternativeItemId:
  *                  type: integer
  *                  description: alternative Items id
+ *              lineNumber:
+ *                  type: integer
+ *              priority:
+ *                  type: integer
+ *              maxQuantity:
+ *                  type: number
+ *                  format: float
+ *              minQuantity:
+ *                  type: number
+ *                  format: float
+ *              beginDate:
+ *                  type: string
+ *                  format: date
+ *              endDate:
+ *                  type: string
+ *                  format: date
+ *              divisionNr:
+ *                  type: integer
  *
  */
 
@@ -36,6 +54,12 @@ module.exports = (sequelize) => {
             alternativeItemId: {
                 type: DataTypes.INTEGER,
             },
+            lineNumber: DataTypes.SMALLINT,
+            priority: DataTypes.SMALLINT,
+            maxQuantity: DataTypes.FLOAT,
+            minQuantity: DataTypes.FLOAT,
+            beginDate: DataTypes.DATE,
+            endDate: DataTypes.DATE,
         },
         {
             sequelize,
