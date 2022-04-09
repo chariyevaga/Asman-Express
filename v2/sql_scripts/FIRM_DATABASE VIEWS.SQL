@@ -122,7 +122,7 @@ SELECT
 	UL.NAME mainUnit,
 	UL.LOGICALREF mainUnitId,
 	ITM.MARKREF brandId,
-	ISNULL(MK.SUBSGOODCODE, '') varationCode,
+	ISNULL(MK.SUBSGOODCODE, '') variationCode,
 	NULLIF(MK.REYONCODE, '') reyonCode,
 	ISNULL(ITM.SALESLIMITQUANTITY, 0) salesLimitQuantity
 FROM
@@ -395,7 +395,17 @@ GO
 SELECT
 	LOGICALREF id,
 	MAINITEMREF itemId,
-	SUBITEMREF alternativeItemId
+	SUBITEMREF alternativeItemId,
+	LINENO_ lineNumber,
+	PRIORITY priority,
+	MAXQUANTITY maxQuantity,
+	MINQUANTITY minQuantity,
+	BEGDATE beginDate,
+	ENDDATE endDate,
+	CASE
+		WHEN SOURCEINDEX = -1 THEN NULL
+		ELSE SOURCEINDEX
+	END divisionNr
 FROM
 	GIYIMDB.dbo.LG_002_ITEMSUBS
 GO
