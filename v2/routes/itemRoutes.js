@@ -8,7 +8,7 @@ const checkHasId = require('../../middlewares/idChecker');
  *  paths:
  *  /v2/items:
  *      get:
- *          tags: [Items]
+ *          tags: [Items, Alternatives]
  *          summary: List of items
  *          description: Getting items.
  *          parameters:
@@ -31,7 +31,7 @@ const checkHasId = require('../../middlewares/idChecker');
  *                  schema:
  *                      type: array
  *                      items:
- *                        enum: [brand, units, stocks, barcodes, attributes]
+ *                        enum: [brand, units, stocks, barcodes, attributes, alternatives]
  *
  *          responses:
  *              200:
@@ -69,6 +69,10 @@ const checkHasId = require('../../middlewares/idChecker');
  *                                                  type: array
  *                                                  items:
  *                                                     $ref: '#/components/schemas/barcodes'
+ *                                              alternatives:
+ *                                                  type: array
+ *                                                  items:
+ *                                                     $ref: '#/components/schemas/items'
  *                                              attributes:
  *                                                     type: array
  *                                                     items:
@@ -92,12 +96,10 @@ route.get('/', itemControllers.getItems);
  *  paths:
  *  /v2/items/{id}:
  *      get:
- *          tags: [Items]
+ *          tags: [Items, Alternatives]
  *          summary: List of items
  *          description: Getting items.
  *          parameters:
- *              -   $ref: '#/components/parameters/limitParam'
- *              -   $ref: '#/components/parameters/offsetParam'
  *              -   in: query
  *                  required: false
  *                  name: include
@@ -105,7 +107,7 @@ route.get('/', itemControllers.getItems);
  *                  schema:
  *                      type: array
  *                      items:
- *                        enum: [brand, units, stocks, barcodes, attributes]
+ *                        enum: [brand, units, stocks, barcodes, attributes, alternatives]
  *              -   in: path
  *                  required: true
  *                  name: id
@@ -148,6 +150,10 @@ route.get('/', itemControllers.getItems);
  *                                              type: array
  *                                              items:
  *                                                 $ref: '#/components/schemas/barcodes'
+ *                                          alternatives:
+ *                                                  type: array
+ *                                                  items:
+ *                                                     $ref: '#/components/schemas/items'
  *                                          attributes:
  *                                                 type: array
  *                                                 items:

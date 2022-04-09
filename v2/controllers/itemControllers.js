@@ -47,11 +47,8 @@ const checkIncludes = (req) => {
                     { model: req.models.attributeValues },
                 ],
             });
-        } else if (inc === 'crossSales') {
-            includes.push({
-                model: models.items,
-                as: 'crossSales',
-            });
+        } else if (inc === 'alternatives') {
+            includes.push({ model: req.models.items, as: 'alternatives' });
         }
     });
 

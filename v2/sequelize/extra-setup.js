@@ -20,6 +20,7 @@ function applyExtraSetup(sequelize) {
         banks,
         bankAccounts,
         cases,
+        itemAlternatives,
     } = sequelize.models;
 
     banks.hasMany(bankAccounts);
@@ -81,24 +82,19 @@ function applyExtraSetup(sequelize) {
         targetKey: 'nr',
     });
 
-    // items.hasMany(items, {
-    //     as: 'variations',
-    //     foreignKey: 'variationCode',
-    //     sourceKey: 'variationCode',
-    // });
-
-    items.belongsToMany(items, {
-        as: 'crossSales',
-        through: 'itemCrossSales',
-        foreignKey: 'crossSaleItemId',
-        otherKey: 'itemId',
+    itemAlternatives.belongsTo(items);
+    itemAlternatives.belongsTo(items, {
+        as: 'alternative',
+        foreignKey: 'alternativeItemId',
+        sourceKey: 'itemId',
     });
 
-    // items.belongsToMany(items, {
-    //     as: 'crossSale',
-    //     through: 'crossSales',
-    //     foreignKey: 'itemId',
-    // });
+    items.belongsToMany(items, {
+        as: 'alternatives',
+        through: itemAlternatives,
+        foreignKey: 'itemId',
+        otherKey: 'alternativeItemId',
+    });
 }
 
 module.exports = { applyExtraSetup };

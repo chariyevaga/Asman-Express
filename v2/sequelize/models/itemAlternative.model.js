@@ -4,27 +4,27 @@ const { DataTypes } = require('sequelize');
  * @swagger
  * components:
  *  schemas:
- *      itemCrossSales:
+ *      itemAlternatives:
  *          type: object
  *          required:
  *              - id
  *              - itemId
- *              - crossSaleItemId
+ *              - alternativeItemId
  *          properties:
  *              id:
  *                  type: integer
  *              itemId:
  *                  type: integer
  *                  description: items id
- *              crossSaleItemId:
+ *              alternativeItemId:
  *                  type: integer
- *                  description: crossSale Items id
+ *                  description: alternative Items id
  *
  */
 
 module.exports = (sequelize) => {
     sequelize.define(
-        'itemCrossSales',
+        'itemAlternatives',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -33,13 +33,13 @@ module.exports = (sequelize) => {
             itemId: {
                 type: DataTypes.INTEGER,
             },
-            crossSaleItemId: {
+            alternativeItemId: {
                 type: DataTypes.INTEGER,
             },
         },
         {
             sequelize,
-            tableName: 'AGO_CROSS_SALES',
+            tableName: 'AGO_ALTERNATIVES',
         }
     );
 };
