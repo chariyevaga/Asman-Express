@@ -30,6 +30,14 @@ const checkIncludes = (req) => {
             includes.push({
                 model: req.models.units,
             });
+        } else if (inc === 'unitSet') {
+            includes.push({
+                model: req.models.unitSets,
+            });
+        } else if (inc === 'units') {
+            includes.push({
+                model: req.models.units,
+            });
         }
     });
     return includes;
@@ -40,7 +48,7 @@ exportObj.getUnits = catchAsync(async (req, res, next) => {
     limit = isNaN(limit) ? null : +limit;
     offset = isNaN(offset) ? null : +offset;
     req.models.units
-        .findAll({ limit, offset })
+        .findAll({ limit, offset, include: checkIncludes(req) })
         .then((units) => {
             res.json(units);
         })
@@ -76,6 +84,20 @@ exportObj.getItemUnitById = catchAsync(async (req, res, next) => {
                 return;
             }
             res.json(itemUnit);
+        })
+        .catch((error) => {
+            next(new AppError(error, 500));
+        });
+});
+
+exportObj.getUnitSets = catchAsync(async (req, res, next) => {
+    let { limit, offset } = req.query;
+    limit = isNaN(limit) ? null : +limit;
+    offset = isNaN(offset) ? null : +offset;
+    req.models.unitSets
+        .findAll({ include: checkIncludes(req), limit, offset })
+        .then((unitSets) => {
+            res.json(unitSets);
         })
         .catch((error) => {
             next(new AppError(error, 500));

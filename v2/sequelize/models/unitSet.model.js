@@ -5,12 +5,11 @@ const { DataTypes } = require('sequelize');
  * @swagger
  * components:
  *  schemas:
- *      units:
+ *      unitSets:
  *          type: object
  *          required:
  *              - id
  *              - code
- *              - unitSetId
  *              - name
  *          properties:
  *              id:
@@ -19,16 +18,18 @@ const { DataTypes } = require('sequelize');
  *                  type: string
  *              name:
  *                  type: string
- *              unitSetId:
- *                  type: integer
- *          example:
- *              id: 5
- *              code: MM
- *              name: Millimeter
+ *              specode:
+ *                  type: string
+ *              createdAt:
+ *                  type: string
+ *                  format: date-time
+ *              updatedAt:
+ *                  type: string
+ *                  format: date-time
  */
 module.exports = (sequelize) => {
     sequelize.define(
-        'units',
+        'unitSets',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -36,10 +37,13 @@ module.exports = (sequelize) => {
             },
             code: DataTypes.STRING,
             name: DataTypes.STRING,
+            specode: DataTypes.STRING,
+            createdAt: DataTypes.DATE,
+            updatedAt: DataTypes.DATE,
         },
         {
             sequelize,
-            tableName: 'AGO_UNITS',
+            tableName: 'AGO_UNIT_SETS',
         }
     );
 };
