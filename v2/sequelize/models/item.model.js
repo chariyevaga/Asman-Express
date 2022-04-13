@@ -100,6 +100,12 @@ const { DataTypes, Op } = require('sequelize');
  *                  type: number
  *              status:
  *                  type: string
+ *              createdAt:
+ *                  type: string
+ *                  format: date-time
+ *              updatedAt:
+ *                  type: string
+ *                  format: date-time
  */
 module.exports = (sequelize) => {
     sequelize.define(
@@ -141,6 +147,8 @@ module.exports = (sequelize) => {
             reyonCode: DataTypes.STRING,
             producerCode: DataTypes.STRING,
             salesLimitQuantity: DataTypes.FLOAT,
+            createdAt: DataTypes.DATE,
+            updatedAt: DataTypes.DATE,
             status: {
                 type: DataTypes.VIRTUAL,
                 get() {

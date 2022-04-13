@@ -86,6 +86,12 @@ module.exports = (sequelize) => {
      *                  type: string
      *              guid:
      *                  type: string
+     *              createdAt:
+     *                  type: string
+     *                  format: date-time
+     *              updatedAt:
+     *                  type: string
+     *                  format: date-time
      */
     sequelize.define(
         'clients',
@@ -129,6 +135,11 @@ module.exports = (sequelize) => {
             cyphcode: DataTypes.STRING,
             cardNo: DataTypes.STRING,
             guid: DataTypes.STRING,
+            createdAt: DataTypes.DATE,
+            updatedAt: {
+                type: DataTypes.DATE,
+                allowNull: true,
+            },
         },
         {
             sequelize,

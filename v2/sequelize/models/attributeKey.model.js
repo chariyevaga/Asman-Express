@@ -16,6 +16,12 @@ const { DataTypes, Op } = require('sequelize');
  *                  type: string
  *              specode:
  *                  type: string
+ *              createdAt:
+ *                  type: string
+ *                  format: date-time
+ *              updatedAt:
+ *                  type: string
+ *                  format: date-time
  */
 module.exports = (sequelize) => {
     sequelize.define(
@@ -29,6 +35,11 @@ module.exports = (sequelize) => {
             code: DataTypes.STRING,
             name: DataTypes.STRING,
             specode: DataTypes.STRING,
+            createdAt: DataTypes.DATE,
+            updatedAt: {
+                type: DataTypes.DATE,
+                allowNull: true,
+            },
         },
         {
             sequelize,

@@ -500,16 +500,7 @@ route.get('/:id/prices', checkHasId, itemControllers.getPricesByItemId);
  *                  content:
  *                      application/json:
  *                          schema:
- *                              type: array
- *                              items:
- *                                    allOf:
- *                                      -   $ref: '#/components/schemas/prices'
- *                                      -   type: object
- *                                          properties:
- *                                             currency:
- *                                                 $ref: '#/components/schemas/currencies'
- *                                             unit:
- *                                                 $ref: '#/components/schemas/units'
+ *                             $ref: '#/components/schemas/items'
  *
  *              400:
  *                  $ref: '#/components/responses/PathIdRequiredError'
