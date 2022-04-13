@@ -23,9 +23,9 @@ const limiter = rateLimit({
 const authChecker = require('./middlewares/authChecker');
 const errorHandler = require('./utils/errorHandler');
 const swaggerOptions = require('./utils/swaggerOptions');
+const specs = swaggerJsDoc(swaggerOptions);
 const v1Route = require('./v1-route');
 const v2Route = require('./v2-route');
-const specs = swaggerJsDoc(swaggerOptions);
 
 // middelwares
 app.use(cookieParser());
@@ -34,6 +34,7 @@ app.use(cors());
 app.use(helmet());
 app.use(xss());
 app.use(limiter);
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // For documentation
 app.get('/api-docs/toJSON', (req, res, next) => {

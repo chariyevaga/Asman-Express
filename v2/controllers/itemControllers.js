@@ -2,6 +2,83 @@
 const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
 const { Op, Sequelize } = require('sequelize');
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const request = require('request');
+const getTigerToken = require('../../utils/getTigerToken');
+
+const createNewItems = async (req, res, next) => {
+    let newItem = {
+        CODE: req.body?.code,
+        NAME: req.body?.name,
+        NAME2: req.body?.name2,
+        NAME3: req.body?.name3,
+        NAME4: req.body?.name4,
+        AUXIL_CODE: req.body?.specode1,
+        AUXIL_CODE2: req.body?.specode2,
+        AUXIL_CODE3: req.body?.specode3,
+        AUXIL_CODE4: req.body?.specode4,
+        AUXIL_CODE5: req.body?.specode5,
+        KEYWORD1: req.body?.keyword1,
+        KEYWORD2: req.body?.keyword2,
+        KEYWORD3: req.body?.keyword3,
+        KEYWORD4: req.body?.keyword3,
+        KEYWORD5: req.body?.keyword3,
+        PRODUCER_CODE: req.body?.producerCode,
+        ORIGIN: req.body?.origin,
+        B2CCODE: req.body?.eCode,
+        UNITSET_CODE: req.body?.unitSetCode,
+        MAINUNIT: req.body?.mainUnitCode,
+        GROUP_CODE: req.body?.category,
+        MARKCODE: req.body?.brandCode,
+        CARD_TYPE: req.body?.cardType,
+        SALES_LIMIT_QUANTITY: req.body?.salesLimitQuantity,
+        REYON_CODE: req.body?.reyonCode,
+        RECORD_STATUS: +!req.body?.active,
+        USEF_PURCHASING: 1,
+        USEF_SALES: 1,
+        USEF_MM: 1,
+        EXT_ACC_FLAGS: 7,
+        VAT: 0,
+    };
+    // res.json(newItem);
+    await request(
+        {
+            method: 'POST',
+            url: `${process.env.TIGER_REST_URL}/items`,
+            headers: {
+                Authorization: `Bearer ${global.TIGER_TOKEN[req.firmNr]}`,
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify(newItem),
+        },
+        async function (error, response, body) {
+            if (error) {
+                // change status back like uncreted
+                res.status(500).json(JSON.parse(response.body));
+            } else {
+                if (response?.statusCode === 200) {
+                    res.status(200).json(
+                        await req.models.items.findOne({
+                            where: {
+                                id: JSON.parse(response.body)
+                                    ?.INTERNAL_REFERENCE,
+                            },
+                        })
+                    );
+                    return;
+                } else if (response?.statusMessage === 'Unauthorized') {
+                    global.TIGER_TOKEN[req.firmNr] = await getTigerToken(
+                        req.firmNr
+                    );
+                    createNewItems(req, res, next);
+                } else {
+                    res.status(400).json(JSON.parse(response.body));
+                }
+            }
+        }
+    );
+};
 
 /**
  * Checking query has include return array for include models
@@ -205,4 +282,5 @@ module.exports = {
     getStocksByItemId,
     getUnitsByItemId,
     getPricesByItemId,
+    createNewItems,
 };
