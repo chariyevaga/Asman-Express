@@ -72,7 +72,6 @@ const createNewItems = async (req, res, next, tryCount = 5) => {
                         req.firmNr
                     );
                     if (tryCount <= 5) {
-                        z;
                         createNewItems(req, res, next, tryCount);
                     } else {
                         next(new AppError("Can't get tiger tokken", 500));

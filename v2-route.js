@@ -51,6 +51,4 @@ router.use('/cases', caseRoutes);
 router.use('/employees', employeeRoutes);
 router.use('/itemAlternatives', itemAlternativeRoutes);
 
-// router.use('/currencies', currencyRoutes);
-
 module.exports = router;
