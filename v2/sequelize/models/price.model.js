@@ -43,7 +43,8 @@ module.exports = (sequelize) => {
      *                      type: integer
      *                      description: division nr
      *              price:
-     *                  type: string
+     *                  type: number
+     *                  format: float
      *              type:
      *                  type: integer
      *                  description: >
