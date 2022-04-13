@@ -6,7 +6,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const request = require('request');
 const getTigerToken = require('../../utils/getTigerToken');
 
-const createNewItems = async (req, res, next) => {
+const createNewItems = async (req, res, next, tryCount = 5) => {
     let newItem = {
         CODE: req.body?.code,
         NAME: req.body?.name,
@@ -71,7 +71,13 @@ const createNewItems = async (req, res, next) => {
                     global.TIGER_TOKEN[req.firmNr] = await getTigerToken(
                         req.firmNr
                     );
-                    createNewItems(req, res, next);
+                    if (tryCount <= 5) {
+                        z;
+                        createNewItems(req, res, next, tryCount);
+                    } else {
+                        next(new AppError("Can't get tiger tokken", 500));
+                        return;
+                    }
                 } else {
                     res.status(400).json(JSON.parse(response.body));
                 }
