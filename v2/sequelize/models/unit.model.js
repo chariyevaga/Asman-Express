@@ -10,6 +10,7 @@ const { DataTypes } = require('sequelize');
  *          required:
  *              - id
  *              - code
+ *              - unitSetId
  *              - name
  *          properties:
  *              id:
@@ -18,6 +19,8 @@ const { DataTypes } = require('sequelize');
  *                  type: string
  *              name:
  *                  type: string
+ *              unitSetId:
+ *                  type: integer
  *          example:
  *              id: 5
  *              code: MM

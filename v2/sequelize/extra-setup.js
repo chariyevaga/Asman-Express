@@ -21,7 +21,11 @@ function applyExtraSetup(sequelize) {
         bankAccounts,
         cases,
         itemAlternatives,
+        unitSets,
     } = sequelize.models;
+
+    units.belongsTo(unitSets);
+    unitSets.hasMany(units);
 
     banks.hasMany(bankAccounts);
     bankAccounts.belongsTo(banks);

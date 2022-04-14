@@ -6,17 +6,17 @@ const unitControllers = require('../controllers/unitControllers');
  * @swagger
  * tags:
  *  name: Units
- *  description: All API's about units
+ *  description: All API's about unitSets
  */
 
 /**
  * @swagger
  * paths:
- *  /v2/units:
+ *  /v2/unitSets:
  *      get:
  *          tags: [Units]
- *          summary: List of units
- *          description: Getting units
+ *          summary: List of unitSets
+ *          description: Getting unitSets
  *          parameters:
  *              - $ref: '#/components/parameters/limitParam'
  *              - $ref: '#/components/parameters/offsetParam'
@@ -27,7 +27,7 @@ const unitControllers = require('../controllers/unitControllers');
  *                schema:
  *                    type: array
  *                    items:
- *                      enum: [unitSet]
+ *                      enum: [units]
  *          responses:
  *              200:
  *                  description: Units
@@ -37,15 +37,17 @@ const unitControllers = require('../controllers/unitControllers');
  *                              type: array
  *                              items:
  *                                  allOf:
- *                                      -   $ref: '#/components/schemas/units'
+ *                                      -   $ref: '#/components/schemas/unitSets'
  *                                      -   type: object
  *                                          properties:
- *                                              unitSet:
- *                                                  $ref: '#/components/schemas/unitSets'
+ *                                              units:
+ *                                                 type: array
+ *                                                 items:
+ *                                                     $ref: '#/components/schemas/units'
  *              401:
  *                  $ref: '#/components/responses/UnauthorizedError'
  *              500:
  *                  description: Unexpected error in server side
  */
-router.get('/', unitControllers.getUnits);
+router.get('/', unitControllers.getUnitSets);
 module.exports = router;

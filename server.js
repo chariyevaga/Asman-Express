@@ -2,9 +2,10 @@
 const dotenv = require('dotenv');
 const path = require('path');
 const https = require('https');
-const fs = require('fs');
+// const fs = require('fs');
 
 dotenv.config({ path: path.join(__dirname, 'config', '.env') });
+global.TIGER_TOKEN = {};
 
 const app = require('./app');
 const PORT = process.env.PORT;

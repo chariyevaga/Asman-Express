@@ -43,7 +43,8 @@ module.exports = (sequelize) => {
      *                      type: integer
      *                      description: division nr
      *              price:
-     *                  type: string
+     *                  type: number
+     *                  format: float
      *              type:
      *                  type: integer
      *                  description: >
@@ -64,6 +65,12 @@ module.exports = (sequelize) => {
      *                  type: string
      *                  format: date
      *                  description: Price end date
+     *              createdAt:
+     *                  type: string
+     *                  format: date-time
+     *              updatedAt:
+     *                  type: string
+     *                  format: date-time
      */
     sequelize.define(
         'prices',
@@ -92,6 +99,11 @@ module.exports = (sequelize) => {
             currencyId: DataTypes.INTEGER,
             beginTime: DataTypes.DATE,
             endTime: DataTypes.DATE,
+            createdAt: DataTypes.DATE,
+            updatedAt: {
+                type: DataTypes.DATE,
+                allowNull: true,
+            },
         },
         {
             sequelize,

@@ -1,12 +1,16 @@
 'use strict';
-const { DataTypes, Op } = require('sequelize');
 
+const { DataTypes } = require('sequelize');
 /**
  * @swagger
  * components:
  *  schemas:
- *      attributeKeys:
+ *      unitSets:
  *          type: object
+ *          required:
+ *              - id
+ *              - code
+ *              - name
  *          properties:
  *              id:
  *                  type: integer
@@ -25,25 +29,21 @@ const { DataTypes, Op } = require('sequelize');
  */
 module.exports = (sequelize) => {
     sequelize.define(
-        'attributeKeys',
+        'unitSets',
         {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
-                // autoIncrement: true,
             },
             code: DataTypes.STRING,
             name: DataTypes.STRING,
             specode: DataTypes.STRING,
             createdAt: DataTypes.DATE,
-            updatedAt: {
-                type: DataTypes.DATE,
-                allowNull: true,
-            },
+            updatedAt: DataTypes.DATE,
         },
         {
             sequelize,
-            tableName: 'AGO_ATTRIBUTE_KEYS',
+            tableName: 'AGO_UNIT_SETS',
         }
     );
 };
