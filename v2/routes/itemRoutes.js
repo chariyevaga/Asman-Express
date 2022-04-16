@@ -323,7 +323,7 @@ route.get('/:id/units', checkHasId, itemControllers.getUnitsByItemId);
  *  paths:
  *  /v2/items/{id}/prices:
  *      get:
- *          tags: [Prices]
+ *          tags: [Prices, Items]
  *          summary: List of prices
  *          description: Getting prices by item id.
  *          parameters:

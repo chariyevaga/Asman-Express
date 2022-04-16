@@ -3,7 +3,7 @@ module.exports = {
         openapi: '3.0.0',
         info: {
             title: 'ASMAN TIGER API',
-            version: '1.0.0',
+            version: '2.0.1',
             description: '**Asman** Tiger system API documentation.',
             contact: {
                 name: 'Agamyrat Chariyev',
