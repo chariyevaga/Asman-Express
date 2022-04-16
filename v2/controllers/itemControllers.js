@@ -1,7 +1,6 @@
 'use strict';
 const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
-const { Op, Sequelize } = require('sequelize');
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const request = require('request');
 const getTigerToken = require('../../utils/getTigerToken');
@@ -72,6 +71,7 @@ const createNewItems = async (req, res, next, tryCount = 5) => {
                         req.firmNr
                     );
                     if (tryCount <= 5) {
+                        await delay(2000);
                         createNewItems(req, res, next, tryCount);
                     } else {
                         next(new AppError("Can't get tiger tokken", 500));
