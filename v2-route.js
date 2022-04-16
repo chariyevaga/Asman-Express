@@ -27,6 +27,7 @@ const bankAccountRoutes = require('./v2/routes/bankAccountRoutes');
 const caseRoutes = require('./v2/routes/caseRoutes');
 const employeeRoutes = require('./v2/routes/employeeRoutes');
 const itemAlternativeRoutes = require('./v2/routes/itemAlternativeRoutes');
+const saleRoutes = require('./v2/routes/saleRoutes');
 // API's
 router.use('/items', itemsRoutes);
 router.use('/prices', pricesRoutes);
@@ -50,5 +51,6 @@ router.use('/bankAccounts', bankAccountRoutes);
 router.use('/cases', caseRoutes);
 router.use('/employees', employeeRoutes);
 router.use('/itemAlternatives', itemAlternativeRoutes);
+router.use('/sales', saleRoutes);
 
 module.exports = router;
