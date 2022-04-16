@@ -14,9 +14,9 @@ exportObj.getDiscountCards = catchAsync(async (req, res, next) => {
             where = { type: 1 };
         } else if (req.query.type === 'salesDiscount') {
             where = { type: 2 };
-        } else if (req.query.type === 'purchaseCost') {
+        } else if (req.query.type === 'purchaseExpenses') {
             where = { type: 3 };
-        } else if (req.query.type === 'salesCost') {
+        } else if (req.query.type === 'salesExpenses') {
             where = { type: 4 };
         }
     }
