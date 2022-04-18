@@ -14,7 +14,6 @@ const attributeControllers = require('../controllers/attributeControllers');
  *              - $ref: '#/components/parameters/limitParam'
  *              - $ref: '#/components/parameters/offsetParam'
  *              - in: query
- *                required: false
  *                name: include
  *                description: include attributeKey **Not Required**
  *                schema:

@@ -22,7 +22,6 @@ const brandControllers = require('../controllers/brandControllers');
  *              -   $ref: '#/components/parameters/offsetParam'
  *              -   in: query
  *                  name: include
- *                  required: false
  *                  description: get items from brands. **Not required**
  *                  schema:
  *                      example: items
@@ -69,7 +68,6 @@ router.get('/', brandControllers.getBrands);
  *                      type: integer
  *              -   in: query
  *                  name: include
- *                  required: false
  *                  description: get items from brands. **Not required**
  *                  schema:
  *                      example: items

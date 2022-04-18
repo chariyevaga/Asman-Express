@@ -22,7 +22,6 @@ const checkHasId = require('../../middlewares/idChecker');
  *                      type: string
  *                      enum: [all, sale, actualtSale, purchase, lastPurchase]
  *              -   in: query
- *                  required: false
  *                  name: include
  *                  schema:
  *                      type: array
@@ -66,7 +65,6 @@ route.get('/', priceControllers.getPrices);
  *                  schema:
  *                      type: integer
  *              -   in: query
- *                  required: false
  *                  name: include
  *                  schema:
  *                      type: array
@@ -120,7 +118,6 @@ route.get('/:id', checkHasId, priceControllers.getPriceById);
  *                      type: string
  *                      enum: [all, sale, actualtSale, purchase, lastPurchase]
  *              -   in: query
- *                  required: false
  *                  name: include
  *                  schema:
  *                      type: array
@@ -175,7 +172,6 @@ route.get('/items/:id', checkHasId, priceControllers.getPricesByItemId);
  *                      type: string
  *                      enum: [all, sale, actualtSale, purchase, lastPurchase]
  *              -   in: query
- *                  required: false
  *                  name: include
  *                  schema:
  *                      type: array

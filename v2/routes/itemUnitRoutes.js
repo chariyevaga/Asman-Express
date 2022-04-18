@@ -15,7 +15,6 @@ const unitControllers = require('../controllers/unitControllers');
  *              - $ref: '#/components/parameters/limitParam'
  *              - $ref: '#/components/parameters/offsetParam'
  *              - in: query
- *                required: false
  *                name: include
  *                description: include items, barcode **Not Required**
  *                schema:
@@ -65,7 +64,6 @@ router.get('/', unitControllers.getItemUnits);
  *                schema:
  *                  type: integer
  *              - in: query
- *                required: false
  *                name: include
  *                description: include items, barcode **Not Required**
  *                schema:

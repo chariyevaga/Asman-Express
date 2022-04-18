@@ -22,7 +22,6 @@ const divisionControllers = require('../controllers/divisionControllers');
  *              -   $ref: '#/components/parameters/offsetParam'
  *              -   in: query
  *                  name: include
- *                  required: false
  *                  description: get warehouses from divisions. **Not required**
  *                  schema:
  *                      example: warehouses
@@ -69,7 +68,6 @@ router.get('/', divisionControllers.getDivisions);
  *                      type: integer
  *              -   in: query
  *                  name: include
- *                  required: false
  *                  description: get warehouses from divisions. **Not required**
  *                  schema:
  *                      example: warehouses

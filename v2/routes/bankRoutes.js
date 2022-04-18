@@ -22,7 +22,6 @@ const bankControllers = require('../controllers/bankControllers');
  *              -   $ref: '#/components/parameters/offsetParam'
  *              -   in: query
  *                  name: include
- *                  required: false
  *                  description: get bankAccounts from banks. **Not required**
  *                  schema:
  *                      example: bankAccounts
@@ -69,7 +68,6 @@ router.get('/', bankControllers.getBanks);
  *                      type: integer
  *              -   in: query
  *                  name: include
- *                  required: false
  *                  description: get bankAccounts from banks. **Not required**
  *                  schema:
  *                      example: bankAccounts

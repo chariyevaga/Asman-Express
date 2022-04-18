@@ -25,7 +25,7 @@ const { DataTypes } = require('sequelize');
  *                  type: string
  *              type:
  *                  type: integer
- *                  description: 1. Buy Discount,  2. Sales Discount,  3. Purchase Cost, 4. Sales Cost
+ *                  description: 1. Buy Discount,  2. Sales Discount,  3. Purchase Expenses, 4. Sales Expenses
  *              createdAt:
  *                  type: string
  *                  format: date-time

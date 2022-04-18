@@ -3,7 +3,7 @@ module.exports = {
         openapi: '3.0.0',
         info: {
             title: 'ASMAN TIGER API',
-            version: '1.0.0',
+            version: '2.0.1',
             description: '**Asman** Tiger system API documentation.',
             contact: {
                 name: 'Agamyrat Chariyev',
@@ -38,7 +38,6 @@ module.exports = {
                     name: 'offset',
                     description:
                         'The number of items to skip before starting to collect the result set',
-                    required: false,
                     schema: {
                         type: 'integer',
                         minimum: 0,
@@ -47,7 +46,6 @@ module.exports = {
                 limitParam: {
                     in: 'query',
                     name: 'limit',
-                    required: false,
                     description: 'The numbers of items to return.',
                     schema: {
                         type: 'integer',

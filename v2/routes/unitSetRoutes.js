@@ -21,7 +21,6 @@ const unitControllers = require('../controllers/unitControllers');
  *              - $ref: '#/components/parameters/limitParam'
  *              - $ref: '#/components/parameters/offsetParam'
  *              - in: query
- *                required: false
  *                name: include
  *                description: include units **Not Required**
  *                schema:
