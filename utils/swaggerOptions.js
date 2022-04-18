@@ -38,7 +38,6 @@ module.exports = {
                     name: 'offset',
                     description:
                         'The number of items to skip before starting to collect the result set',
-                    required: false,
                     schema: {
                         type: 'integer',
                         minimum: 0,
@@ -47,7 +46,6 @@ module.exports = {
                 limitParam: {
                     in: 'query',
                     name: 'limit',
-                    required: false,
                     description: 'The numbers of items to return.',
                     schema: {
                         type: 'integer',

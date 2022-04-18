@@ -62,7 +62,6 @@ route.get('/', barcodeControllers.getBarcodes);
  *                  description: id (barcode.id = 6 - if type is id) or barcode (barcode.barcode = 8699106167070 - if type is barcode)
  *                  example:  8699106167070
  *              -   in: query
- *                  required: false
  *                  name: include
  *                  description: include items, units **Not Required**
  *                  schema:

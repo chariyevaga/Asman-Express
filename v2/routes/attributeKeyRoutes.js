@@ -23,7 +23,6 @@ const attributeControllers = require('../controllers/attributeControllers');
  *              - $ref: '#/components/parameters/offsetParam'
  *              - in: query
  *                name: include
- *                required: false
  *                description: attributeValues **Not Required**
  *                schema:
  *                    type: string

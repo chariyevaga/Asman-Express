@@ -22,7 +22,6 @@ const itemAlternativeControllers = require('../controllers/itemAlternativeContro
  *              -   $ref: '#/components/parameters/offsetParam'
  *              -   in: query
  *                  name: include
- *                  required: false
  *                  description: get items and alternative from itemAlternatives. **Not required**
  *                  schema:
  *                    type: array
@@ -71,7 +70,6 @@ router.get('/', itemAlternativeControllers.getAlternatives);
  *                      type: integer
  *              -   in: query
  *                  name: include
- *                  required: false
  *                  description: get items from itemAlternatives. **Not required**
  *                  schema:
  *                    type: array

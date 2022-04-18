@@ -59,17 +59,15 @@ const saleControllers = require('../controllers/saleControllers');
  *                  default: '~'
  *              date:
  *                  type: string
- *                  fromat: date
+ *                  format: date
  *                  default: '2022-04-14 14:15:44'
  *              clientCode:
  *                  type: string
  *                  default: 333 MONA
  *              divisionNr:
- *                  required: true
  *                  type: integer
  *                  default: 1
  *              warehouseNr:
- *                  required: true
  *                  type: integer
  *                  default: 11
  *              employeeCode:
@@ -79,7 +77,7 @@ const saleControllers = require('../controllers/saleControllers');
  *              docNumber:
  *                  type: string
  *                  description: Belge Numarasi
- *                  examples: ''
+ *                  example: ''
  *              docTrack:
  *                  type: string
  *                  description: Documan Izleme numarasi

@@ -22,7 +22,6 @@ const caseControllers = require('../controllers/caseControllers');
  *              -   $ref: '#/components/parameters/offsetParam'
  *              -   in: query
  *                  name: include
- *                  required: false
  *                  description: get division and currency from cases. **Not required**
  *                  schema:
  *                      type: array
@@ -70,7 +69,6 @@ router.get('/', caseControllers.getCases);
  *                      type: integer
  *              -   in: query
  *                  name: include
- *                  required: false
  *                  description: get division and currency from cases. **Not required**
  *                  schema:
  *                      type: array
