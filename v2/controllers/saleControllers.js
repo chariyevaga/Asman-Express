@@ -39,6 +39,7 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
         VAT_RATE: 0,
         AFFECT_RISK: 1,
         CURRSEL_DETAILS: 4,
+        CURRSEL_TOTALS: 1,
         // CURR_TRANSACTIN: 158,
         // CURRSEL_TOTAL: 158,
         // TC_RATE: 1,
@@ -66,8 +67,8 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
                     // Raporlama dovuz kuru
                     RC_XRATE: 19.6,
                     DATE: ficheBody?.date,
-                    DIVISION: ficheBody?.divisionNr,
-                    SOURCE_WH: ficheBody?.warehouseNr,
+                    SOURCEINDEX: ficheBody?.warehouseNr,
+                    SOURCECOSTGRP: ficheBody?.warehouseNr,
                     TRANS_DESCRIPTION: line.description,
                     TRCODE: 8,
                 };
@@ -83,8 +84,8 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
                     PR_RATE: line.priceCurrencyRate,
                     RC_XRATE: 19.6,
                     DATE: ficheBody?.date,
-                    DIVISION: ficheBody?.divisionNr,
-                    SOURCE_WH: ficheBody?.warehouseNr,
+                    SOURCEINDEX: ficheBody?.warehouseNr,
+                    SOURCECOSTGRP: ficheBody?.warehouseNr,
                     TRANS_DESCRIPTION: line.description,
                     DISCOUNT_RATE: 100,
                     TRCODE: 8,
@@ -98,6 +99,8 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
                     RC_XRATE: 19.6,
                     TRCODE: 8,
                     DISCOUNT_RATE: line.discount,
+                    SOURCEINDEX: ficheBody?.warehouseNr,
+                    SOURCECOSTGRP: ficheBody?.warehouseNr,
                 };
             } else if (line?.type === 3) {
                 // Expenses
@@ -109,6 +112,8 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
                     RC_XRATE: 19.6,
                     TRCODE: 8,
                     DISCOUNT_RATE: line.expenseRate,
+                    SOURCEINDEX: ficheBody?.warehouseNr,
+                    SOURCECOSTGRP: ficheBody?.warehouseNr,
                 };
             } else if (line?.type === 4) {
                 // Services
@@ -122,8 +127,8 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
                     PR_RATE: line.priceCurrencyRate,
                     RC_XRATE: 19.6,
                     DATE: ficheBody?.date,
-                    DIVISION: ficheBody?.divisionNr,
-                    SOURCE_WH: ficheBody?.warehouseNr,
+                    SOURCEINDEX: ficheBody?.warehouseNr,
+                    SOURCECOSTGRP: ficheBody?.warehouseNr,
                     TRANS_DESCRIPTION: line.description,
                     TRCODE: 8,
                 };
@@ -143,8 +148,8 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
                     PR_RATE: line.priceCurrencyRate,
                     RC_XRATE: 19.6,
                     DATE: ficheBody?.date,
-                    DIVISION: ficheBody?.divisionNr,
-                    SOURCE_WH: ficheBody?.warehouseNr,
+                    SOURCEINDEX: ficheBody?.warehouseNr,
+                    SOURCECOSTGRP: ficheBody?.warehouseNr,
                     TRANS_DESCRIPTION: line.description,
                     DISCOUNT_RATE: 100,
                     TRCODE: 8,
@@ -161,6 +166,8 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
                     TRCODE: 8,
                     DISCOUNT_RATE: line.discount,
                     DETAIL_LEVEL: 1,
+                    SOURCEINDEX: ficheBody?.warehouseNr,
+                    SOURCECOSTGRP: ficheBody?.warehouseNr,
                 });
             } else if (line?.type === 3) {
                 // Expenses
@@ -173,6 +180,8 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
                     TRCODE: 8,
                     DISCOUNT_RATE: line.expenseRate,
                     DETAIL_LEVEL: 1,
+                    SOURCEINDEX: ficheBody?.warehouseNr,
+                    SOURCECOSTGRP: ficheBody?.warehouseNr,
                 });
             }
             // else if (line?.type === 4) {
@@ -187,8 +196,8 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
             //         PR_RATE: line.priceCurrencyRate,
             //         RC_XRATE: 19.6,
             //         DATE: ficheBody?.date,
-            //         DIVISION: ficheBody?.divisionNr,
-            //         SOURCE_WH: ficheBody?.warehouseNr,
+            //         SOURCEINDEX: ficheBody?.warehouseNr,
+            //         SOURCECOSTGRP: ficheBody?.warehouseNr,
             //         TRANS_DESCRIPTION: line.description,
             //         TRCODE: 8,
             //         DETAIL_LEVEL: 1,
