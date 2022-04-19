@@ -28,6 +28,7 @@ module.exports = catchAsync(async (req, res, next) => {
         req.donemTigerFormat = access[0]?.donemTigerFormat;
         req.firmTigerFormat = access[0]?.firmTigerFormat;
         req.localCurrency = access[0]?.localCurrency;
+        req.reportCurrency = access[0]?.reportCurrency;
         const { models } = require('../v2/sequelize')(req.firmDBname);
         req.models = models;
         next();
