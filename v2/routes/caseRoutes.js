@@ -101,4 +101,91 @@ router.get('/', caseControllers.getCases);
  */
 
 router.get('/:id', checkHasId, caseControllers.getCaseById);
+/**
+ * @swagger
+ *  paths:
+ *  /v2/cases/input:
+ *      post:
+ *          tags: [Cases]
+ *          summary: Input money case
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/caseInput'
+ *          responses:
+ *              200:
+ *                  description: Saved
+ *              400:
+ *                  $ref: '#/components/responses/PathIdRequiredError'
+ *              401:
+ *                  $ref: '#/components/responses/UnauthorizedError'
+ *              500:
+ *                  description: Unexpected error in server side
+ *
+ * components:
+ *  schemas:
+ *      caseInput:
+ *          required:
+ *              - caseCode
+ *              - number
+ *              - code
+ *              - date
+ *              - clientCode
+ *              - divisionNr
+ *              - amount
+ *              - currencyId
+ *              - currencyRate
+ *          properties:
+ *              caseCode:
+ *                  type: string
+ *              number:
+ *                  type: string
+ *                  description: Case fiche number
+ *              code:
+ *                  type: string
+ *              date:
+ *                  type: string
+ *                  format: date
+ *              clientCode:
+ *                  type: string
+ *              divisionNr:
+ *                  type: integer
+ *              amount:
+ *                  type: number
+ *                  format: float
+ *              currencyId:
+ *                  type: integer
+ *              currencyRate:
+ *                  type: number
+ *                  format: float
+ *              description:
+ *                  type: string
+ *              text:
+ *                  type: string
+ *              employeeCode:
+ *                  type: string
+ *              docNumber:
+ *                  type: string
+ *              specode:
+ *                  type: string
+ *          example:
+ *              caseCode: 101TMT01
+ *              number: '~'
+ *              code: '~'
+ *              date: 2022-04-18 13:45:33
+ *              clientCode: 320TM.TMT0001
+ *              divisionNr: 1
+ *              amount: 1234.50
+ *              currencyId: 158
+ *              currencyRate: 1
+ *              description: This is description
+ *              text: More information about case input
+ *              employeeCode: 'AGO'
+ *              docNumber: ''
+ *              specode: ''
+ */
+
+router.post('/input', caseControllers.inputCase);
 module.exports = router;
