@@ -28,7 +28,7 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
         Object.keys(exchangeRDobj).length && exchangeRDobj?.rates1
             ? exchangeRDobj?.rates1
             : 1;
-    res.json(exchangeRD);
+    // res.json(exchangeRD);
     const ficheDate = new Date(ficheBody.date);
     const tigerJSON = {
         NUMBER: ficheBody?.code,
@@ -231,41 +231,41 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
 
     // res.json(tigerJSON.TRANSACTIONS.items)push(
 
-    // await request(
-    //     {
-    //         method: 'POST',
-    //         url: `${process.env.TIGER_REST_URL}/salesInvoices`,
-    //         headers: {
-    //             Authorization: `Bearer ${global.TIGER_TOKEN[req.firmNr]}`,
-    //             'Content-Type': 'application/json',
-    //             Accept: 'application/json',
-    //         },
-    //         body: JSON.stringify(tigerJSON),
-    //     },
-    //     async function (error, response) {
-    //         if (error) {
-    //             next(new AppError(error, 500));
-    //         } else {
-    //             if (response?.statusCode === 200) {
-    //                 res.status(200).json(JSON.parse(response.body));
-    //                 return;
-    //             } else if (response?.statusMessage === 'Unauthorized') {
-    //                 global.TIGER_TOKEN[req.firmNr] = await getTigerToken(
-    //                     req.firmNr
-    //                 );
-    //                 if (tryCount <= 5) {
-    //                     await delay(2000);
-    //                     createNewSale(req, res, next, tryCount);
-    //                 } else {
-    //                     next(new AppError("Can't get tiger tokken", 500));
-    //                     return;
-    //                 }
-    //             } else {
-    //                 res.status(400).json(JSON.parse(response.body));
-    //             }
-    //         }
-    //     }
-    // );
+    await request(
+        {
+            method: 'POST',
+            url: `${process.env.TIGER_REST_URL}/salesInvoices`,
+            headers: {
+                Authorization: `Bearer ${global.TIGER_TOKEN[req.firmNr]}`,
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify(tigerJSON),
+        },
+        async function (error, response) {
+            if (error) {
+                next(new AppError(error, 500));
+            } else {
+                if (response?.statusCode === 200) {
+                    res.status(200).json(JSON.parse(response.body));
+                    return;
+                } else if (response?.statusMessage === 'Unauthorized') {
+                    global.TIGER_TOKEN[req.firmNr] = await getTigerToken(
+                        req.firmNr
+                    );
+                    if (tryCount <= 5) {
+                        await delay(2000);
+                        createNewSale(req, res, next, tryCount);
+                    } else {
+                        next(new AppError("Can't get tiger tokken", 500));
+                        return;
+                    }
+                } else {
+                    res.status(400).json(JSON.parse(response.body));
+                }
+            }
+        }
+    );
 };
 
 module.exports = { createNewSale };
