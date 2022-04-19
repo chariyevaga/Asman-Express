@@ -26,6 +26,6 @@ module.exports = (firmNr) => {
         );
     }).catch((error) => {
         console.error('TIGER GET TOKEN FAILED:', error);
-        return;
+        return false;
     });
 };

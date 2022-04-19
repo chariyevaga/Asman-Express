@@ -37,7 +37,7 @@ const saleControllers = require('../controllers/saleControllers');
  *                                                  - $ref: '#/components/schemas/saleExpense'
  *          responses:
  *              200:
- *                  description: Prices
+ *                  description: Saved
  *              400:
  *                  $ref: '#/components/responses/PathIdRequiredError'
  *              401:

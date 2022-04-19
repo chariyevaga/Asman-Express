@@ -21,6 +21,21 @@ const { DataTypes } = require('sequelize');
  *                  type: string
  *              activelyUsed:
  *                  type: boolean
+ *              lastRate1:
+ *                  type: number
+ *                  format: float
+ *              lastRate2:
+ *                  type: number
+ *                  format: float
+ *              lastRate3:
+ *                  type: number
+ *                  format: float
+ *              lastRate4:
+ *                  type: number
+ *                  format: float
+ *              lastRateDate:
+ *                  type: string
+ *                  format: date
  */
 module.exports = (sequelize) => {
     sequelize.define(
@@ -34,6 +49,11 @@ module.exports = (sequelize) => {
             name: DataTypes.STRING,
             symbol: DataTypes.STRING,
             activelyUsed: DataTypes.BOOLEAN,
+            lastRate1: DataTypes.FLOAT,
+            lastRate2: DataTypes.FLOAT,
+            lastRate3: DataTypes.FLOAT,
+            lastRate4: DataTypes.FLOAT,
+            lastRateDate: DataTypes.DATE,
         },
         {
             sequelize,

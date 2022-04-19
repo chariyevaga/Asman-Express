@@ -20,16 +20,16 @@ const { DataTypes } = require('sequelize');
  *              currencyId:
  *                  type: integer
  *                  description: Currency Id. ForeigneKey *currencyId* **(currencies.id = exhcanges.currencyId)**
- *              rates1:
+ *              rate1:
  *                  type: number
  *                  format: float
- *              rates2:
+ *              rate2:
  *                  type: number
  *                  format: float
- *              rates3:
+ *              rate3:
  *                  type: number
  *                  format: float
- *              rates4:
+ *              rate4:
  *                  type: number
  *                  format: float
  */
@@ -44,10 +44,10 @@ module.exports = (sequelize) => {
             },
             date: DataTypes.DATE,
             currencyId: DataTypes.INTEGER,
-            rates1: DataTypes.FLOAT,
-            rates2: DataTypes.FLOAT,
-            rates3: DataTypes.FLOAT,
-            rates4: DataTypes.FLOAT,
+            rate1: DataTypes.FLOAT,
+            rate2: DataTypes.FLOAT,
+            rate3: DataTypes.FLOAT,
+            rate4: DataTypes.FLOAT,
         },
         {
             sequelize,
