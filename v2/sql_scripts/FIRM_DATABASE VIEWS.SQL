@@ -215,15 +215,42 @@ GO
 	CREATE
 	OR ALTER VIEW AGO_CURRENCIES AS
 SELECT
-	CURTYPE id,
-	CURCODE code,
-	CURNAME name,
-	CURSYMBOL symbol,
-	CURINUSE activelyUsed
+	id,
+	code,
+	name,
+	symbol,
+	activelyUsed,
+	lastRate1,
+	lastRate2,
+	lastRate3,
+	lastRate4,
+	lastRateDate
 FROM
-	LOGODB..L_CURRENCYLIST (NOLOCK)
+	(
+		SELECT
+			CUR.CURTYPE id,
+			CUR.CURCODE code,
+			CUR.CURNAME name,
+			CUR.CURSYMBOL symbol,
+			CUR.CURINUSE activelyUsed,
+			ROUND(rates1, 10) lastRate1,
+			ROUND(rates2, 10) lastRate2,
+			ROUND(rates3, 10) lastRate3,
+			ROUND(rates4, 10) lastRate4,
+			LOGODB.dbo.AGO_INTTODATE(EX.DATE_) lastRatedate,
+			ROW_NUMBER() OVER(
+				PARTITION BY CUR.CURTYPE
+				ORDER BY
+					LOGODB.dbo.AGO_INTTODATE(EX.DATE_) DESC
+			) NR
+		FROM
+			LOGODB..L_CURRENCYLIST CUR (NOLOCK)
+			LEFT JOIN LOGODB..L_DAILYEXCHANGES EX (NOLOCK) ON EX.CRTYPE = CUR.CURTYPE
+		WHERE
+			CUR.FIRMNR = 002
+	) ASDF
 WHERE
-	FIRMNR = 002
+	ASDF.NR = 1
 GO
 	-- exchanges model
 	CREATE
@@ -232,10 +259,10 @@ SELECT
 	LREF id,
 	LOGODB.dbo.AGO_INTTODATE(DATE_) date,
 	crtype currencyId,
-	ROUND(rates1, 10) rates1,
-	ROUND(rates2, 10) rates2,
-	ROUND(rates3, 10) rates3,
-	ROUND(rates4, 10) rates4
+	ROUND(rates1, 10) rate1,
+	ROUND(rates2, 10) rate2,
+	ROUND(rates3, 10) rate3,
+	ROUND(rates4, 10) rate4
 FROM
 	LOGODB..L_DAILYEXCHANGES (NOLOCK)
 GO
