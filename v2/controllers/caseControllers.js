@@ -3,6 +3,7 @@ const catchAsync = require('../../utils/catchAsync');
 const getTigerToken = require('../../utils/getTigerToken');
 const AppError = require('../../utils/appError');
 const request = require('request');
+const { Op, Sequelize } = require('sequelize');
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -66,7 +67,7 @@ exportObj.getCaseById = catchAsync(async (req, res, next) => {
             next(new AppError(error, 500));
         });
 });
-const inputCase = async (req, res, next, tryCount = 5) => {
+const inputCase = async (req, res, next, tryCount = 0) => {
     const ficheBody = req.body;
     if (!Object.keys(ficheBody)?.length) {
         next(new AppError('Case input body is required', 400));
@@ -78,16 +79,16 @@ const inputCase = async (req, res, next, tryCount = 5) => {
             date: {
                 [Op.lte]: Sequelize.fn('GETDATE'),
             },
-            rates1: {
+            rate1: {
                 [Op.ne]: 0,
             },
         },
         order: [['date', 'desc']],
-        attributes: ['rates1'],
+        attributes: ['rate1'],
     });
     const exchangeRD =
-        Object.keys(exchangeRDobj).length && exchangeRDobj?.rates1
-            ? exchangeRDobj?.rates1
+        Object.keys(exchangeRDobj).length && exchangeRDobj?.rate1
+            ? exchangeRDobj?.rate1
             : 1;
     const ficheDate = new Date(ficheBody.date);
     const tigerJSON = {
@@ -119,20 +120,6 @@ const inputCase = async (req, res, next, tryCount = 5) => {
                     RC_AMOUNT:
                         (ficheBody?.amount * ficheBody?.currencyRate) /
                         exchangeRD,
-                    // PAYMENT_LIST: {
-                    //     items: [
-                    //         {
-                    //             DATE: ficheBody?.date,
-                    //             MODULENR: 10,
-                    //             SIGN: 1,
-                    //             TRCODE: 1,
-                    //             TOTAL: ficheBody?.amount,
-                    //             TRCURR: ficheBody?.currencyId,
-                    //             TRRATE: ficheBody?.currencyRate,
-                    //             REPORTRATE: exchangeRD,
-                    //         },
-                    //     ],
-                    // },
                 },
             ],
         },
@@ -169,8 +156,9 @@ const inputCase = async (req, res, next, tryCount = 5) => {
                     global.TIGER_TOKEN[req.firmNr] = await getTigerToken(
                         req.firmNr
                     );
-                    if (tryCount <= 5) {
+                    if (tryCount <= 3) {
                         await delay(2000);
+                        tryCount++;
                         inputCase(req, res, next, tryCount);
                     } else {
                         next(new AppError("Can't get tiger tokken", 500));

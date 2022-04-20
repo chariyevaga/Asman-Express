@@ -21,6 +21,7 @@ const saleControllers = require('../controllers/saleControllers');
  *                                  properties:
  *                                      lines:
  *                                          type: array
+ *                                          required: true
  *                                          items:
  *                                              anyOf:
  *                                                  - $ref: '#/components/schemas/saleItem'
@@ -30,6 +31,7 @@ const saleControllers = require('../controllers/saleControllers');
  *                                                  - $ref: '#/components/schemas/saleService'
  *                                      underLines:
  *                                          type: array
+ *                                          required: true
  *                                          items:
  *                                              anyOf:
  *                                                  - $ref: '#/components/schemas/salePromotion'
@@ -212,7 +214,6 @@ const saleControllers = require('../controllers/saleControllers');
  *      saleDiscount:
  *          required:
  *              - type
- *              - code
  *              - discount
  *          properties:
  *              type:
@@ -224,9 +225,19 @@ const saleControllers = require('../controllers/saleControllers');
  *                  default: 'IN01'
  *                  description: (discountCartds.type - 2)
  *              discount:
- *                  type: number
- *                  format: float
- *                  default: 10
+ *                  type: object
+ *                  required:
+ *                      - type
+ *                      - value
+ *                  properties:
+ *                      type:
+ *                          type: string
+ *                          enum: [amount, percentage]
+ *                          default: amount
+ *                      value:
+ *                          type: float
+ *                          default: 20.00
+ *                          description: if type is amount then 20 TMT else 20%
  *              description:
  *                  type: string
  *                  example: Line description
@@ -234,8 +245,7 @@ const saleControllers = require('../controllers/saleControllers');
  *      saleExpense:
  *          required:
  *              - type
- *              - code
- *              - expenseRate
+ *              - expense
  *          properties:
  *              type:
  *                  type: integer
@@ -245,10 +255,20 @@ const saleControllers = require('../controllers/saleControllers');
  *                  type: string
  *                  default: DOSTAVKA
  *                  description: disocuntCartCode (discountCartds.type - 4)
- *              expenseRate:
- *                  type: number
- *                  format: float
- *                  default: 2
+ *              expense:
+ *                  type: object
+ *                  required:
+ *                      - type
+ *                      - value
+ *                  properties:
+ *                      type:
+ *                          type: string
+ *                          enum: [amount, percentage]
+ *                          default: amount
+ *                      value:
+ *                          type: float
+ *                          default: 20.00
+ *                          description: if type is amount then 20 TMT else 20%
  *              description:
  *                  type: string
  *                  example: Line description
@@ -256,7 +276,6 @@ const saleControllers = require('../controllers/saleControllers');
  *      saleService:
  *          required:
  *              - type
- *              - code
  *              - quantity
  *              - unitCode
  *              - price
