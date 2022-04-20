@@ -65,7 +65,7 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
         // TC_RATE: 1,
         RC_XRATE: exchangeRD,
         ORDER_STATUS: 1,
-        POST_FLAGS: 247, // name bilemok
+        // POST_FLAGS: 247, // name bilemok
         TRANSACTIONS: {
             items: [],
         },
