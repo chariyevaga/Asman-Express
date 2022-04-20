@@ -4,8 +4,124 @@ const { Op, Sequelize } = require('sequelize');
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const request = require('request');
 const getTigerToken = require('../../utils/getTigerToken');
+const checkLineType = (line, ficheBody, exchangeRD, type) => {
+    if (line?.type === 0) {
+        //items
+        return {
+            TYPE: 0,
+            MASTER_CODE: line.code,
+            QUANTITY: line.quantity,
+            UNIT_CODE: line.unitCode,
+            PC_PRICE: line.price,
+            CURR_PRICE: line.priceCurrencyId,
+            // fiyatin yerel bire gore rate
+            PR_RATE: line.priceCurrencyRate,
+            // Raporlama dovuz kuru
+            RC_XRATE: exchangeRD,
+            EDT_CURR: line.priceCurrencyId,
+            EDT_PRICE: line.price,
+            DATE: ficheBody?.date,
+            DISCEXP_CALC: 1,
+            SOURCEINDEX: ficheBody?.warehouseNr,
+            SOURCECOSTGRP: ficheBody?.warehouseNr,
+            DESCRIPTION: line.description,
+            TRCODE: 8,
+            BILLED: 1,
+            DETAIL_LEVEL: type ? 1 : 0,
+            SALEMANCODE: ficheBody?.employeeCode,
+        };
+    } else if (line?.type === 1) {
+        // promotion
+        return {
+            TYPE: 1,
+            MASTER_CODE: line.code,
+            QUANTITY: line.quantity,
+            UNIT_CODE: line.unitCode,
+            PC_PRICE: line.price,
+            CURR_PRICE: line.priceCurrencyId,
+            // fiyatin yerel bire gore rate
+            PR_RATE: line.priceCurrencyRate,
+            // Raporlama dovuz kuru
+            RC_XRATE: exchangeRD,
+            EDT_CURR: line.priceCurrencyId,
+            EDT_PRICE: line.price,
+            DATE: ficheBody?.date,
+            DISCEXP_CALC: 1,
+            SOURCEINDEX: ficheBody?.warehouseNr,
+            SOURCECOSTGRP: ficheBody?.warehouseNr,
+            DESCRIPTION: line.description,
+            TRCODE: 8,
+            BILLED: 1,
+            DETAIL_LEVEL: type ? 1 : 0,
+            DISCOUNT_RATE: 100,
+            SALEMANCODE: ficheBody?.employeeCode,
+        };
+    } else if (line?.type === 2) {
+        // disocunt
+        const discount = {
+            TYPE: 2,
+            MASTER_CODE: line.code,
+            DESCRIPTION: line.description,
+            RC_XRATE: exchangeRD,
+            TRCODE: 8,
+            SOURCEINDEX: ficheBody?.warehouseNr,
+            SOURCECOSTGRP: ficheBody?.warehouseNr,
+            DETAIL_LEVEL: type ? 1 : 0,
+            SALEMANCODE: ficheBody?.employeeCode,
+        };
 
-const createNewSale = async (req, res, next, tryCount = 5) => {
+        if (line?.discount?.type === 'amount') {
+            // discount.CURR_PRICE = line.discount.value;
+            // discount.PR_RATE = line.discountCurrencyRate;
+            discount.TOTAL = line.discount.value;
+            discount.DISCEXP_CALC = '1';
+        } else if (line?.discount?.type === 'percentage') {
+            discount.DISCOUNT_RATE = line.discount.value;
+        }
+        return discount;
+    } else if (line?.type === 3) {
+        // Expenses
+        const expense = {
+            TYPE: 3,
+            MASTER_CODE: line.code,
+            DESCRIPTION: line.description,
+            RC_XRATE: exchangeRD,
+            TRCODE: 8,
+            SOURCEINDEX: ficheBody?.warehouseNr,
+            SOURCECOSTGRP: ficheBody?.warehouseNr,
+            DETAIL_LEVEL: type ? 1 : 0,
+            SALEMANCODE: ficheBody?.employeeCode,
+        };
+
+        if (line?.expense?.type === 'amount') {
+            expense.TOTAL = line.expense.value;
+            expense.DISCEXP_CALC = '1';
+        } else if (line?.expense?.type === 'percentage') {
+            expense.DISCOUNT_RATE = line.expense.value;
+        }
+        return expense;
+    } else if (line?.type === 4) {
+        // Services
+        return {
+            TYPE: 4,
+            MASTER_CODE: line.code,
+            QUANTITY: line.quantity,
+            UNIT_CODE: line.unitCode,
+            PC_PRICE: line.price,
+            CURR_PRICE: line.priceCurrencyId,
+            PR_RATE: line.priceCurrencyRate,
+            RC_XRATE: exchangeRD,
+            DATE: ficheBody?.date,
+            SOURCEINDEX: ficheBody?.warehouseNr,
+            SOURCECOSTGRP: ficheBody?.warehouseNr,
+            DESCRIPTION: line.description,
+            TRCODE: 8,
+            DETAIL_LEVEL: type ? 1 : 0,
+            SALEMANCODE: ficheBody?.employeeCode,
+        };
+    }
+};
+const createNewSale = async (req, res, next, tryCount = 0) => {
     const ficheBody = req.body;
     if (!Object.keys(ficheBody)?.length) {
         next(new AppError('Sale Fiche body is required', 400));
@@ -17,16 +133,16 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
             date: {
                 [Op.lte]: Sequelize.fn('GETDATE'),
             },
-            rates1: {
+            rate1: {
                 [Op.ne]: 0,
             },
         },
         order: [['date', 'desc']],
-        attributes: ['rates1'],
+        attributes: ['rate1'],
     });
     const exchangeRD =
-        Object.keys(exchangeRDobj).length && exchangeRDobj?.rates1
-            ? exchangeRDobj?.rates1
+        Object.keys(exchangeRDobj).length && exchangeRDobj?.rate1
+            ? exchangeRDobj?.rate1
             : 1;
     // res.json(exchangeRD);
     const ficheDate = new Date(ficheBody.date);
@@ -60,176 +176,29 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
         AFFECT_RISK: 1,
         CURRSEL_DETAILS: 4,
         CURRSEL_TOTALS: 1,
-        // CURR_TRANSACTIN: 158,
-        // CURRSEL_TOTAL: 158,
-        // TC_RATE: 1,
         RC_XRATE: exchangeRD,
         ORDER_STATUS: 1,
-        // POST_FLAGS: 247, // name bilemok
         TRANSACTIONS: {
             items: [],
         },
     };
 
     if (ficheBody?.lines.length) {
-        tigerJSON.TRANSACTIONS.items = ficheBody?.lines.map((line) => {
-            if (line?.type === 0) {
-                //items
-                return {
-                    TYPE: 0,
-                    MASTER_CODE: line.code,
-                    QUANTITY: line.quantity,
-                    UNIT_CODE: line.unitCode,
-                    PC_PRICE: line.price,
-                    CURR_PRICE: line.priceCurrencyId,
-                    // fiyatin yerel bire gore rate
-                    PR_RATE: line.priceCurrencyRate,
-                    // Raporlama dovuz kuru
-                    RC_XRATE: exchangeRD,
-                    DATE: ficheBody?.date,
-                    SOURCEINDEX: ficheBody?.warehouseNr,
-                    SOURCECOSTGRP: ficheBody?.warehouseNr,
-                    TRANS_DESCRIPTION: line.description,
-                    TRCODE: 8,
-                };
-            } else if (line?.type === 1) {
-                // promotion
-                return {
-                    TYPE: 1,
-                    MASTER_CODE: line.code,
-                    QUANTITY: line.quantity,
-                    UNIT_CODE: line.unitCode,
-                    PC_PRICE: line.price,
-                    CURR_PRICE: line.priceCurrencyId,
-                    PR_RATE: line.priceCurrencyRate,
-                    RC_XRATE: exchangeRD,
-                    DATE: ficheBody?.date,
-                    SOURCEINDEX: ficheBody?.warehouseNr,
-                    SOURCECOSTGRP: ficheBody?.warehouseNr,
-                    TRANS_DESCRIPTION: line.description,
-                    DISCOUNT_RATE: 100,
-                    TRCODE: 8,
-                };
-            } else if (line?.type === 2) {
-                return {
-                    TYPE: 2,
-                    MASTER_CODE: line.code,
-                    TRANS_DESCRIPTION: line.description,
-                    PR_RATE: 1,
-                    RC_XRATE: exchangeRD,
-                    TRCODE: 8,
-                    DISCOUNT_RATE: line.discount,
-                    SOURCEINDEX: ficheBody?.warehouseNr,
-                    SOURCECOSTGRP: ficheBody?.warehouseNr,
-                };
-            } else if (line?.type === 3) {
-                // Expenses
-                return {
-                    TYPE: 3,
-                    MASTER_CODE: line.code,
-                    TRANS_DESCRIPTION: line.description,
-                    PR_RATE: 1,
-                    RC_XRATE: exchangeRD,
-                    TRCODE: 8,
-                    DISCOUNT_RATE: line.expenseRate,
-                    SOURCEINDEX: ficheBody?.warehouseNr,
-                    SOURCECOSTGRP: ficheBody?.warehouseNr,
-                };
-            } else if (line?.type === 4) {
-                // Services
-                return {
-                    TYPE: 4,
-                    MASTER_CODE: line.code,
-                    QUANTITY: line.quantity,
-                    UNIT_CODE: line.unitCode,
-                    PC_PRICE: line.price,
-                    CURR_PRICE: line.priceCurrencyId,
-                    PR_RATE: line.priceCurrencyRate,
-                    RC_XRATE: exchangeRD,
-                    DATE: ficheBody?.date,
-                    SOURCEINDEX: ficheBody?.warehouseNr,
-                    SOURCECOSTGRP: ficheBody?.warehouseNr,
-                    TRANS_DESCRIPTION: line.description,
-                    TRCODE: 8,
-                };
-            }
-        });
-
+        tigerJSON.TRANSACTIONS.items = ficheBody?.lines.map((line) =>
+            checkLineType(line, ficheBody, exchangeRD)
+        );
         ficheBody?.underLines.forEach((line) => {
-            if (line?.type === 1) {
-                // promotion
-                tigerJSON.TRANSACTIONS.items.push({
-                    TYPE: 1,
-                    MASTER_CODE: line.code,
-                    QUANTITY: line.quantity,
-                    UNIT_CODE: line.unitCode,
-                    PC_PRICE: line.price,
-                    CURR_PRICE: line.priceCurrencyId,
-                    PR_RATE: line.priceCurrencyRate,
-                    RC_XRATE: exchangeRD,
-                    DATE: ficheBody?.date,
-                    SOURCEINDEX: ficheBody?.warehouseNr,
-                    SOURCECOSTGRP: ficheBody?.warehouseNr,
-                    TRANS_DESCRIPTION: line.description,
-                    DISCOUNT_RATE: 100,
-                    TRCODE: 8,
-                    DETAIL_LEVEL: 1,
-                });
-            } else if (line?.type === 2) {
-                // discount
-                tigerJSON.TRANSACTIONS.items.push({
-                    TYPE: 2,
-                    MASTER_CODE: line.code,
-                    TRANS_DESCRIPTION: line.description,
-                    PR_RATE: 1,
-                    RC_XRATE: exchangeRD,
-                    TRCODE: 8,
-                    DISCOUNT_RATE: line.discount,
-                    DETAIL_LEVEL: 1,
-                    SOURCEINDEX: ficheBody?.warehouseNr,
-                    SOURCECOSTGRP: ficheBody?.warehouseNr,
-                });
-            } else if (line?.type === 3) {
-                // Expenses
-                tigerJSON.TRANSACTIONS.items.push({
-                    TYPE: 3,
-                    MASTER_CODE: line.code,
-                    TRANS_DESCRIPTION: line.description,
-                    PR_RATE: 1,
-                    RC_XRATE: exchangeRD,
-                    TRCODE: 8,
-                    DISCOUNT_RATE: line.expenseRate,
-                    DETAIL_LEVEL: 1,
-                    SOURCEINDEX: ficheBody?.warehouseNr,
-                    SOURCECOSTGRP: ficheBody?.warehouseNr,
-                });
-            }
-            // else if (line?.type === 4) {
-            //     // Services
-            //     tigerJSON.TRANSACTIONS.items.push({
-            //         TYPE: 11,
-            //         MASTER_CODE: line.code,
-            //         QUANTITY: line.quantity,
-            //         UNIT_CODE: line.unitCode,
-            //         PC_PRICE: line.price,
-            //         CURR_PRICE: line.priceCurrencyId,
-            //         PR_RATE: line.priceCurrencyRate,
-            //         RC_XRATE: exchangeRD,
-            //         DATE: ficheBody?.date,
-            //         SOURCEINDEX: ficheBody?.warehouseNr,
-            //         SOURCECOSTGRP: ficheBody?.warehouseNr,
-            //         TRANS_DESCRIPTION: line.description,
-            //         TRCODE: 8,
-            //         DETAIL_LEVEL: 1,
-            //     });
-            // }
+            tigerJSON.TRANSACTIONS.items.push(
+                checkLineType(line, ficheBody, exchangeRD, 'under')
+            );
         });
     } else {
         next(new AppError('Fiche Lines is required', 400));
         return;
     }
 
-    // res.json(tigerJSON.TRANSACTIONS.items)push(
+    // res.json(tigerJSON.TRANSACTIONS.items);
+    // return;
 
     await request(
         {
@@ -253,8 +222,9 @@ const createNewSale = async (req, res, next, tryCount = 5) => {
                     global.TIGER_TOKEN[req.firmNr] = await getTigerToken(
                         req.firmNr
                     );
-                    if (tryCount <= 5) {
+                    if (tryCount <= 3) {
                         await delay(2000);
+                        tryCount++;
                         createNewSale(req, res, next, tryCount);
                     } else {
                         next(new AppError("Can't get tiger tokken", 500));
