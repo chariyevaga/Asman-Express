@@ -132,6 +132,8 @@ const inputCase = async (req, res, next, tryCount = 0) => {
                             },
                         ],
                     },
+                    SALESMAN_CODE: ficheBody?.employeeCode,
+                    DOC_NUMBER: ficheBody?.docNumber,
                 },
             ],
         },
