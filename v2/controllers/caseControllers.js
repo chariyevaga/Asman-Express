@@ -110,22 +110,34 @@ const inputCase = async (req, res, next, tryCount = 0) => {
         ATTACHMENT_ARP: {
             items: [
                 {
-                    ARP_CODE: '333 MOND',
+                    ARP_CODE: ficheBody?.clientCode,
                     CURRSEL_TRANS: 2,
                     CURR_TRANS: ficheBody?.currencyId,
                     TC_XRATE: ficheBody?.currencyRate,
                     TC_AMOUNT: ficheBody?.amount,
-                    CREDIT: ficheBody?.amount * ficheBody?.currencyRate,
                     RC_XRATE: exchangeRD,
+                    CREDIT: ficheBody?.amount * ficheBody?.currencyRate,
                     RC_AMOUNT:
                         (ficheBody?.amount * ficheBody?.currencyRate) /
                         exchangeRD,
+                    PAYMENT_LIST: {
+                        items: [
+                            {
+                                MODULENR: 10,
+                                SIGN: 1,
+                                TRCODE: 1,
+                                TRRATE: ficheBody?.currencyRate,
+                                REPORTRATE: exchangeRD,
+                                PAY_NO: 1,
+                            },
+                        ],
+                    },
                 },
             ],
         },
+
         SALESMAN_CODE: ficheBody?.employeeCode,
         DOC_NUMBER: ficheBody?.docNumber,
-
         AUXIL_CODE: ficheBody?.specode,
         DOC_DATE: new Date(),
         DESCRIPTION: ficheBody?.description,
