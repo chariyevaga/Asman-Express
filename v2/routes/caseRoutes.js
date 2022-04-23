@@ -44,7 +44,8 @@ const caseControllers = require('../controllers/caseControllers');
  *                                            currency:
  *                                               $ref: '#/components/schemas/currencies'
  *
- *
+ *              400:
+ *                      description: Bad request
  *              401:
  *                  $ref: '#/components/responses/UnauthorizedError'
  *              500:

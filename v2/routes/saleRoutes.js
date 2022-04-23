@@ -41,7 +41,7 @@ const saleControllers = require('../controllers/saleControllers');
  *              200:
  *                  description: Saved
  *              400:
- *                  $ref: '#/components/responses/PathIdRequiredError'
+ *                  description: Bad request
  *              401:
  *                  $ref: '#/components/responses/UnauthorizedError'
  *              500:
