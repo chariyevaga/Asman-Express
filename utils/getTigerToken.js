@@ -20,7 +20,7 @@ module.exports = (firmNr) => {
                 if (!error && res?.statusCode == 200) {
                     resolve(JSON.parse(body)?.access_token);
                 } else {
-                    reject(error);
+                    reject(error + ' ' + body);
                 }
             }
         );
