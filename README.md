@@ -13,6 +13,10 @@
     -   DB_USER_NAME
     -   DB_PASSWORD
     -   DB_PORT
+    -   TIGER_USER_NAME
+    -   TIGER_USER_PASSWORD
+    -   TIGER_REST_URL
+    -   TIGER_REST_BASIC
 
 ## Documentation
 
