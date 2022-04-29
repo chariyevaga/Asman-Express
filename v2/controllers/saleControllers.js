@@ -169,6 +169,7 @@ const createNewSale = async (req, res, next, tryCount = 0) => {
         NOTES6: ficheBody?.note6,
         ITEXT: ficheBody?.text,
         AUXIL_CODE: ficheBody?.specode,
+        AUTH_CODE: ficheBody?.authCode,
         DOC_DATE: new Date(),
         TYPE: 8,
         GRPCODE: 2,

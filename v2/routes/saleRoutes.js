@@ -119,6 +119,10 @@ const saleControllers = require('../controllers/saleControllers');
  *              specode:
  *                  type: string
  *                  example: ''
+ *              authCode:
+ *                  type: string
+ *                  discription: Yetki kody
+ *                  example: ''
  *
  *      saleItem:
  *          required:
