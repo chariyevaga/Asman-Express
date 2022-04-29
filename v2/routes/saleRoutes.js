@@ -121,7 +121,7 @@ const saleControllers = require('../controllers/saleControllers');
  *                  example: ''
  *              authCode:
  *                  type: string
- *                  discription: Yetki kody
+ *                  description: Yetki kody
  *                  example: ''
  *
  *      saleItem:
@@ -239,7 +239,8 @@ const saleControllers = require('../controllers/saleControllers');
  *                          enum: [amount, percentage]
  *                          default: amount
  *                      value:
- *                          type: float
+ *                          type: number
+ *                          format: float
  *                          default: 20.00
  *                          description: if type is amount then 20 TMT else 20%
  *              description:
@@ -270,7 +271,8 @@ const saleControllers = require('../controllers/saleControllers');
  *                          enum: [amount, percentage]
  *                          default: amount
  *                      value:
- *                          type: float
+ *                          type: number
+ *                          format: float
  *                          default: 20.00
  *                          description: if type is amount then 20 TMT else 20%
  *              description:
