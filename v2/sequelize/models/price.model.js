@@ -91,6 +91,8 @@ module.exports = (sequelize) => {
             clspecode3: DataTypes.STRING,
             clspecode4: DataTypes.STRING,
             clspecode5: DataTypes.STRING,
+            // DEF
+            def: DataTypes.STRING,
             active: DataTypes.BOOLEAN,
             divisions: DataTypes.STRING,
             price: DataTypes.FLOAT,
