@@ -30,12 +30,6 @@ const v2Route = require('./v2-route');
 // middelwares
 app.use(cookieParser());
 
-app.use(cors());
-app.use(helmet());
-app.use(xss());
-app.use(limiter);
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 // For documentation
 app.get('/api-docs/toJSON', (req, res, next) => {
     res.json(specs);
@@ -54,6 +48,13 @@ app.get('/api-docs.json', function (req, res) {
     res.send(specs);
 });
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
+
+app.use(cors());
+app.use(helmet());
+app.use(xss());
+app.use(limiter);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // get authorization
 app.use(authChecker);
